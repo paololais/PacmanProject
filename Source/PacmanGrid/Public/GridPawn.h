@@ -55,9 +55,9 @@ protected:
 	void SetLastValidDirection(FVector Dir);
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float CurrentMovementSpeed = 100.0f;
+	float CurrentMovementSpeed = 200.0f;
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float NormalMovementSpeed = 100.0f;
+	float NormalMovementSpeed = 200.0f;
 	UPROPERTY(EditAnywhere)
 	float AcceptedDistance = 4.f;
 

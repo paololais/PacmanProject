@@ -142,9 +142,9 @@ void AGridPawn::SetNextNodeByDir(FVector InputDir, bool ForceLast)
 
 void AGridPawn::PowerModeOn()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Stepped on a power node")));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode on")));
 	CurrentMovementSpeed = 800.0f;
-	float PowerModeTime = 5;
+	float PowerModeTime = 10;
 	// set timer to call UFUNCTION that resets speed to default value
 	// // should also enter in frightened mode, will do later
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &AGridPawn::PowerModeOff, PowerModeTime, false);
@@ -152,8 +152,8 @@ void AGridPawn::PowerModeOn()
 
 void AGridPawn::PowerModeOff()
 {
-	CurrentMovementSpeed = 400.0f;
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("End of power mode")));
+	CurrentMovementSpeed = NormalMovementSpeed;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
 }
 
 FVector AGridPawn::GetLastValidDirection() const
