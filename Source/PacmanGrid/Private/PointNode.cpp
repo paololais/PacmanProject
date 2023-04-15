@@ -1,0 +1,41 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#include "PointNode.h"
+
+APointNode::APointNode()
+{
+    EEatId = NotEaten;
+
+    Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
+    RootComponent = Collider;
+    UStaticMeshComponent* MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
+    MeshComponent->SetupAttachment(Collider);
+    FVector BoxDimension = FVector(40.f, 40.f, 120.f);
+    Collider->SetBoxExtent(BoxDimension);
+
+}
+
+void APointNode::BeginPlay()
+{
+    Super::BeginPlay();
+    //registrazione degli eventi di collisione attraverso AddDynamic
+    Collider->OnComponentBeginOverlap.AddDynamic(this, &APointNode::OnBeginOverlap);
+}
+
+void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+    UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    if (this->CheckNotEaten())
+    {
+        if (OtherActor->IsA(AGridPawn::StaticClass()))
+        {
+            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("collision pointNode")));
+            APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
+            const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
+           // Pacman->GameScore(); //add +1 score
+            this->setEaten();
+            SetActorHiddenInGame(true);
+        }
+    }
+
+}
