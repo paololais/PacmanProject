@@ -5,7 +5,11 @@
 #include "CoreMinimal.h"
 #include "EatableEntity.h"
 #include "GridPawn.h"
+#include "MyGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include "PointNode.generated.h"
+
+
 
 /**
  *
@@ -16,6 +20,10 @@ class PACMANGRID_API APointNode : public AEatableEntity
 	GENERATED_BODY()
 
 public:
+
+	// game instance reference
+	UMyGameInstance* GameInstance;
+
 	APointNode();
 
 

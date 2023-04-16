@@ -27,5 +27,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 		int32 GetScore();
 
+	//vite pacman
+	UPROPERTY(EditAnywhere)
+		int32 Lives = 3;
+
+	//get lives
+	UFUNCTION(BlueprintCallable)
+		int32 GetLives();
+
+	//decrement lives
+	void DecrementLives();
 
 };

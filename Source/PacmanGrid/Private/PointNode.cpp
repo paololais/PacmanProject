@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PointNode.h"
+#include "TestGridGameMode.h"
+
 
 APointNode::APointNode()
 {
@@ -12,6 +14,9 @@ APointNode::APointNode()
     MeshComponent->SetupAttachment(Collider);
     FVector BoxDimension = FVector(40.f, 40.f, 120.f);
     Collider->SetBoxExtent(BoxDimension);
+
+    //get MyGameInstance reference
+    GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 }
 
@@ -29,12 +34,13 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
     {
         if (OtherActor->IsA(AGridPawn::StaticClass()))
         {
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("collision pointNode")));
+            //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("collision pointNode")));
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
             const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
-           // Pacman->GameScore(); //add +1 score
             this->setEaten();
             SetActorHiddenInGame(true);
+            //add +1 score
+            GameInstance->IncrementScore();
         }
     }
 
