@@ -40,7 +40,7 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             this->setEaten();
             SetActorHiddenInGame(true);
             //add +1 score
-            GameInstance->IncrementScore();
+            //GameInstance->IncrementScore();
         }
     }
 

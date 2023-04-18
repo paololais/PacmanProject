@@ -108,6 +108,22 @@ void AGridPawn::OnNodeReached()
 	CurrentGridCoords = TargetNode->GetGridPosition();
 	LastNode = TargetNode;
 	SetTargetNode(nullptr);
+
+	//teleport implementation
+	const FVector2D LeftPortal = (14, 0);
+	const FVector2D RightPortal = (14, 27);
+
+	////teleport to right portal
+	//if (CurrentGridCoords == LeftPortal && (GetLastValidDirection() == (0,-1,0)))
+	//{
+
+	//}
+
+	////teleport to left portal
+	//else if ((CurrentGridCoords == LeftPortal && (GetLastValidDirection() == (0, -1, 0)))
+	//{
+
+	//}
 }
 
 void AGridPawn::SetTargetNode(AGridBaseNode* Node)
