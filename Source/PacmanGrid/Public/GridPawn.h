@@ -21,7 +21,7 @@ public:
 	virtual void SetHorizontalInput(float AxisValue);
 
 	UFUNCTION(BlueprintCallable)
-	void SetNextNodeByDir(FVector InputDir, bool ForceLast = false);
+		void SetNextNodeByDir(FVector InputDir, bool ForceLast = false);
 
 	FVector GetLastValidDirection() const;
 
@@ -31,54 +31,54 @@ public:
 	FTimerHandle PowerModeTimer;
 
 	UFUNCTION(BlueprintCallable)
-	AGridBaseNode* GetLastNode() const;
+		AGridBaseNode* GetLastNode() const;
 	UFUNCTION(BlueprintCallable)
-	AGridBaseNode* GetTargetNode() const;
+		AGridBaseNode* GetTargetNode() const;
 	UFUNCTION(BlueprintCallable)
-	FVector2D GetLastNodeCoords() const;
+		FVector2D GetLastNodeCoords() const;
 	UFUNCTION(BlueprintCallable)
-	FVector2D GetTargetNodeCoords() const;
+		FVector2D GetTargetNodeCoords() const;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
-	FVector LastInputDirection;
+		FVector LastInputDirection;
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
-	FVector LastValidInputDirection;
+		FVector LastValidInputDirection;
 
 	void SetLastValidDirection(FVector Dir);
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float CurrentMovementSpeed = 200.0f;
+		float CurrentMovementSpeed = 200.0f;
 	UPROPERTY(EditAnywhere, Category = "Movement")
-	float NormalMovementSpeed = 200.0f;
+		float NormalMovementSpeed = 200.0f;
 	UPROPERTY(EditAnywhere)
-	float AcceptedDistance = 4.f;
+		float AcceptedDistance = 4.f;
 
 	UPROPERTY(VisibleAnywhere)
-	FVector2D CurrentGridCoords;
+		FVector2D CurrentGridCoords;
 
 	UPROPERTY(VisibleAnywhere)
-	class ATestGridGameMode* GameMode;
+		class ATestGridGameMode* GameMode;
 
 	UPROPERTY(VisibleAnywhere)
 		TMap<FVector2D, AGridBaseNode*> GridGenTMap;
 
 	UPROPERTY(VisibleAnywhere)
-	AGridGenerator* TheGridGen;
+		AGridGenerator* TheGridGen;
 
 	UPROPERTY(VisibleAnywhere, Category = "Nodes")
-	AGridBaseNode* NextNode;
+		AGridBaseNode* NextNode;
 	UPROPERTY(VisibleAnywhere, Category = "Nodes")
-	AGridBaseNode* TargetNode;
+		AGridBaseNode* TargetNode;
 	UPROPERTY(VisibleAnywhere, Category = "Nodes")
-	AGridBaseNode* LastNode;
+		AGridBaseNode* LastNode;
 
 	virtual void HandleMovement();
 	virtual void OnNodeReached();
@@ -88,12 +88,12 @@ protected:
 	void SetNodeGeneric(const FVector Dir);
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* StaticMesh;
+		UStaticMeshComponent* StaticMesh;
 	UPROPERTY(EditAnywhere)
-	UBoxComponent* Collider;
+		UBoxComponent* Collider;
 
 	UPROPERTY(VisibleAnywhere)
-	bool CanMove;
+		bool CanMove;
 
 public:
 	// Called every frame

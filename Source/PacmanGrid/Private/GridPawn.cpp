@@ -22,7 +22,7 @@ AGridPawn::AGridPawn()
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	StaticMesh->SetupAttachment(Collider);
 
-	//// nodi
+	// nodi
 	LastNode = nullptr;
 	TargetNode = nullptr;
 	NextNode = nullptr;
@@ -109,6 +109,7 @@ void AGridPawn::OnNodeReached()
 	LastNode = TargetNode;
 	SetTargetNode(nullptr);
 
+	/*
 	//teleport implementation
 	const FVector2D LeftPortal = (14, 0);
 	const FVector2D RightPortal = (14, 27);
@@ -173,6 +174,7 @@ void AGridPawn::OnNodeReached()
 	//{
 	//	//SetNextNode(LeftPortal);
 	//}
+	*/
 }
 
 void AGridPawn::SetTargetNode(AGridBaseNode* Node)
