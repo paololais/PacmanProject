@@ -88,11 +88,6 @@ TMap<FVector2D, AEatableEntity*> AGridGenerator::GetEatableEntityMap()
 	return EatableEntityMap;
 }
 
-TMap<FVector2D, ATeleporter*> AGridGenerator::GetTeleporterMap()
-{
-	return TeleporterMap;
-}
-
 void AGridGenerator::GenerateGrid()
 {
 	for (int x = 0; x < MapSizeX; x++)
@@ -179,7 +174,6 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	AGridBaseNode* Node;
 	TSubclassOf<AGridBaseNode> ClassToSpawn = AGridBaseNode::StaticClass();
 	AEatableEntity* Food = nullptr;
-	ATeleporter* Port = nullptr;
 
 	if (CharId == '#')
 	{
@@ -223,10 +217,6 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	else if (CharId == 'T')
 	{
 		ClassToSpawn = TeleportNode;
-		
-		FVector OffsetVectorZ(0, 0, +50.0f);
-		FVector PositionShifted = Position + OffsetVectorZ;
-		Port = GetWorld()->SpawnActor<ATeleporter>(Teleporter, PositionShifted, FRotator::ZeroRotator);
 	}
 	else if (CharId == 'N')
 	{
@@ -262,17 +252,6 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 		SpawnedEatableEntity->EatableEntityPosition = (Position2D);
 		//associo le coordinate spaziali
 		SpawnedEatableEntity->EatableEntityCoordinatesPosition = Position;
-	}
-
-	if (Port != nullptr)
-	{
-		const auto SpawnedTeleport = Port;
-		//conversione delle cordinate in 2D
-		FVector2D Position2D = (Position.X, Position.Y);
-		//associo la posizione della griglia del oggetto spawnato
-		SpawnedTeleport->TeleporterPosition = (Position2D);
-		//associo le coordinate spaziali
-		SpawnedTeleport->TeleporterCoordinatesPosition = Position;
 	}
 
 	Node = GetWorld()->SpawnActor<AGridBaseNode>(ClassToSpawn, Position, FRotator::ZeroRotator);

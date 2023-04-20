@@ -115,6 +115,16 @@ void AGridPawn::OnNodeReached()
 	
 	const FVector2D lastNodePos = LastNode->GetGridPosition();
 
+	if (lastNodePos == LeftPortal && LastValidInputDirection == FVector(0, -1, 0)) {
+		FVector NewLocation = FVector(1450, 2750, 0);
+		SetActorLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
+	}
+
+	if (lastNodePos == RightPortal && LastValidInputDirection == FVector(0, 1, 0)) {
+		FVector NewLocation = FVector(1450, 50, 0);
+		SetActorLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
+	}
+
 	//if (lastNodePos == RightPortal && LastValidInputDirection == FVector(0, 1, 0))
 	//{
 	//	const FVector Location(1450.0f, 50.0f, GetActorLocation().Z);
