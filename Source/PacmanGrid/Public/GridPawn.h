@@ -68,6 +68,9 @@ protected:
 	class ATestGridGameMode* GameMode;
 
 	UPROPERTY(VisibleAnywhere)
+		TMap<FVector2D, AGridBaseNode*> GridGenTMap;
+
+	UPROPERTY(VisibleAnywhere)
 	AGridGenerator* TheGridGen;
 
 	UPROPERTY(VisibleAnywhere, Category = "Nodes")

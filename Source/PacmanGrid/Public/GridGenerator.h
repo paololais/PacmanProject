@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GridBaseNode.h"
 #include "EatableEntity.h"
+#include "Teleporter.h"
 #include "GridGenerator.generated.h"
 
 struct FDirNode
@@ -75,6 +76,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
 		TSubclassOf<AEatableEntity> PointNode;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Teleporter")
+		TSubclassOf<ATeleporter> Teleporter;
+
 public:
 	// Sets default values for this actor's properties
 	AGridGenerator();
@@ -97,6 +101,9 @@ public:
 
 	TMap<FVector2D, AEatableEntity*> GetEatableEntityMap();
 
+	TMap<FVector2D, ATeleporter*> TeleporterMap;
+
+	TMap<FVector2D, ATeleporter*> GetTeleporterMap();
 
 	// tile size
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -108,6 +115,9 @@ public:
 	//per tenere un riferimento ai punti tramite array
 	UPROPERTY(VisibleAnywhere)
 		TArray<AEatableEntity*> PointGrid;
+
+	UPROPERTY(VisibleAnywhere)
+		TArray<ATeleporter*> TeleporterGrid;
 
 	// return a (x,y) position given a hit (click) on a field tile
 	FVector2D GetPosition(const FHitResult& Hit);
