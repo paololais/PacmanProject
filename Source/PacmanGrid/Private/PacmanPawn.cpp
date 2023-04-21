@@ -81,6 +81,15 @@ void APacmanPawn::HandleMovement()
 		}
 		SetNodeGeneric(LastValidInputDirection);
 	}
+
+	if (!TargetNode && !NextNode)
+	{
+		if (TheGridGen->IsNodeValidForWalk(TheGridGen->GetNextNode(CurrentGridCoords, LastInputDirection)))
+		{
+			SetLastValidDirection(LastInputDirection);
+		}
+		SetNodeGeneric(LastValidInputDirection);
+	}
 }
 
 void APacmanPawn::SetTargetNode(AGridBaseNode* Node)

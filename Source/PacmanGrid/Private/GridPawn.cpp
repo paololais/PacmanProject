@@ -46,6 +46,8 @@ void AGridPawn::BeginPlay()
 	CanMove = true;
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &AGridPawn::OnOverlapBegin);
 
+	GridGenTMap = TheGridGen->GetTileMAp();
+
 }
 
 void AGridPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -108,73 +110,21 @@ void AGridPawn::OnNodeReached()
 	CurrentGridCoords = TargetNode->GetGridPosition();
 	LastNode = TargetNode;
 	SetTargetNode(nullptr);
-
-	/*
-	//teleport implementation
-	const FVector2D LeftPortal = (14, 0);
-	const FVector2D RightPortal = (14, 27);
 	
-	const FVector2D lastNodePos = LastNode->GetGridPosition();
-
-	if (lastNodePos == LeftPortal && LastValidInputDirection == FVector(0, -1, 0)) {
-		FVector NewLocation = FVector(1450, 2750, 0);
-		SetActorLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
+	//passo dal portale sx
+	if (LastNode->GetTileCoordinates().Equals(FVector(1450, 50, 0))) {
+		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 26))));
+		SetTargetNode(NextNode);
+		LastNode = (*(GridGenTMap.Find(FVector2D(14, 27))));
 	}
 
-	if (lastNodePos == RightPortal && LastValidInputDirection == FVector(0, 1, 0)) {
-		FVector NewLocation = FVector(1450, 50, 0);
-		SetActorLocation(NewLocation, false, nullptr, ETeleportType::TeleportPhysics);
+	//passo dal portale dx
+	if (LastNode->GetTileCoordinates().Equals(FVector(1450, 2750, 0)))
+	{
+		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 1))));
+		SetTargetNode(NextNode);
+		LastNode = (*(GridGenTMap.Find(FVector2D(14, 0))));
 	}
-
-	//if (lastNodePos == RightPortal && LastValidInputDirection == FVector(0, 1, 0))
-	//{
-	//	const FVector Location(1450.0f, 50.0f, GetActorLocation().Z);
-	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("POSIZIONE rightportal RAGGIUNTA")));
-
-	//	// posizione corrente
-	//	CurrentGridCoords = LeftPortal;
-	//	// ultimo nodo
-	//	LastNode = *(GridGenTMap.Find(LeftPortal));
-	//	//set nextnode QUELLO A DESTRA DI DOVE TELEPORT
-	//	SetNextNode(*(GridGenTMap.Find(FVector2D(14, 1))));
-	//	// nodo target
-	//	SetTargetNode(NextNode);
-
-	//	//move to (18,0)
-	//	SetActorLocation(Location);
-	//}
-
-	//// da (18,0) a (18,27)
-	//if (lastNodePos ==LeftPortal && LastValidInputDirection == FVector(0, -1, 0))
-	//{
-	//	const FVector Location(1450.0f, 2750.0f, GetActorLocation().Z);
-	//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("POSIZIONE leftportal RAGGIUNTA")));
-
-	//	CurrentGridCoords = RightPortal;
-
-	//	LastNode = *(GridGenTMap.Find(RightPortal));
-
-	//	SetNextNode(*(GridGenTMap.Find(FVector2D(14, 26))));
-
-	//	SetTargetNode(NextNode);
-
-	//	// move to (18,0)
-	//	SetActorLocation(Location);
-	//}
-
-	//teleport to right portal
-	//if (CurrentGridCoords == LeftPortal)
-	//{
-	//	SetNextNode(Node);
-	//	SetLastValidDirection(InputDir);
-	//}
-
-	////teleport to left portal
-	//else if (CurrentGridCoords == RightPortal)
-	//{
-	//	//SetNextNode(LeftPortal);
-	//}
-	*/
 }
 
 void AGridPawn::SetTargetNode(AGridBaseNode* Node)
