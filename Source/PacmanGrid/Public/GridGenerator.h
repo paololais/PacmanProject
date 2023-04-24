@@ -6,7 +6,6 @@
 #include "GameFramework/Actor.h"
 #include "GridBaseNode.h"
 #include "EatableEntity.h"
-#include "MyTeleportBox.h"
 #include "GridGenerator.generated.h"
 
 struct FDirNode
@@ -77,9 +76,6 @@ private:
 		TSubclassOf<AEatableEntity> PointNode;
 
 
-	//UPROPERTY(EditDefaultsOnly, Category = "Teleporter")
-		//TSubclassOf<AMyTeleportBox> TeleportBox;
-
 public:
 	// Sets default values for this actor's properties
 	AGridGenerator();
@@ -140,10 +136,6 @@ public:
 	int GetFoodCounter();
 
 	void SetFoodCounter(int Counter);
-
-	//array of 2 teleporters
-	UPROPERTY()
-		TArray<AMyTeleportBox*> Portal;
 
 private:
 	//point counter (both power and point)

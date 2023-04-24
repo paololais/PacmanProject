@@ -104,32 +104,6 @@ void AGridGenerator::GenerateGrid()
 			const FVector CurrentSpawnPosition = GetActorLocation() + OffsetVector;
 			// questa funzione spawna una nuova tile
 			const auto SpawnedNode = SpawnNodeActorById(MapTile, CurrentSpawnPosition);
-			/*
-			//spawn teleport
-			if (MapTile == 'T')
-			{	
-				const FVector2D LeftPortal(14, 0);
-				const FVector2D RightPortal(14, 27);
-
-				FVector OffsetVectorZ(0, 0, 0);
-
-				if (FVector2D(x, y) == LeftPortal)
-				{
-					OffsetVectorZ.Set(-50.0f, 0, +30.0f);
-				}
-				else if (FVector2D(x, y) == RightPortal)
-				{
-					OffsetVectorZ.Set(+50.0f, 0, +30.0f);
-				}
-				
-
-				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
-				Teleport = GetWorld()->SpawnActor<AMyTeleportBox>(TeleportBox, PositionShifted, FRotator::ZeroRotator);
-
-				//add reference to Portal array
-				Portal.Add(Teleport);
-			}
-			*/
 			// assegna le coordinate di griglia alla tile
 			SpawnedNode->TileGridPosition = (FVector2D(x, y));
 			// assegna le coordinate spaziali alla tile
@@ -139,9 +113,6 @@ void AGridGenerator::GenerateGrid()
 			TileMap.Add(FVector2D(x, y), SpawnedNode);
 		}
 	}
-	//setto i portali opposti corrispondenti
-	//Portal[0]->otherTele = Portal[1];
-	//Portal[1]->otherTele = Portal[0];
 }
 
 AGridBaseNode* AGridGenerator::GetNodeByCoords(const FVector2D Coords)
@@ -180,11 +151,6 @@ AGridBaseNode* AGridGenerator::GetClosestNodeFromMyCoordsToTargetCoords(const FV
 		}
 	}
 	
-	/*if (ReturnNode != nullptr)
-	{
-		const FVector Dimensions(60, 60, 20);
-		DrawDebugBox(GetWorld(), ReturnNode->GetTileCoordinates(), Dimensions, FColor::Blue);
-	}*/
 	return ReturnNode;
 }
 
@@ -206,7 +172,6 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	AGridBaseNode* Node;
 	TSubclassOf<AGridBaseNode> ClassToSpawn = AGridBaseNode::StaticClass();
 	AEatableEntity* Food = nullptr;
-	//AMyTeleportBox* Teleport = nullptr;
 
 	if (CharId == '#')
 	{
@@ -250,11 +215,6 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	else if (CharId == 'T')
 	{
 		ClassToSpawn = TeleportNode;
-		/*
-		FVector OffsetVectorZ(0, 0, +30.0f);
-		FVector PositionShifted = Position + OffsetVectorZ;
-		Teleport = GetWorld()->SpawnActor<AMyTeleportBox>(TeleportBox, PositionShifted, FRotator::ZeroRotator);
-		*/
 	}
 	else if (CharId == 'N')
 	{
