@@ -214,7 +214,7 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	else if (CharId == 'B')
 	{
 		ClassToSpawn = PowerN;
-		FVector OffsetVectorZ(0, 0, +30.0f);
+		FVector OffsetVectorZ(0, 0, 5.0f);
 		FVector PositionShifted = Position + OffsetVectorZ;
 		Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
 	}
@@ -274,7 +274,7 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 		ClassToSpawn = LabyrinthNode;
 		// ClassToSpawn = PointNode;
 
-		FVector OffsetVectorZ(0, 0, +50.0f);
+		FVector OffsetVectorZ(0, 0, +5.0f);
 		FVector PositionShifted = Position + OffsetVectorZ;
 		Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
 	}

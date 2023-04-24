@@ -35,6 +35,7 @@ void APacmanPawn::SetVerticalInput(float AxisValue)
 	if (AxisValue == 0) return;
 	const FVector Dir = (GetActorForwardVector() * AxisValue).GetSafeNormal();
 	LastInputDirection = Dir.GetSafeNormal();
+	APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
 	SetNextNodeByDir(LastInputDirection);
 }
 
