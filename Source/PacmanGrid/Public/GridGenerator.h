@@ -76,8 +76,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
 		TSubclassOf<AEatableEntity> PointNode;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Teleporter")
-		TSubclassOf<AMyTeleportBox> TeleportBox;
+
+	//UPROPERTY(EditDefaultsOnly, Category = "Teleporter")
+		//TSubclassOf<AMyTeleportBox> TeleportBox;
 
 public:
 	// Sets default values for this actor's properties

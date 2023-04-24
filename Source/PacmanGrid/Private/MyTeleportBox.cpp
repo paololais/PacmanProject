@@ -25,12 +25,11 @@ void AMyTeleportBox::EnterTeleporter(AActor* overlappedActor, AActor* otherActor
 			
 			AGridPawn* Pawn = Cast<AGridPawn>(otherActor);
 
-			if (Pawn &&!otherTele->teleporting) {
+			//check se assegnazione corretta e se il pawn non si è appena teletrasportato dall'altro portale
+			if (Pawn && !otherTele->teleporting) {
 				teleporting = true;
-				//Rotazione dopo teleporting
-				//Pawn->SetActorRotation(otherTele->GetActorRotation);
-
-				Pawn->SetActorLocation(otherTele->GetActorLocation());
+				FVector NewLocation = otherTele->GetActorLocation();
+				Pawn->SetActorLocation(NewLocation);
 			}
 		}
 	}

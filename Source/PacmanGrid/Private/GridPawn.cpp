@@ -110,20 +110,35 @@ void AGridPawn::OnNodeReached()
 	CurrentGridCoords = TargetNode->GetGridPosition();
 	LastNode = TargetNode;
 	SetTargetNode(nullptr);
+
 	
 	//passo dal portale sx
-	if (LastNode->GetTileCoordinates().Equals(FVector(1450, 50, 0))) {
+	if (CurrentGridCoords == (FVector2D(14, 0))) {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+
+		const FVector Location(1450, 2750, GetActorLocation().Z);
+
+		LastNode = (*(GridGenTMap.Find(FVector2D(14, 27))));
 		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 26))));
 		SetTargetNode(NextNode);
-		LastNode = (*(GridGenTMap.Find(FVector2D(14, 27))));
+
+		SetActorLocation(Location);
 	}
 
 	//passo dal portale dx
-	if (LastNode->GetTileCoordinates().Equals(FVector(1450, 2750, 0)))
+	if (CurrentGridCoords == (FVector2D(14, 27)))
 	{
-		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 1))));
-		SetTargetNode(NextNode);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+		
+		const FVector Location(1450, 50, GetActorLocation().Z);
+		
 		LastNode = (*(GridGenTMap.Find(FVector2D(14, 0))));
+		
+		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 1))));
+		
+		SetTargetNode(NextNode);
+
+		SetActorLocation(Location);
 	}
 }
 

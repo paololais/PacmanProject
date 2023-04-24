@@ -91,7 +91,7 @@ TMap<FVector2D, AEatableEntity*> AGridGenerator::GetEatableEntityMap()
 
 void AGridGenerator::GenerateGrid()
 {
-	AMyTeleportBox* Teleport = nullptr;
+	//AMyTeleportBox* Teleport = nullptr;
 
 	for (int x = 0; x < MapSizeX; x++)
 	{
@@ -104,31 +104,32 @@ void AGridGenerator::GenerateGrid()
 			const FVector CurrentSpawnPosition = GetActorLocation() + OffsetVector;
 			// questa funzione spawna una nuova tile
 			const auto SpawnedNode = SpawnNodeActorById(MapTile, CurrentSpawnPosition);
-			
+			/*
 			//spawn teleport
 			if (MapTile == 'T')
 			{	
-				const FVector LeftPortal(1450.0f, 2750.0f, 0);
-				const FVector RightPortal(1450.0f, 50.0f, 0);
+				const FVector2D LeftPortal(14, 0);
+				const FVector2D RightPortal(14, 27);
 
-				/*FVector OffsetVectorZ(0, 0, +30.0f);
+				FVector OffsetVectorZ(0, 0, 0);
 
-				if (SpawnedNode->GetTileCoordinates().Equals(LeftPortal))
-				{
-					OffsetVectorZ .Set(+50.0f, 0, +30.0f);
-				}
-				else if (SpawnedNode->GetTileCoordinates().Equals(RightPortal))
+				if (FVector2D(x, y) == LeftPortal)
 				{
 					OffsetVectorZ.Set(-50.0f, 0, +30.0f);
 				}
-				*/
-				FVector OffsetVectorZ(0, 0, +30.0f);
+				else if (FVector2D(x, y) == RightPortal)
+				{
+					OffsetVectorZ.Set(+50.0f, 0, +30.0f);
+				}
+				
+
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Teleport = GetWorld()->SpawnActor<AMyTeleportBox>(TeleportBox, PositionShifted, FRotator::ZeroRotator);
 
 				//add reference to Portal array
 				Portal.Add(Teleport);
 			}
+			*/
 			// assegna le coordinate di griglia alla tile
 			SpawnedNode->TileGridPosition = (FVector2D(x, y));
 			// assegna le coordinate spaziali alla tile
@@ -139,8 +140,8 @@ void AGridGenerator::GenerateGrid()
 		}
 	}
 	//setto i portali opposti corrispondenti
-	Portal[0]->otherTele = Portal[1];
-	Portal[1]->otherTele = Portal[0];
+	//Portal[0]->otherTele = Portal[1];
+	//Portal[1]->otherTele = Portal[0];
 }
 
 AGridBaseNode* AGridGenerator::GetNodeByCoords(const FVector2D Coords)
