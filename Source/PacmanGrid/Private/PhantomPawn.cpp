@@ -26,7 +26,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	if (PN)
 	{
 		//PN->Eat();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you..")));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you")));
 		//PN->Destroy();
 	}
 }
@@ -70,8 +70,8 @@ void APhantomPawn::SetGhostTarget()
 
 	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
 
-	const FVector Dimensions(60, 60, 20);
-	DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
+	//const FVector Dimensions(60, 60, 20);
+	//DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
 
 	if (PossibleNode)
 	{

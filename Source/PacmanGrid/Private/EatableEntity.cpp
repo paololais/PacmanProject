@@ -29,7 +29,6 @@ void AEatableEntity::SetFruitPosition(const double InX, const double InY)
 int AEatableEntity::getPointValue()
 {
     return 0;
-    // implementsetEatenare
 }
 
 bool AEatableEntity::CheckNotEaten()

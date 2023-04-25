@@ -100,10 +100,10 @@ public:
 
 	// tile size
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float TileSize;
+		float TileSize;
 
 	UPROPERTY(VisibleAnywhere)
-	TArray<AGridBaseNode*> Grid;
+		TArray<AGridBaseNode*> Grid;
 
 	//per tenere un riferimento ai punti tramite array
 	UPROPERTY(VisibleAnywhere)
@@ -126,26 +126,27 @@ public:
 
 	AGridBaseNode* GetNodeByCoords(const FVector2D Coords);
 	bool IsNodeReachableAndNextToCurrentPosition(const FVector2D CurrentCoordinates, const FVector2D TargetCoords);
-	AGridBaseNode* GetClosestNodeFromMyCoordsToTargetCoords(const FVector2D StartCoords, const FVector2D TargetCoords, FVector IgnoredDir =	FVector::ZeroVector);
+	AGridBaseNode* GetClosestNodeFromMyCoordsToTargetCoords(const FVector2D StartCoords, const FVector2D TargetCoords, FVector IgnoredDir = FVector::ZeroVector);
 	TArray< FDirNode> GetNodeNeighbours(const AGridBaseNode* Node);
 
 	static bool IsNodeValidForWalk(class AGridBaseNode* Node);
 
 	AGridBaseNode* GetNextNode(const FVector2D StartCoords, FVector InputDir);
 
-	int GetFoodCounter();
+	//TODO
+	//function that respawns the pawns for example when the pacman is touched by a ghost 
+	//and he still has lives
+	UFUNCTION(BlueprintCallable)
+		void RespawnStartingPosition();
 
-	void SetFoodCounter(int Counter);
+	// check if Pacman ate all the pellets
+	bool IsWin() const;
 
 private:
-	//point counter (both power and point)
-	//this will be use to determine if the game is won
-	int FoodCounter;
-
 	AGridBaseNode* SpawnNodeActorById(char CharId, FVector Position) const;
 
 	UPROPERTY(EditDefaultsOnly)
-	FVector SpawnOffset;
+		FVector SpawnOffset;
 
 	void GenerateGrid();
 

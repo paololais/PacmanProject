@@ -41,7 +41,14 @@ public:
 
 	ATestGridGameMode();
 
+	~ATestGridGameMode();
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	//tracks if the game is over
+	bool IsGameOver;
+
+
 	
 };

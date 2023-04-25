@@ -2,16 +2,25 @@
 
 
 #include "TestGridGameMode.h"
+#include "GridPlayerController.h"
+#include "GridPawn.h"
+#include "PacmanPawn.h"
 
 ATestGridGameMode::ATestGridGameMode()
 {
+	PlayerControllerClass = AGridPlayerController::StaticClass();
+	DefaultPawnClass = APacmanPawn::StaticClass();
+}
 
+ATestGridGameMode::~ATestGridGameMode() {
 }
 
 
 void ATestGridGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+
+	IsGameOver = false;
 	
 	// con questa posizione la tile di coordinate griglia (0,0) ha come
 	// coordinate nello spazio dello spigolo inferiore sinistro (0,0) 

@@ -63,7 +63,6 @@ AGridGenerator::AGridGenerator()
 	PrimaryActorTick.bCanEverTick = true;
 	TileSize = 100.0f;
 	SpawnOffset = FVector(TileSize);
-	FoodCounter = 0;
 }
 
 // Called when the game starts or when spawned
@@ -324,10 +323,41 @@ FVector AGridGenerator::GetThreeDOfTwoDVector(FVector2D DDDVector)
 	return FVector(DDDVector.X, DDDVector.Y, 0);
 }
 
-int AGridGenerator::GetFoodCounter() {
-	return FoodCounter;
+//TODO
+	//function that respawns the pawns for example when the pacman is touched by a ghost 
+	//and he still has lives
+	//should I respawn also the eatableEntityMap based on Eaten value?
+void AGridGenerator::RespawnStartingPosition()
+{
+
 }
 
-void AGridGenerator::SetFoodCounter(int Counter) {
-	this->FoodCounter = Counter;
+
+//TODO:
+//check if it's necessary to pass a const parameter to the EatableEntity map to this function
+//check implementation: it's not working
+bool AGridGenerator::IsWin() const
+{
+	//number of items in the eatable entity map
+	int32 Count = EatableEntityMap.Num();
+
+	//iteration to the EatableEntityMap
+	for (auto It = EatableEntityMap.CreateConstIterator(); It; ++It) {
+
+		//CheckNotEaten() ritorna true se il pellet è NonEaten
+		if (!(It.Value()->CheckNotEaten())) {
+			Count--;
+		}
+	}
+
+	//tutti i pellet sono stati mangiati
+	if (Count == 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the pellets")));
+
+		return true;
+	}
+
+
+	return false;
 }
