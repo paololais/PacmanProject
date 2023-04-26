@@ -99,9 +99,9 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		PointNode->StaticMesh->SetVisibility(false);
 		PointNode->IsEatable = false;
 
-		punteggio++;
+		Score++;
 
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), punteggio));
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), Score));
 
 
 		int count = TheGridGen->GetCountFood();

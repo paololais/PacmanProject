@@ -26,6 +26,9 @@ void APointNode::BeginPlay()
     //registrazione degli eventi di collisione attraverso AddDynamic
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APointNode::OnBeginOverlap);
 
+    GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+    TheGridGen = GameMode->GField;
+
 }
 
 void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -35,17 +38,22 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
     {
         if (OtherActor->IsA(AGridPawn::StaticClass()))
         {
-            //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("collision pointNode")));
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
             const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
             this->setEaten();
             SetActorHiddenInGame(true); 
 
-            int new_value = (GameMode->getPunteggio()) + 10;
 
-            GameMode->setPunteggio(new_value);
+            //Score System
+            int new_value = (GameMode->getScore()) + 10;
 
-            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getPunteggio()));
+            GameMode->setScore(new_value);
+
+            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
+
+
+            //check if pacman has eaten all the food
+
         }
     }
 

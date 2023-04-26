@@ -61,11 +61,19 @@ public:
 	//checks when point eaten if all the pellets have been eaten -> WIN
 	//void onEat();
 
-	void setPunteggio(int newvalue);
-
-	int getPunteggio();
+	UFUNCTION(BlueprintCallable)
+		void setScore(int newvalue);
+	
+	UFUNCTION(BlueprintCallable)
+		int getScore();
 
 private:
-	int punteggio = 0;
-	
+	int Score = 0;
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "Class Types")
+		TSubclassOf<UUserWidget> WidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "Runtime")
+		class UScoreUserWidget* ScoreUserWidget;
 };

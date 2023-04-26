@@ -49,11 +49,6 @@ void AEatableEntity::setEaten()
 void AEatableEntity::BeginPlay()
 {
     Super::BeginPlay();
-
-
-    GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
-    TheGridGen = GameMode->GField;
-
 }
 
 // Called every frame

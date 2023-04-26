@@ -5,6 +5,8 @@
 #include "GridPlayerController.h"
 #include "GridPawn.h"
 #include "PacmanPawn.h"
+#include "ScoreUserWidget.h"
+#include "Blueprint/UserWidget.h"
 
 ATestGridGameMode::ATestGridGameMode()
 {
@@ -49,31 +51,21 @@ void ATestGridGameMode::BeginPlay()
 
 	BlinkyPawn = GetWorld()->SpawnActor<ABlinky>(BlinkyClass, FVector((100 * 27) + 50, (100 * 26) + 50, 5.0f), FRotator(0, 0, 0));
 	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 5) + 50, (100 * 26) + 50, 5.0f), FRotator(0, 0, 0));
-}
 
+	/*
+	//ui widget score
+	if (IsValid(WidgetClass)) {
+		ScoreUserWidget = Cast<UScoreUserWidget>(CreateWidget(GetWorld(), WidgetClass));
 
-//TODO:
-//every time pacman eats a pellet this function calls isWin (GridGenerator)
-/*
-void ATestGridGameMode::onEat() {
-
-	TMap<FVector2D, AEatableEntity*> EatableMap = GField->GetEatableEntityMap();
-
-	APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
-
-	const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
-
-	FVector2D Position = Pacman->GetLastNodeCoords();
-
-	const AEatableEntity* food = EatableMap.Find(Position);
-
-	if (Pacman->IsOverlappingActor(food)) {
-		GField->IsWin();
+		if (ScoreUserWidget != nullptr) {
+			ScoreUserWidget->AddToViewport();
+		}
 	}
+	*/
 }
 
-*/
 
+//TODO
 bool ATestGridGameMode::IsWin() const
 {
 	TMap<FVector2D, AEatableEntity*> EatableMap = GField->GetEatableEntityMap();
@@ -105,12 +97,12 @@ bool ATestGridGameMode::IsWin() const
 	return false;
 }
 
-void ATestGridGameMode::setPunteggio(int newvalue)
+void ATestGridGameMode::setScore(int newvalue)
 {
-	this->punteggio = newvalue;
+	this->Score = newvalue;
 }
 
-int ATestGridGameMode::getPunteggio()
+int ATestGridGameMode::getScore()
 {
-	return punteggio;
+	return Score;
 }

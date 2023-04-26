@@ -3,6 +3,7 @@
 
 #include "PowerNode.h"
 #include "PacmanPawn.h"
+#include "TestGridGameMode.h"
 
 
 APowerNode::APowerNode()
@@ -21,6 +22,9 @@ void APowerNode::BeginPlay()
     Super::BeginPlay();
     //registrazione degli eventi di collisione attraverso AddDynamic
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APowerNode::OnBeginOverlap);
+
+    GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+    TheGridGen = GameMode->GField;
 }
 
 void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -37,12 +41,11 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             this->setEaten();
             SetActorHiddenInGame(true);
 
+            int new_value = (GameMode->getScore()) + 50;
 
-            int new_value = (GameMode->getPunteggio()) + 50;
+            GameMode->setScore(new_value);
 
-            GameMode->setPunteggio(new_value);
-
-            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getPunteggio()));
+            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
         }
     }
 

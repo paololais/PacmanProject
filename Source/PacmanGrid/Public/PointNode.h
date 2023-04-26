@@ -36,4 +36,10 @@ protected:
 	// set up collider to use for PowerNode and PointNode
 	UPROPERTY(EditAnywhere)
 		UBoxComponent* Collider;
+
+	UPROPERTY(VisibleAnywhere)
+		class ATestGridGameMode* GameMode;
+
+	UPROPERTY(VisibleAnywhere)
+		AGridGenerator* TheGridGen;
 };
