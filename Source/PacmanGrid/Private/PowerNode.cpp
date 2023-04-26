@@ -36,6 +36,13 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             Pacman->PowerModeOn(); //mode powered On
             this->setEaten();
             SetActorHiddenInGame(true);
+
+
+            int new_value = (GameMode->getPunteggio()) + 50;
+
+            GameMode->setPunteggio(new_value);
+
+            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getPunteggio()));
         }
     }
 

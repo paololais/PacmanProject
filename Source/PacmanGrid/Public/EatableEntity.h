@@ -8,6 +8,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "EatableEntity.generated.h"
 
+class TestGridGameMode {
+};
+
 UENUM()
 enum EEatId { NotEaten, Eaten };
 
@@ -49,6 +52,9 @@ public:
 	int getPointValue();
 	bool CheckNotEaten();
 
+	AGridGenerator* TheGridGen;
+
+	class ATestGridGameMode* GameMode;
 
 protected:
 	// Called when the game starts or when spawned

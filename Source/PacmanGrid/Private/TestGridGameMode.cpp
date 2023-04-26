@@ -54,6 +54,63 @@ void ATestGridGameMode::BeginPlay()
 
 //TODO:
 //every time pacman eats a pellet this function calls isWin (GridGenerator)
+/*
 void ATestGridGameMode::onEat() {
 
+	TMap<FVector2D, AEatableEntity*> EatableMap = GField->GetEatableEntityMap();
+
+	APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
+
+	const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
+
+	FVector2D Position = Pacman->GetLastNodeCoords();
+
+	const AEatableEntity* food = EatableMap.Find(Position);
+
+	if (Pacman->IsOverlappingActor(food)) {
+		GField->IsWin();
+	}
+}
+
+*/
+
+bool ATestGridGameMode::IsWin() const
+{
+	TMap<FVector2D, AEatableEntity*> EatableMap = GField->GetEatableEntityMap();
+
+	APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
+
+	const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
+
+	FVector2D Position = Pacman->GetLastNodeCoords();
+
+	AEatableEntity* food = EatableMap[Position];
+
+	if (Pacman->IsOverlappingActor(food) && food->CheckNotEaten()) {
+
+		int Count = GField->GetCountFood();
+		
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d pellets"), Count));
+
+		//tutti i pellet sono stati mangiati
+		if (Count == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the pellets")));
+
+			return true;
+		}
+
+		return false;
+	}
+	return false;
+}
+
+void ATestGridGameMode::setPunteggio(int newvalue)
+{
+	this->punteggio = newvalue;
+}
+
+int ATestGridGameMode::getPunteggio()
+{
+	return punteggio;
 }

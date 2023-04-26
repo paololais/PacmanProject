@@ -140,7 +140,11 @@ public:
 		void RespawnStartingPosition();
 
 	// check if Pacman ate all the pellets
-	bool IsWin(TMap<FVector2D, AEatableEntity*> EatableMap) const;
+	//bool IsWin(AEatableEntity* Food) const;
+
+	int32 GetCountFood();
+
+	void SetCountFood(int count);
 
 private:
 	AGridBaseNode* SpawnNodeActorById(char CharId, FVector Position) const;
@@ -148,7 +152,8 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 		FVector SpawnOffset;
 
-	void GenerateGrid();
+	int32 CountFood = 0;
 
+	void GenerateGrid();
 
 };

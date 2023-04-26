@@ -33,11 +33,12 @@ public:
 
 	FTimerHandle PowerModeTimer;
 
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void HandleMovement() override;
 	virtual void SetTargetNode(AGridBaseNode* Node) override;
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
-	
+	int punteggio = 0;
 };

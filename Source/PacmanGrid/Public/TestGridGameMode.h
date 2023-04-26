@@ -52,11 +52,20 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	bool IsWin() const;
+
 	//tracks if the game is over
 	bool IsGameOver;
 	
 	//TODO:
 	//checks when point eaten if all the pellets have been eaten -> WIN
-	void onEat();
+	//void onEat();
+
+	void setPunteggio(int newvalue);
+
+	int getPunteggio();
+
+private:
+	int punteggio = 0;
 	
 };

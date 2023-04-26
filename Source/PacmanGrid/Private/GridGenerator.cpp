@@ -116,12 +116,14 @@ void AGridGenerator::GenerateGrid()
 				FVector OffsetVectorZ(0, 0, 5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
+				CountFood++;
 			}
 
 			if (MapTile == '0') {
 				FVector OffsetVectorZ(0, 0, +5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
+				CountFood++;
 			}
 
 			if (Food != nullptr)
@@ -195,6 +197,16 @@ TArray<FDirNode> AGridGenerator::GetNodeNeighbours(const AGridBaseNode* Node)
 	return Vec;
 }
 
+
+int32 AGridGenerator::GetCountFood()
+{
+	return CountFood;
+}
+
+void AGridGenerator::SetCountFood(int count)
+{
+	this->CountFood = count;
+}
 
 AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position) const
 {
@@ -367,7 +379,8 @@ void AGridGenerator::RespawnStartingPosition()
 //TODO:
 //checks if pacman has eaten all pellets->WIN
 // this function  will be called in the GameMode
-bool AGridGenerator::IsWin(TMap<FVector2D, AEatableEntity*> EatableMap) const
+/*
+bool AGridGenerator::IsWin(AEatableEntity* Food) const
 {
 	//number of items in the eatable entity map
 	int32 Count = EatableMap.Num();
@@ -394,3 +407,5 @@ bool AGridGenerator::IsWin(TMap<FVector2D, AEatableEntity*> EatableMap) const
 
 	return false;
 }
+
+*/

@@ -25,6 +25,7 @@ void APointNode::BeginPlay()
     Super::BeginPlay();
     //registrazione degli eventi di collisione attraverso AddDynamic
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APointNode::OnBeginOverlap);
+
 }
 
 void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -38,7 +39,13 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
             const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
             this->setEaten();
-            SetActorHiddenInGame(true);         
+            SetActorHiddenInGame(true); 
+
+            int new_value = (GameMode->getPunteggio()) + 10;
+
+            GameMode->setPunteggio(new_value);
+
+            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getPunteggio()));
         }
     }
 

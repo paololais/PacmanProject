@@ -98,6 +98,21 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		PointNode->Collider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		PointNode->StaticMesh->SetVisibility(false);
 		PointNode->IsEatable = false;
+
+		punteggio++;
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), punteggio));
+
+
+		int count = TheGridGen->GetCountFood();
+		count--;
+		TheGridGen->SetCountFood(count);
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d pellets"), count));
+
+		if (count == 0) {
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the pellets")));
+		}
 	}
 }
 

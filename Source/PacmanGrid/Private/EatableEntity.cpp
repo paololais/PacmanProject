@@ -2,6 +2,7 @@
 
 
 #include "EatableEntity.h"
+#include "TestGridGameMode.h"
 
 
 // Sets default values
@@ -48,6 +49,10 @@ void AEatableEntity::setEaten()
 void AEatableEntity::BeginPlay()
 {
     Super::BeginPlay();
+
+
+    GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+    TheGridGen = GameMode->GField;
 
 }
 
