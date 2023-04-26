@@ -140,7 +140,7 @@ public:
 		void RespawnStartingPosition();
 
 	// check if Pacman ate all the pellets
-	bool IsWin() const;
+	bool IsWin(TMap<FVector2D, AEatableEntity*> EatableMap) const;
 
 private:
 	AGridBaseNode* SpawnNodeActorById(char CharId, FVector Position) const;

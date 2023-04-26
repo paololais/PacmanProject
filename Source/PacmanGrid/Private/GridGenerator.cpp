@@ -111,10 +111,7 @@ void AGridGenerator::GenerateGrid()
 			Grid.Add(SpawnedNode);
 			TileMap.Add(FVector2D(x, y), SpawnedNode);
 			
-			//TODO: 
-			//add reference of pellet in EatableEntityMap
-			
-			/*
+			//Spawn pellet points and power
 			if (MapTile == 'B') {
 				FVector OffsetVectorZ(0, 0, 5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
@@ -135,13 +132,14 @@ void AGridGenerator::GenerateGrid()
 				//associo la posizione della griglia del oggetto spawnato
 				SpawnedEatableEntity->EatableEntityPosition = (Position2D);
 				//associo le coordinate spaziali
-				//SpawnedEatableEntity->EatableEntityCoordinatesPosition(x, y);
+				SpawnedEatableEntity->EatableEntityCoordinatesPosition = CurrentSpawnPosition;
 				
-				EatableEntityMap.Add(FVector2D(x,y), &SpawnedEatableEntity);
+				//add reference to the eatable entity map
+				EatableEntityMap.Add(FVector2D(x,y), SpawnedEatableEntity);
 
+				//reassign null to food to reuse it
+				Food = nullptr;
 			}
-			*/
-			
 		}
 	}
 }
@@ -213,7 +211,7 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 		ClassToSpawn = PowerN;
 		FVector OffsetVectorZ(0, 0, 5.0f);
 		FVector PositionShifted = Position + OffsetVectorZ;
-		Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
+		//Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
 	}
 	else if (CharId == 'N')
 	{
@@ -268,10 +266,11 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 
 		FVector OffsetVectorZ(0, 0, +5.0f);
 		FVector PositionShifted = Position + OffsetVectorZ;
-		Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
+		//Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
 	}
 
 	//aggiugo alle strutture dati di riferimento gli oggetti EatableEntity spawnate
+	/*
 	if (Food != nullptr)
 	{
 		const auto SpawnedEatableEntity = Food;
@@ -282,7 +281,7 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 		//associo le coordinate spaziali
 		SpawnedEatableEntity->EatableEntityCoordinatesPosition = Position;
 	}
-
+	*/
 	Node = GetWorld()->SpawnActor<AGridBaseNode>(ClassToSpawn, Position, FRotator::ZeroRotator);
 	return Node;
 }
@@ -366,15 +365,17 @@ void AGridGenerator::RespawnStartingPosition()
 
 
 //TODO:
-//check if it's necessary to pass a const parameter to the EatableEntity map to this function
-//check implementation: it's not working
-bool AGridGenerator::IsWin() const
+//checks if pacman has eaten all pellets->WIN
+// this function  will be called in the GameMode
+bool AGridGenerator::IsWin(TMap<FVector2D, AEatableEntity*> EatableMap) const
 {
 	//number of items in the eatable entity map
-	int32 Count = EatableEntityMap.Num();
+	int32 Count = EatableMap.Num();
+
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d pellets"), Count));
 
 	//iteration to the EatableEntityMap
-	for (auto It = EatableEntityMap.CreateConstIterator(); It; ++It) {
+	for (auto It = EatableMap.CreateConstIterator(); It; ++It) {
 
 		//CheckNotEaten() ritorna true se il pellet è NonEaten
 		if (!(It.Value()->CheckNotEaten())) {

@@ -28,10 +28,16 @@ public:
 	AGridGenerator* GField;
 
 	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<APacmanPawn> PacmanClass;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ABlinky> BlinkyClass;
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AInky> InkyClass;
+
+	UPROPERTY(VisibleAnywhere)
+		APacmanPawn* PacmanPawn;
 
 	UPROPERTY(VisibleAnywhere)
 	ABlinky* BlinkyPawn;
@@ -48,7 +54,9 @@ public:
 
 	//tracks if the game is over
 	bool IsGameOver;
-
-
+	
+	//TODO:
+	//checks when point eaten if all the pellets have been eaten -> WIN
+	void onEat();
 	
 };

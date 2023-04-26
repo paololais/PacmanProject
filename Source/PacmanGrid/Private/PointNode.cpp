@@ -38,9 +38,7 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
             const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
             this->setEaten();
-            SetActorHiddenInGame(true);
-            //add +1 score
-            //GameInstance->IncrementScore();
+            SetActorHiddenInGame(true);         
         }
     }
 

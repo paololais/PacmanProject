@@ -16,9 +16,6 @@ APowerNode::APowerNode()
     Collider->SetBoxExtent(BoxDimension);
 }
 
-
-
-
 void APowerNode::BeginPlay()
 {
     Super::BeginPlay();
@@ -34,8 +31,6 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
     {
         if (OtherActor->IsA(AGridPawn::StaticClass())) //check collisione con pacman
         {
-            //  debug string
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("collision powernode")));
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
             const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
             Pacman->PowerModeOn(); //mode powered On

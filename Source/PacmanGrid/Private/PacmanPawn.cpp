@@ -103,7 +103,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 
 void APacmanPawn::PowerModeOn()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode on")));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
 	CurrentMovementSpeed = 800.0f;
 	float PowerModeTime = 10;
 	// set timer to call UFUNCTION that resets speed to default value
