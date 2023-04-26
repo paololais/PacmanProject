@@ -25,34 +25,34 @@ constexpr int MapSizeY = 29;
 
 static char Map[MapSizeX][MapSizeY] = {
 	"############################",
-	"#            ##            #",
-	"# #### ##### ## ##### #### #",
-	"#B#### ##### ## ##### ####B#",
-	"# #### ##### ## ##### #### #",
-	"#              P           #",
-	"# #### ## ######## ## #### #",
-	"# #### ## ######## ## #### #",
-	"#      ##    ##    ##      #",
-	"###### ##### ## ##### ######",
-	"###### ##### ## ##### ######",
-	"###### ##          ## ######",
-	"###### ## ######## ## ######",
-	"###### ## #IIIIII# ## ######",
-	"T         #IIIIII#         T",
-	"###### ## #IIIIII# ## ######",
-	"###### ## ###II### ## ######",
-	"###### ## 12 RE 34 ## ######",
-	"###### ## ######## ## ######",
-	"###### ## ######## ## ######",
-	"#            ##            #",
-	"# #### ##### ## ##### #### #",
-	"# #### ##### ## ##### #### #",
-	"#B  ##                ##  B#",
-	"### ## ## ######## ## ## ###",
-	"#      ## ######## ##      #",
-	"# #######    ##    ####### #",
-	"# ########## ## ########## #",
-	"#                          #",
+	"#000000000000##000000000000#",
+	"#0####0#####0##0#####0####0#",
+	"#B####0#####0##0#####0####B#",
+	"#0####0#####0##0#####0####0#",
+	"#00000000000000P00000000000#",
+	"#0####0##0########0##0####0#",
+	"#0####0##0########0##0####0#",
+	"#000000##0000##0000##000000#",
+	"######0#####0##0#####0######",
+	"######0#####0##0#####0######",
+	"######0##0000000000##0######",
+	"######0##0########0##0######",
+	"######0##0#IIIIII#0##0######",
+	"T000000000#IIIIII#000000000T",
+	"######0##0#IIIIII#0##0######",
+	"######0##0###II###0##0######",
+	"######0##0120RE0340##0######",
+	"######0##0########0##0######",
+	"######0##0########0##0######",
+	"#000000000000##000000000000#",
+	"#0####0#####0##0#####0####0#",
+	"#0####0#####0##0#####0####0#",
+	"#B00##0000000000000000##00B#",
+	"###0##0##0########0##0##0###",
+	"#000000##0########0##000000#",
+	"#0#######0000##0000#######0#",
+	"#0##########0##0##########0#",
+	"#00000000000000000000000000#",
 	"############################",
 };
 
@@ -90,7 +90,7 @@ TMap<FVector2D, AEatableEntity*> AGridGenerator::GetEatableEntityMap()
 
 void AGridGenerator::GenerateGrid()
 {
-	//AMyTeleportBox* Teleport = nullptr;
+	AEatableEntity* Food = nullptr;
 
 	for (int x = 0; x < MapSizeX; x++)
 	{
@@ -110,6 +110,38 @@ void AGridGenerator::GenerateGrid()
 			// aggiungo alle strutture dati il riferimento alla tile creata
 			Grid.Add(SpawnedNode);
 			TileMap.Add(FVector2D(x, y), SpawnedNode);
+			
+			//TODO: 
+			//add reference of pellet in EatableEntityMap
+			
+			/*
+			if (MapTile == 'B') {
+				FVector OffsetVectorZ(0, 0, 5.0f);
+				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
+				Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
+			}
+
+			if (MapTile == '0') {
+				FVector OffsetVectorZ(0, 0, +5.0f);
+				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
+				Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
+			}
+
+			if (Food != nullptr)
+			{
+				const auto SpawnedEatableEntity = Food;
+				//conversione delle cordinate in 2D
+				FVector2D Position2D = (x, y);
+				//associo la posizione della griglia del oggetto spawnato
+				SpawnedEatableEntity->EatableEntityPosition = (Position2D);
+				//associo le coordinate spaziali
+				//SpawnedEatableEntity->EatableEntityCoordinatesPosition(x, y);
+				
+				EatableEntityMap.Add(FVector2D(x,y), &SpawnedEatableEntity);
+
+			}
+			*/
+			
 		}
 	}
 }

@@ -2,6 +2,7 @@
 
 
 #include "PowerNode.h"
+#include "PacmanPawn.h"
 
 
 APowerNode::APowerNode()
@@ -36,7 +37,7 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             //  debug string
             GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("collision powernode")));
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
-            const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
+            const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
             Pacman->PowerModeOn(); //mode powered On
             this->setEaten();
             SetActorHiddenInGame(true);

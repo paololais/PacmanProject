@@ -25,11 +25,6 @@ public:
 
 	FVector GetLastValidDirection() const;
 
-	void PowerModeOn();
-	void PowerModeOff();
-
-	FTimerHandle PowerModeTimer;
-
 	UFUNCTION(BlueprintCallable)
 		AGridBaseNode* GetLastNode() const;
 	UFUNCTION(BlueprintCallable)
@@ -55,9 +50,9 @@ protected:
 	void SetLastValidDirection(FVector Dir);
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
-		float CurrentMovementSpeed = 400.0f;
+		float CurrentMovementSpeed = 500.0f;
 	UPROPERTY(EditAnywhere, Category = "Movement")
-		float NormalMovementSpeed = 400.0f;
+		float NormalMovementSpeed = 500.0f;
 	UPROPERTY(EditAnywhere)
 		float AcceptedDistance = 4.f;
 

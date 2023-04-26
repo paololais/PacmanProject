@@ -28,6 +28,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void PowerModeOn();
+	void PowerModeOff();
+
+	FTimerHandle PowerModeTimer;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void HandleMovement() override;

@@ -100,3 +100,19 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		PointNode->IsEatable = false;
 	}
 }
+
+void APacmanPawn::PowerModeOn()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode on")));
+	CurrentMovementSpeed = 800.0f;
+	float PowerModeTime = 10;
+	// set timer to call UFUNCTION that resets speed to default value
+	// // should also enter in frightened mode, will do later
+	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);
+}
+
+void APacmanPawn::PowerModeOff()
+{
+	CurrentMovementSpeed = NormalMovementSpeed;
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
+}
