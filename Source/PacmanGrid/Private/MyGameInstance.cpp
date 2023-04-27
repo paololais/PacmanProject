@@ -14,7 +14,7 @@ int UMyGameInstance::getScore()
 }
 
 
-int32 UMyGameInstance::GetLives()
+int UMyGameInstance::GetLives()
 {
 	return Lives;
 }

@@ -18,7 +18,7 @@ class PACMANGRID_API UMyGameInstance : public UGameInstance
 public:
 	//score
 	UPROPERTY(EditAnywhere)
-		int32 Score = 0;
+		int Score = 0;
 
 	UFUNCTION(BlueprintCallable)
 		void setScore(int newvalue);
@@ -30,10 +30,10 @@ public:
 
 	//vite pacman
 	UPROPERTY(EditAnywhere)
-		int32 Lives = 3;
+		int Lives = 3;
 
 	UFUNCTION(BlueprintCallable)
-		int32 GetLives();
+		int GetLives();
 
 	//decrement lives -1
 	void DecrementLives();
