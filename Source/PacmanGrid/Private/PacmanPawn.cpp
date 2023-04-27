@@ -4,6 +4,7 @@
 #include "PacmanPawn.h"
 #include "PointNode.h"
 #include "PowerNode.h"
+#include "MyGameInstance.h"
 #include "TestGridGameMode.h"
 
 APacmanPawn::APacmanPawn()
@@ -18,6 +19,9 @@ APacmanPawn::APacmanPawn()
 	LastValidInputDirection = FVector(0, 0, 0);
 	////posizione iniziale  del pawn nelle coordinate di griglia (1,1)
 	CurrentGridCoords = FVector2D(1, 1);
+	
+	// get the game instance reference
+	GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
 
 void APacmanPawn::Tick(float DeltaTime)
@@ -109,9 +113,12 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			this->PowerModeOn();
 
 			//Score System
-			int new_value = (GameMode->getScore()) + 50;
+			if (IsValid(GameInstance))
+			{
+				int new_value = (GameInstance->getScore()) + 50;
 
-			GameMode->setScore(new_value);
+				GameInstance->setScore(new_value);
+			}
 
 			//decrement food count
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
@@ -137,9 +144,11 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			Point->SetActorHiddenInGame(true);
 
 			//Score System
-			int new_value = (GameMode->getScore()) + 10;
-
-			GameMode->setScore(new_value);
+			if (IsValid(GameInstance))
+			{
+				int new_value = (GameInstance->getScore()) + 10;
+				GameInstance->setScore(new_value);
+			}
 
 			//decrement food count
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;

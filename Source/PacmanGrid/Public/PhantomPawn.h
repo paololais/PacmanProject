@@ -9,6 +9,15 @@
 /**
  * 
  */
+UENUM()
+enum class EEnemyState{
+	Chase, //ghost chases pacman
+	Scatter, //ghost walks a default path
+	Frightened, //ghost can be eat by pacman
+	Idle //ghost in his house
+};
+
+
 UCLASS()
 class PACMANGRID_API APhantomPawn : public AGridPawn
 {

@@ -7,11 +7,13 @@
 #include "GridGenerator.h"
 #include "GridPlayerController.h"
 #include "GridBaseNode.h"
+#include "MyGameInstance.h"
 #include "PacmanPawn.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class PACMANGRID_API APacmanPawn : public AGridPawn
 {
@@ -33,6 +35,9 @@ public:
 
 	FTimerHandle PowerModeTimer;
 
+	// game instance reference
+	UMyGameInstance* GameInstance;
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -40,6 +45,4 @@ protected:
 	virtual void SetTargetNode(AGridBaseNode* Node) override;
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
-	
-	int Score = 0;
 };

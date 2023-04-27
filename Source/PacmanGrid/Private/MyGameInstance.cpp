@@ -3,15 +3,16 @@
 
 #include "MyGameInstance.h"
 
-void UMyGameInstance::IncrementScore()
+void UMyGameInstance::setScore(int newvalue)
 {
-	Score += 10;
+	this->Score = newvalue;
 }
 
-int32 UMyGameInstance::GetScore()
+int UMyGameInstance::getScore()
 {
 	return Score;
 }
+
 
 int32 UMyGameInstance::GetLives()
 {

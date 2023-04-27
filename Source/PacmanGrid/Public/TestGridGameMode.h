@@ -52,22 +52,7 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	bool IsWin() const;
-
 	//tracks if the game is over
 	bool IsGameOver;
-	
-	//TODO:
-	//checks when point eaten if all the pellets have been eaten -> WIN
-	UFUNCTION(BlueprintCallable)
-		void CheckIfWin();
 
-	UFUNCTION(BlueprintCallable)
-		void setScore(int newvalue);
-	
-	UFUNCTION(BlueprintCallable)
-		int getScore();
-
-private:
-	int Score = 0;
 };

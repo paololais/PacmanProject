@@ -15,10 +15,6 @@ APointNode::APointNode()
     MeshComponent->SetupAttachment(Collider);
     FVector BoxDimension = FVector(40.f, 40.f, 120.f);
     Collider->SetBoxExtent(BoxDimension);
-
-    //get MyGameInstance reference
-    GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
 }
 
 void APointNode::BeginPlay()
@@ -27,13 +23,13 @@ void APointNode::BeginPlay()
     //registrazione degli eventi di collisione attraverso AddDynamic
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APointNode::OnBeginOverlap);
 
-    GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+    //GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
 }
 
-/*
+
 void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
+{   /*
     if (this->CheckNotEaten())
     {
         if (OtherActor->IsA(APacmanPawn::StaticClass()))
@@ -50,6 +46,5 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
         }
     }
-
+    */
 }
-*/

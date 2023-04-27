@@ -20,22 +20,22 @@ public:
 	UPROPERTY(EditAnywhere)
 		int32 Score = 0;
 
-	//increment score
-	void IncrementScore();
-
-	//get the score
 	UFUNCTION(BlueprintCallable)
-		int32 GetScore();
+		void setScore(int newvalue);
+
+	UFUNCTION(BlueprintCallable)
+		int getScore();
+
+
 
 	//vite pacman
 	UPROPERTY(EditAnywhere)
 		int32 Lives = 3;
 
-	//get lives
 	UFUNCTION(BlueprintCallable)
 		int32 GetLives();
 
-	//decrement lives
+	//decrement lives -1
 	void DecrementLives();
 
 };

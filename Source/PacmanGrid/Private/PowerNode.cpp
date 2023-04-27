@@ -23,12 +23,13 @@ void APowerNode::BeginPlay()
     //registrazione degli eventi di collisione attraverso AddDynamic
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APowerNode::OnBeginOverlap);
 
-    GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+    //GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
 }
-/*
+
 void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+    /*
     //check se non è mai stato mangiato
     if (this->CheckNotEaten())
     {
@@ -48,6 +49,6 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
         }
     }
+    */
 
 }
-*/
