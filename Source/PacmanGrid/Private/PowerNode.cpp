@@ -24,22 +24,22 @@ void APowerNode::BeginPlay()
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APowerNode::OnBeginOverlap);
 
     GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
-    TheGridGen = GameMode->GField;
 }
-
+/*
 void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     //check se non è mai stato mangiato
     if (this->CheckNotEaten())
     {
-        if (OtherActor->IsA(AGridPawn::StaticClass())) //check collisione con pacman
+        if (OtherActor->IsA(APacmanPawn::StaticClass())) //check collisione con pacman
         {
+            this->setEaten();
+
             APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
             const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
+           
             Pacman->PowerModeOn(); //mode powered On
-            this->setEaten();
-            SetActorHiddenInGame(true);
 
             int new_value = (GameMode->getScore()) + 50;
 
@@ -50,3 +50,4 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
     }
 
 }
+*/

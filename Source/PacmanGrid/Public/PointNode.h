@@ -39,7 +39,4 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		class ATestGridGameMode* GameMode;
-
-	UPROPERTY(VisibleAnywhere)
-		AGridGenerator* TheGridGen;
 };

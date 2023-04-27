@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PointNode.h"
+#include "PacmanPawn.h"
 #include "TestGridGameMode.h"
 
 
@@ -27,22 +28,19 @@ void APointNode::BeginPlay()
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APointNode::OnBeginOverlap);
 
     GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
-    TheGridGen = GameMode->GField;
-
 }
 
+/*
 void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
     if (this->CheckNotEaten())
     {
-        if (OtherActor->IsA(AGridPawn::StaticClass()))
+        if (OtherActor->IsA(APacmanPawn::StaticClass()))
         {
-            APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
-            const auto Pacman = Cast<AGridPawn>(PacmanController->GetPawn());
             this->setEaten();
-            SetActorHiddenInGame(true); 
-
+            APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
+            const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
 
             //Score System
             int new_value = (GameMode->getScore()) + 10;
@@ -50,11 +48,8 @@ void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
             GameMode->setScore(new_value);
 
             //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
-
-
-            //check if pacman has eaten all the food
-
         }
     }
 
 }
+*/

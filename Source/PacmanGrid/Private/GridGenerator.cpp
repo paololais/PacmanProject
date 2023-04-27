@@ -63,6 +63,7 @@ AGridGenerator::AGridGenerator()
 	PrimaryActorTick.bCanEverTick = true;
 	TileSize = 100.0f;
 	SpawnOffset = FVector(TileSize);
+	CountFood = 0;
 }
 
 // Called when the game starts or when spawned
@@ -116,14 +117,12 @@ void AGridGenerator::GenerateGrid()
 				FVector OffsetVectorZ(0, 0, 5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
-				CountFood++;
 			}
 
 			if (MapTile == '0') {
 				FVector OffsetVectorZ(0, 0, +5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
-				CountFood++;
 			}
 
 			if (Food != nullptr)
@@ -144,6 +143,7 @@ void AGridGenerator::GenerateGrid()
 			}
 		}
 	}
+	SetCountFood(EatableEntityMap.Num());
 }
 
 AGridBaseNode* AGridGenerator::GetNodeByCoords(const FVector2D Coords)
@@ -198,7 +198,7 @@ TArray<FDirNode> AGridGenerator::GetNodeNeighbours(const AGridBaseNode* Node)
 }
 
 
-int32 AGridGenerator::GetCountFood()
+int AGridGenerator::GetCountFood()
 {
 	return CountFood;
 }
@@ -221,8 +221,8 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	else if (CharId == 'B')
 	{
 		ClassToSpawn = PowerN;
-		FVector OffsetVectorZ(0, 0, 5.0f);
-		FVector PositionShifted = Position + OffsetVectorZ;
+		//FVector OffsetVectorZ(0, 0, 5.0f);
+		//FVector PositionShifted = Position + OffsetVectorZ;
 		//Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
 	}
 	else if (CharId == 'N')
@@ -276,8 +276,8 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 		ClassToSpawn = LabyrinthNode;
 		// ClassToSpawn = PointNode;
 
-		FVector OffsetVectorZ(0, 0, +5.0f);
-		FVector PositionShifted = Position + OffsetVectorZ;
+		//FVector OffsetVectorZ(0, 0, +5.0f);
+		//FVector PositionShifted = Position + OffsetVectorZ;
 		//Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
 	}
 

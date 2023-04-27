@@ -5,7 +5,6 @@
 #include "GridPlayerController.h"
 #include "GridPawn.h"
 #include "PacmanPawn.h"
-#include "ScoreUserWidget.h"
 #include "Blueprint/UserWidget.h"
 
 ATestGridGameMode::ATestGridGameMode()
@@ -55,6 +54,23 @@ void ATestGridGameMode::BeginPlay()
 }
 
 
+void ATestGridGameMode::setScore(int newvalue)
+{
+	this->Score = newvalue;
+}
+
+int ATestGridGameMode::getScore()
+{
+	return Score;
+}
+
+
+void ATestGridGameMode::CheckIfWin()
+{
+
+}
+
+
 //TODO
 bool ATestGridGameMode::IsWin() const
 {
@@ -85,14 +101,4 @@ bool ATestGridGameMode::IsWin() const
 		return false;
 	}
 	return false;
-}
-
-void ATestGridGameMode::setScore(int newvalue)
-{
-	this->Score = newvalue;
-}
-
-int ATestGridGameMode::getScore()
-{
-	return Score;
 }

@@ -2,6 +2,9 @@
 
 
 #include "PacmanPawn.h"
+#include "PointNode.h"
+#include "PowerNode.h"
+#include "TestGridGameMode.h"
 
 APacmanPawn::APacmanPawn()
 {
@@ -28,6 +31,9 @@ void APacmanPawn::BeginPlay()
 	//// posizione iniziale del pawn
 	FVector2D StartNode = TheGridGen->GetXYPositionByRelativeLocation(GetActorLocation());
 	LastNode = TheGridGen->TileMap[StartNode];
+
+	GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+
 }
 
 void APacmanPawn::SetVerticalInput(float AxisValue)
@@ -91,27 +97,61 @@ void APacmanPawn::SetTargetNode(AGridBaseNode* Node)
 
 void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const auto PointNode = Cast<AGridBaseNode>(OtherActor);
+	if (OtherActor->IsA(APowerNode::StaticClass())) {
+		const auto Point = Cast<APowerNode>(OtherActor);
+		if (IsValid(Point) && Point->CheckNotEaten())
+		{
+			//punto mangiato viene settato a Eaten e nascosto
+			Point->setEaten();
+			Point->SetActorHiddenInGame(true);
 
-	if (PointNode && PointNode->CanBeEat())
+			//Power Mode
+			this->PowerModeOn();
+
+			//Score System
+			int new_value = (GameMode->getScore()) + 50;
+
+			GameMode->setScore(new_value);
+
+			//decrement food count
+			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
+			TheGridGen->SetCountFood(new_foodcount);
+
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
+
+			//check if pacman has eaten all the food
+			if (TheGridGen->GetCountFood() == 0)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
+			}
+		}
+	}
+
+	if (OtherActor->IsA(APointNode::StaticClass()))
 	{
-		PointNode->Collider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		PointNode->StaticMesh->SetVisibility(false);
-		PointNode->IsEatable = false;
+		const auto Point = Cast<APointNode>(OtherActor);
+		if (IsValid(Point) && Point->CheckNotEaten())
+		{
+			//punto mangiato viene settato a Eaten e nascosto
+			Point->setEaten();
+			Point->SetActorHiddenInGame(true);
 
-		Score++;
+			//Score System
+			int new_value = (GameMode->getScore()) + 10;
 
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), Score));
+			GameMode->setScore(new_value);
 
+			//decrement food count
+			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
+			TheGridGen->SetCountFood(new_foodcount);
 
-		int count = TheGridGen->GetCountFood();
-		count--;
-		TheGridGen->SetCountFood(count);
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d pellets"), count));
-
-		if (count == 0) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the pellets")));
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
+			
+			//check if pacman has eaten all the food
+			if (TheGridGen->GetCountFood() == 0)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
+			}
 		}
 	}
 }

@@ -142,8 +142,10 @@ public:
 	// check if Pacman ate all the pellets
 	//bool IsWin(AEatableEntity* Food) const;
 
-	int32 GetCountFood();
+	UFUNCTION(BlueprintCallable)
+	int GetCountFood();
 
+	UFUNCTION(BlueprintCallable)
 	void SetCountFood(int count);
 
 private:
@@ -152,7 +154,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 		FVector SpawnOffset;
 
-	int32 CountFood = 0;
+	int CountFood;
 
 	void GenerateGrid();
 
