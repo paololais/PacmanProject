@@ -148,6 +148,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetCountFood(int count);
 
+	
 private:
 	AGridBaseNode* SpawnNodeActorById(char CharId, FVector Position) const;
 

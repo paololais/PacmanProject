@@ -123,7 +123,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
 			TheGridGen->SetCountFood(new_foodcount);
 
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
 
 			//check if pacman has eaten all the food
 			if (TheGridGen->GetCountFood() == 0)
@@ -153,7 +153,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
 			TheGridGen->SetCountFood(new_foodcount);
 
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
 			
 			//check if pacman has eaten all the food
 			if (TheGridGen->GetCountFood() == 0)

@@ -3,6 +3,7 @@
 
 #include "PhantomPawn.h"
 #include "PacmanPawn.h"
+#include "TestGridGameMode.h"
 #include "Kismet/GameplayStatics.h"
 
 APhantomPawn::APhantomPawn()
@@ -19,7 +20,10 @@ void APhantomPawn::BeginPlay()
 	Super::BeginPlay();
 	FVector2D StartNode = TheGridGen->GetXYPositionByRelativeLocation(GetActorLocation());
 	LastNode = TheGridGen->TileMap[StartNode];
+	
 	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
+
+	GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
 }
 
 void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -38,6 +42,8 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		//se player non ha più vite->destroy
 		if ((GameInstance->GetLives()) < 0)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
+			GameMode->IsGameOver = true;
 			Pacman->Destroy();
 		}
 	}

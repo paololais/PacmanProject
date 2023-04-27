@@ -65,10 +65,6 @@ void AGridPawn::Tick(float DeltaTime)
 	}
 }
 
-void AGridPawn::OnClick()
-{
-}
-
 void AGridPawn::HandleMovement()
 {
 	MoveToCurrentTargetNode();
