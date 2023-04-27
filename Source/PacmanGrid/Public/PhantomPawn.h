@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GridPawn.h"
+#include "MyGameInstance.h"
 #include "PhantomPawn.generated.h"
 
 /**
@@ -48,4 +49,7 @@ public:
 	UFUNCTION()
 		virtual AGridBaseNode* GetPlayerRelativeTarget();
 	void SetGhostTarget();
+
+	// game instance reference
+	UMyGameInstance* GameInstance;
 };

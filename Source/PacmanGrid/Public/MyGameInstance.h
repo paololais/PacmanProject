@@ -36,6 +36,6 @@ public:
 		int GetLives();
 
 	//decrement lives -1
-	void DecrementLives();
+	void SetLives(int newvalue);
 
 };

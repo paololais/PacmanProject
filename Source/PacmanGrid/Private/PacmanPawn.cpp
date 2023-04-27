@@ -4,7 +4,6 @@
 #include "PacmanPawn.h"
 #include "PointNode.h"
 #include "PowerNode.h"
-#include "MyGameInstance.h"
 #include "TestGridGameMode.h"
 
 APacmanPawn::APacmanPawn()

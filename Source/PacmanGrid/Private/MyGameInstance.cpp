@@ -19,7 +19,7 @@ int UMyGameInstance::GetLives()
 	return Lives;
 }
 
-void UMyGameInstance::DecrementLives()
+void UMyGameInstance::SetLives(int newvalue)
 {
-	Lives--;
+	this->Lives = newvalue;
 }

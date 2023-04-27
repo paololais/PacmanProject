@@ -9,6 +9,9 @@ APhantomPawn::APhantomPawn()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	// get the game instance reference
+	GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 }
 
 void APhantomPawn::BeginPlay()
@@ -22,12 +25,21 @@ void APhantomPawn::BeginPlay()
 void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	Super::OnOverlapBegin(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
-	const auto PN = Cast<APacmanPawn>(OtherActor);
-	if (PN)
-	{
-		//PN->Eat();
+
+	const auto Pacman = Cast<APacmanPawn>(OtherActor);
+	
+	if (Pacman && IsValid(GameInstance)){
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you")));
-		//PN->Destroy();
+
+		//decrementa vita di 1
+		int newvalue = (GameInstance->GetLives()) - 1;
+		GameInstance->SetLives(newvalue);
+
+		//se player non ha più vite->destroy
+		if ((GameInstance->GetLives()) < 0)
+		{
+			Pacman->Destroy();
+		}
 	}
 }
 
