@@ -45,13 +45,8 @@ void APowerNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
             GameMode->setScore(new_value);
 
-            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
+            //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
         }
     }
 
 }
-
-
-
-
-

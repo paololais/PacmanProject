@@ -52,16 +52,6 @@ void ATestGridGameMode::BeginPlay()
 	BlinkyPawn = GetWorld()->SpawnActor<ABlinky>(BlinkyClass, FVector((100 * 27) + 50, (100 * 26) + 50, 5.0f), FRotator(0, 0, 0));
 	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 5) + 50, (100 * 26) + 50, 5.0f), FRotator(0, 0, 0));
 
-	/*
-	//ui widget score
-	if (IsValid(WidgetClass)) {
-		ScoreUserWidget = Cast<UScoreUserWidget>(CreateWidget(GetWorld(), WidgetClass));
-
-		if (ScoreUserWidget != nullptr) {
-			ScoreUserWidget->AddToViewport();
-		}
-	}
-	*/
 }
 
 
