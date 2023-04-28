@@ -13,7 +13,7 @@
 class SoundCue;
 
 UENUM()
-enum class EEnemyState{
+enum EEnemyState{
 	Chase, //ghost chases pacman
 	Scatter, //ghost walks a default path
 	Frightened, //ghost can be eat by pacman
@@ -57,4 +57,21 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		USoundCue* PacmanDeadSound;
+
+	//gestione stati
+	UPROPERTY(EditAnywhere)
+		TEnumAsByte<EEnemyState> EEnemyState = Idle;
+
+	void SetChaseState();
+	bool IsChaseState();
+
+	void SetScatterState();
+	bool IsScatterState();
+
+	void SetFrightenedState();
+	bool IsFrightenedState();
+
+	void SetIdleState();
+	bool IsIdleState();
+
 };

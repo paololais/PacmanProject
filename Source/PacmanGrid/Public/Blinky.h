@@ -17,4 +17,7 @@ class PACMANGRID_API ABlinky : public APhantomPawn
 
 public:
 	ABlinky();
+
+protected:
+	virtual void BeginPlay() override;
 };

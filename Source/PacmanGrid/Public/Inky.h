@@ -18,4 +18,6 @@ class PACMANGRID_API AInky : public APhantomPawn
 public:
 	AInky();
 	
+protected:
+	virtual void BeginPlay() override;
 };

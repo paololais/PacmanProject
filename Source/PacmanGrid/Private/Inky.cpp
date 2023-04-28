@@ -12,3 +12,10 @@ AInky::AInky()
 {
 	CurrentGridCoords = FVector2D(5, 26);
 }
+
+void AInky::BeginPlay()
+{
+	Super::BeginPlay();
+
+	this->SetChaseState();
+}

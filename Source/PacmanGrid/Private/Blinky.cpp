@@ -12,3 +12,10 @@ ABlinky::ABlinky()
 {
 	CurrentGridCoords = FVector2D(27, 26);
 }
+
+void ABlinky::BeginPlay()
+{
+	Super::BeginPlay();
+
+	this->SetChaseState();
+}
