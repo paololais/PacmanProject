@@ -19,3 +19,16 @@ void AInky::BeginPlay()
 
 	this->SetChaseState();
 }
+
+void AInky::RespawnGhostStartingPosition()
+{
+	Super::RespawnGhostStartingPosition();
+
+	this->SetChaseState();
+
+	this->LastNode = (*(GridGenTMap.Find(FVector2D(5, 26))));
+	this->SetNextNode(*(GridGenTMap.Find(FVector2D(5, 26))));
+
+
+	this->SetActorLocation(FVector(550, 2650, this->GetActorLocation().Z));
+}

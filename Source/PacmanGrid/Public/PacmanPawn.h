@@ -43,6 +43,7 @@ public:
 	int GetNumberOfGhostsKilled();
 	void SetNumberOfGhostsKilled(int n);
 
+	void RespawnStartingPosition();
 
 protected:
 	virtual void BeginPlay() override;

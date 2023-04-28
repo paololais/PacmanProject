@@ -209,3 +209,12 @@ void APacmanPawn::PowerModeOff()
 
 	this->SetNumberOfGhostsKilled(0);
 }
+
+void APacmanPawn::RespawnStartingPosition() {
+	this->LastNode = (*(GridGenTMap.Find(FVector2D(1, 1))));
+	this->SetNextNode(*(GridGenTMap.Find(FVector2D(1, 1))));
+	this->SetTargetNode(NextNode);
+	this->LastInputDirection = FVector(0, 0, 0);
+	this->LastValidInputDirection = FVector(0, 0, 0);
+	this->SetActorLocation(FVector(150, 150, 0));
+}

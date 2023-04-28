@@ -47,6 +47,9 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			//play pacman dead sound
 			UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
 		
+			//respawn starting postion of pawns
+			GameMode->RespawnGame();
+
 			//se player non ha più vite->destroy
 			if ((GameInstance->GetLives()) <= 0)
 			{
@@ -148,6 +151,11 @@ void APhantomPawn::SetGhostTarget()
 	{
 		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
 	}
+}
+
+
+void APhantomPawn::RespawnGhostStartingPosition()
+{
 }
 
 void APhantomPawn::SetChaseState()

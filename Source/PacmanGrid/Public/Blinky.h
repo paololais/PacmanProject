@@ -18,6 +18,8 @@ class PACMANGRID_API ABlinky : public APhantomPawn
 public:
 	ABlinky();
 
+	virtual void RespawnGhostStartingPosition() override;
+
 protected:
 	virtual void BeginPlay() override;
 };

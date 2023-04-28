@@ -43,7 +43,7 @@ public:
 	ABlinky* BlinkyPawn;
 
 	UPROPERTY(VisibleAnywhere)
-		AInky* InkyPawn;
+	AInky* InkyPawn;
 
 	ATestGridGameMode();
 
@@ -55,4 +55,5 @@ public:
 	//tracks if the game is over
 	bool IsGameOver;
 
+	void RespawnGame();
 };

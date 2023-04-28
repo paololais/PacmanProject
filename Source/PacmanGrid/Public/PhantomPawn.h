@@ -61,6 +61,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		USoundCue* GhostDeadSound;
 
+	//respawn starting position
+	virtual void RespawnGhostStartingPosition();
+
 	//gestione stati
 	UPROPERTY(EditAnywhere)
 		TEnumAsByte<EEnemyState> EEnemyState = Idle;
