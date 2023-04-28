@@ -40,6 +40,9 @@ public:
 	// game instance reference
 	UMyGameInstance* GameInstance;
 
+	int GetNumberOfGhostsKilled();
+	void SetNumberOfGhostsKilled(int n);
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -52,4 +55,10 @@ private:
 		USoundCue* ConsumptionSound;
 	UPROPERTY(EditAnywhere)
 		USoundCue* EatingPowerSound;
+	UPROPERTY(VisibleAnywhere)
+		class APhantomPawn* Blinky;
+	UPROPERTY(VisibleAnywhere)
+		class APhantomPawn* Inky;
+
+	int NumberOfGhostsKilled = 0;
 };

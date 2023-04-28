@@ -17,7 +17,8 @@ enum EEnemyState{
 	Chase, //ghost chases pacman
 	Scatter, //ghost walks a default path
 	Frightened, //ghost can be eat by pacman
-	Idle //ghost in his house
+	Idle, //ghost in his house
+	Dead //ghost eaten by player when in frightened state
 };
 
 
@@ -57,6 +58,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		USoundCue* PacmanDeadSound;
+	UPROPERTY(EditAnywhere)
+		USoundCue* GhostDeadSound;
 
 	//gestione stati
 	UPROPERTY(EditAnywhere)
@@ -74,4 +77,6 @@ public:
 	void SetIdleState();
 	bool IsIdleState();
 
+	void SetDeadState();
+	bool IsDeadState();
 };

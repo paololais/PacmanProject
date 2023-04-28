@@ -29,6 +29,16 @@ void APacmanPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+int APacmanPawn::GetNumberOfGhostsKilled()
+{
+	return NumberOfGhostsKilled;
+}
+
+void APacmanPawn::SetNumberOfGhostsKilled(int n)
+{
+	this->NumberOfGhostsKilled = n;
+}
+
 void APacmanPawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -38,6 +48,9 @@ void APacmanPawn::BeginPlay()
 
 	GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
 
+	//get ghosts references
+	Blinky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
+	Inky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
 }
 
 void APacmanPawn::SetVerticalInput(float AxisValue)
@@ -178,10 +191,21 @@ void APacmanPawn::PowerModeOn()
 	// set timer to call UFUNCTION that resets speed to default value
 	// // should also enter in frightened mode, will do later
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);
+
+	//set ghosts in frightened mode
+	Blinky->SetFrightenedState();
+	Inky->SetFrightenedState();
+
 }
 
 void APacmanPawn::PowerModeOff()
 {
 	CurrentMovementSpeed = NormalMovementSpeed;
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
+
+	//set ghosts in Chase mode
+	Blinky->SetChaseState();
+	Inky->SetChaseState();
+
+	this->SetNumberOfGhostsKilled(0);
 }
