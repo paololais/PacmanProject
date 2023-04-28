@@ -9,6 +9,7 @@
 #include "Components/BoxComponent.h"
 #include "GridPawn.generated.h"
 
+class USoundCue;
 UCLASS()
 class PACMANGRID_API AGridPawn : public APawn
 {
@@ -33,6 +34,9 @@ public:
 		FVector2D GetLastNodeCoords() const;
 	UFUNCTION(BlueprintCallable)
 		FVector2D GetTargetNodeCoords() const;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* TeleportSound;
 
 protected:
 	// Called when the game starts or when spawned

@@ -4,6 +4,7 @@
 #include "PhantomPawn.h"
 #include "PacmanPawn.h"
 #include "TestGridGameMode.h"
+#include "Sound/SoundCue.h"
 #include "Kismet/GameplayStatics.h"
 
 APhantomPawn::APhantomPawn()
@@ -39,6 +40,10 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		int newvalue = (GameInstance->GetLives()) - 1;
 		GameInstance->SetLives(newvalue);
 
+
+		//play pacman dead sound
+		UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
+		
 		//se player non ha più vite->destroy
 		if ((GameInstance->GetLives()) < 0)
 		{

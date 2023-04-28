@@ -10,6 +10,8 @@
 /**
  * 
  */
+class SoundCue;
+
 UENUM()
 enum class EEnemyState{
 	Chase, //ghost chases pacman
@@ -52,4 +54,7 @@ public:
 
 	// game instance reference
 	UMyGameInstance* GameInstance;
+
+	UPROPERTY(EditAnywhere)
+		USoundCue* PacmanDeadSound;
 };

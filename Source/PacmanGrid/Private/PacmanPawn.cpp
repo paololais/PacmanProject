@@ -5,6 +5,7 @@
 #include "PointNode.h"
 #include "PowerNode.h"
 #include "TestGridGameMode.h"
+#include "Sound/SoundCue.h"
 
 APacmanPawn::APacmanPawn()
 {
@@ -108,6 +109,9 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			Point->setEaten();
 			Point->SetActorHiddenInGame(true);
 
+			//play sound
+			UGameplayStatics::PlaySound2D(this, EatingPowerSound);
+
 			//Power Mode
 			this->PowerModeOn();
 
@@ -139,6 +143,8 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		if (IsValid(Point) && Point->CheckNotEaten())
 		{
 			//punto mangiato viene settato a Eaten e nascosto
+			UGameplayStatics::PlaySound2D(this, ConsumptionSound);
+
 			Point->setEaten();
 			Point->SetActorHiddenInGame(true);
 

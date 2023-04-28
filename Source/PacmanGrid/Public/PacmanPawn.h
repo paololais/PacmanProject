@@ -14,6 +14,8 @@
  * 
  */
 
+class USoundCue;
+
 UCLASS()
 class PACMANGRID_API APacmanPawn : public AGridPawn
 {
@@ -45,4 +47,9 @@ protected:
 	virtual void SetTargetNode(AGridBaseNode* Node) override;
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+private: 
+	UPROPERTY(EditAnywhere)
+		USoundCue* ConsumptionSound;
+	UPROPERTY(EditAnywhere)
+		USoundCue* EatingPowerSound;
 };
