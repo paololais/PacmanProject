@@ -48,7 +48,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
 		
 			//respawn starting postion of pawns
-			GameMode->RespawnGame();
+			GameMode->RespawnPositions();
 
 			//se player non ha più vite->destroy
 			if ((GameInstance->GetLives()) <= 0)
@@ -73,7 +73,12 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			
 			this->SetDeadState();
 
-			this->SetActorLocation(FVector(1450,1250,0));
+			// set timer to call UFUNCTION that resets speed to default value
+			// // should also enter in frightened mode, will do later
+			//float DeadStateTime = 3;
+			//GetWorld()->GetTimerManager().SetTimer(DeadStateTimer, this, &APhantomPawn::RespawnGhostStartingPosition, DeadStateTime, false);
+
+			this->RespawnGhostStartingPosition();
 			//this->Destroy();
 
 			//score based on number of ghosts killed

@@ -117,11 +117,13 @@ void AGridPawn::OnNodeReached()
 	//passo dal portale sx
 	if (CurrentGridCoords == (FVector2D(14, 0))) {
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+		
 		//play sound
 		if (this->IsA(APacmanPawn::StaticClass()))
 		{
 			UGameplayStatics::PlaySound2D(this, TeleportSound);
 		}
+
 		const FVector Location(1450, 2750, GetActorLocation().Z);
 
 		LastNode = (*(GridGenTMap.Find(FVector2D(14, 27))));

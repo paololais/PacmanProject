@@ -55,5 +55,5 @@ public:
 	//tracks if the game is over
 	bool IsGameOver;
 
-	void RespawnGame();
+	void RespawnPositions();
 };

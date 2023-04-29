@@ -18,7 +18,7 @@ APacmanPawn::APacmanPawn()
 	LastInputDirection = FVector(0, 0, 0);
 	LastValidInputDirection = FVector(0, 0, 0);
 	////posizione iniziale  del pawn nelle coordinate di griglia (1,1)
-	CurrentGridCoords = FVector2D(1, 1);
+	CurrentGridCoords = FVector2D(5, 12);
 	
 	// get the game instance reference
 	GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -114,6 +114,7 @@ void APacmanPawn::SetTargetNode(AGridBaseNode* Node)
 
 void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//eating power pill
 	if (OtherActor->IsA(APowerNode::StaticClass())) {
 		const auto Point = Cast<APowerNode>(OtherActor);
 		if (IsValid(Point) && Point->CheckNotEaten())
@@ -150,6 +151,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		}
 	}
 
+	//eating point
 	if (OtherActor->IsA(APointNode::StaticClass()))
 	{
 		const auto Point = Cast<APointNode>(OtherActor);

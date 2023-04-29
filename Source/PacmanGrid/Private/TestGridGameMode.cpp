@@ -48,17 +48,17 @@ void ATestGridGameMode::BeginPlay()
 
 	//PacmanPawn =  GetWorld()->SpawnActor<APacmanPawn>(PacmanClass, FVector((500) + 50, (900) + 50, 5.0f), FRotator(0, 0, 0));
 
-	BlinkyPawn = GetWorld()->SpawnActor<ABlinky>(BlinkyClass, FVector((100 * 27) + 50, (100 * 26) + 50, 5.0f), FRotator(0, 0, 0));
-	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 5) + 50, (100 * 26) + 50, 5.0f), FRotator(0, 0, 0));
+	BlinkyPawn = GetWorld()->SpawnActor<ABlinky>(BlinkyClass, FVector((100 * 17) + 50, (100 * 10) + 50, 5.0f), FRotator(0, 0, 0));
+	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 17) + 50, (100 * 17) + 50, 5.0f), FRotator(0, 0, 0));
 
 }
 
-void ATestGridGameMode::RespawnGame()
+void ATestGridGameMode::RespawnPositions()
 {
-	BlinkyPawn = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
+	//BlinkyPawn = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
 	BlinkyPawn->RespawnGhostStartingPosition();
 
-	InkyPawn = Cast<AInky>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
+	//InkyPawn = Cast<AInky>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
 	InkyPawn->RespawnGhostStartingPosition();
 
 	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));

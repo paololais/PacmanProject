@@ -10,7 +10,7 @@ AGridBaseNode* ABlinky::GetPlayerRelativeTarget()
 
 ABlinky::ABlinky()
 {
-	CurrentGridCoords = FVector2D(27, 26);
+	CurrentGridCoords = FVector2D(17, 10);
 }
 
 void ABlinky::BeginPlay()
@@ -26,9 +26,10 @@ void ABlinky::RespawnGhostStartingPosition()
 
 	this->SetChaseState();
 
-	this->LastNode = (*(GridGenTMap.Find(FVector2D(27, 26))));
-	this->SetNextNode(*(GridGenTMap.Find(FVector2D(27, 26))));
+	CurrentGridCoords = FVector2D(17, 10);
+	LastNode = (*(GridGenTMap.Find(FVector2D(17, 10))));
+	SetNextNode(*(GridGenTMap.Find(FVector2D(17, 10))));
+	SetTargetNode(this->GetPlayerRelativeTarget());
 
-
-	this->SetActorLocation(FVector(2750, 2650, this->GetActorLocation().Z));
+	SetActorLocation(FVector(1750, 1050, this->GetActorLocation().Z));
 }
