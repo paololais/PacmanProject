@@ -75,7 +75,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 			// set timer to call UFUNCTION that resets speed to default value
 			// // should also enter in frightened mode, will do later
-			//float DeadStateTime = 3;
+			//float DeadStateTime = 4;
 			//GetWorld()->GetTimerManager().SetTimer(DeadStateTimer, this, &APhantomPawn::RespawnGhostStartingPosition, DeadStateTime, false);
 
 			this->RespawnGhostStartingPosition();

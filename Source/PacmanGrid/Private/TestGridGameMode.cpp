@@ -52,17 +52,25 @@ void ATestGridGameMode::BeginPlay()
 
 	BlinkyPawn = GetWorld()->SpawnActor<ABlinky>(BlinkyClass, FVector((100 * 17) + 50, (100 * 10) + 50, 5.0f), FRotator(0, 0, 0));
 	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 17) + 50, (100 * 17) + 50, 5.0f), FRotator(0, 0, 0));
-
+	PinkyPawn = GetWorld()->SpawnActor<APinky>(PinkyClass, FVector((100 * 17) + 50, (100 * 14) + 50, 5.0f), FRotator(0, 0, 0));
+	ClydePawn = GetWorld()->SpawnActor<AClyde>(ClydeClass, FVector((100 * 17) + 50, (100 * 12) + 50, 5.0f), FRotator(0, 0, 0));
 }
 
 
 void ATestGridGameMode::RespawnPositions()
 {
 	//BlinkyPawn = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
-	BlinkyPawn->RespawnGhostStartingPosition();
+	if (IsValid(BlinkyPawn))
+	{
+		BlinkyPawn->RespawnGhostStartingPosition();
+	}
 
 	//InkyPawn = Cast<AInky>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
 	InkyPawn->RespawnGhostStartingPosition();
+
+	PinkyPawn->RespawnGhostStartingPosition();
+
+	ClydePawn->RespawnGhostStartingPosition();
 
 	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 	PacmanPawn->RespawnStartingPosition();

@@ -7,6 +7,8 @@
 #include "GridPawn.h"
 #include "Blinky.h"
 #include "Inky.h"
+#include "Pinky.h"
+#include "Clyde.h"
 #include "GameFramework/GameMode.h"
 #include "TestGridGameMode.generated.h"
 
@@ -35,6 +37,12 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AInky> InkyClass;
+	
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<APinky> PinkyClass;
+	
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AClyde> ClydeClass;
 
 	UPROPERTY(VisibleAnywhere)
 		APacmanPawn* PacmanPawn;
@@ -44,6 +52,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	AInky* InkyPawn;
+
+	UPROPERTY(VisibleAnywhere)
+		APinky* PinkyPawn;
+
+	UPROPERTY(VisibleAnywhere)
+		AClyde* ClydePawn;
 
 	ATestGridGameMode();
 

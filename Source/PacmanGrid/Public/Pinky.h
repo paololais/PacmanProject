@@ -4,24 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "PhantomPawn.h"
-#include "Blinky.generated.h"
+#include "Pinky.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PACMANGRID_API ABlinky : public APhantomPawn
+class PACMANGRID_API APinky : public APhantomPawn
 {
 	GENERATED_BODY()
+	
 	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
 
 public:
-	ABlinky();
+	APinky();
 
 	virtual void RespawnGhostStartingPosition() override;
-
-	//my function that uses dijkstra algorithm to find shortest path to reach pacman
-	//int FindShortestPath(AGridBaseNode* CurrentNode, AGridBaseNode* TargetPosition);
+	
 
 protected:
 	virtual void BeginPlay() override;

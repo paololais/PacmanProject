@@ -51,6 +51,8 @@ void APacmanPawn::BeginPlay()
 	//get ghosts references
 	Blinky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
 	Inky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
+	Pinky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APinky::StaticClass()));
+	Clyde = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), AClyde::StaticClass()));
 }
 
 void APacmanPawn::SetVerticalInput(float AxisValue)
@@ -190,16 +192,29 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 void APacmanPawn::PowerModeOn()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
-	CurrentMovementSpeed = 800.0f;
+	CurrentMovementSpeed = 1000.0f;
 	float PowerModeTime = 10;
 	// set timer to call UFUNCTION that resets speed to default value
 	// // should also enter in frightened mode, will do later
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);
 
 	//set ghosts in frightened mode
-	Blinky->SetFrightenedState();
-	Inky->SetFrightenedState();
-
+	if (IsValid(Blinky))
+	{
+		Blinky->SetFrightenedState();
+	}
+	if (IsValid(Inky))
+	{
+		Inky->SetFrightenedState();
+	}
+	if (IsValid(Pinky))
+	{
+		Pinky->SetFrightenedState();
+	}
+	if (IsValid(Clyde))
+	{
+		Clyde->SetFrightenedState();
+	}
 }
 
 void APacmanPawn::PowerModeOff()
@@ -208,8 +223,22 @@ void APacmanPawn::PowerModeOff()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
 
 	//set ghosts in Chase mode
-	Blinky->SetChaseState();
-	Inky->SetChaseState();
+	if (IsValid(Blinky))
+	{
+		Blinky->SetChaseState();
+	}
+	if (IsValid(Inky))
+	{
+		Inky->SetChaseState();
+	}
+	if (IsValid(Pinky))
+	{
+		Pinky->SetChaseState();
+	}
+	if (IsValid(Clyde))
+	{
+		Clyde->SetChaseState();
+	}
 
 	this->SetNumberOfGhostsKilled(0);
 }

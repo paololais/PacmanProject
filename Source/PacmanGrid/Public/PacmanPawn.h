@@ -60,6 +60,10 @@ private:
 		class APhantomPawn* Blinky;
 	UPROPERTY(VisibleAnywhere)
 		class APhantomPawn* Inky;
+	UPROPERTY(VisibleAnywhere)
+		class APhantomPawn* Pinky;
+	UPROPERTY(VisibleAnywhere)
+		class APhantomPawn* Clyde;
 
 	int NumberOfGhostsKilled = 0;
 };
