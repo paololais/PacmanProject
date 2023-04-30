@@ -147,6 +147,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			if (TheGridGen->GetCountFood() == 0)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
+				GameMode->SetLevelWin();
 			}
 		}
 	}
@@ -180,6 +181,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			if (TheGridGen->GetCountFood() == 0)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
+				GameMode->SetLevelWin();
 			}
 		}
 	}

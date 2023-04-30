@@ -55,5 +55,10 @@ public:
 	//tracks if the game is over
 	bool IsGameOver;
 
+	//tracks if level is win
+	bool IsLevelWin;
+
+	void SetLevelWin();
+
 	void RespawnPositions();
 };

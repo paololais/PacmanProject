@@ -53,6 +53,8 @@ public:
 		virtual AGridBaseNode* GetPlayerRelativeTarget();
 	void SetGhostTarget();
 
+	FTimerHandle DeadStateTimer;
+
 	// game instance reference
 	UMyGameInstance* GameInstance;
 

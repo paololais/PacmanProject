@@ -45,6 +45,11 @@ void AEatableEntity::setEaten()
     this->EEatId = Eaten;
 }
 
+void AEatableEntity::setNotEaten()
+{
+    this->EEatId = NotEaten;
+}
+
 // Called when the game starts or when spawned
 void AEatableEntity::BeginPlay()
 {

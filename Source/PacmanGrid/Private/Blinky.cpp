@@ -24,12 +24,12 @@ void ABlinky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 
+	this->LastNode = (*(GridGenTMap.Find(FVector2D(17, 10))));
+	this->SetNextNode(*(GridGenTMap.Find(FVector2D(17, 10))));
+	this->SetTargetNode(this->GetPlayerRelativeTarget());
+
+	this->CurrentGridCoords = FVector2D(17, 10);
+	this->SetActorLocation(FVector(1750, 1050, this->GetActorLocation().Z));
+	
 	this->SetChaseState();
-
-	CurrentGridCoords = FVector2D(17, 10);
-	LastNode = (*(GridGenTMap.Find(FVector2D(17, 10))));
-	SetNextNode(*(GridGenTMap.Find(FVector2D(17, 10))));
-	SetTargetNode(this->GetPlayerRelativeTarget());
-
-	SetActorLocation(FVector(1750, 1050, this->GetActorLocation().Z));
 }

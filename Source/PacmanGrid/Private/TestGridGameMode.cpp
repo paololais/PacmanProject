@@ -22,6 +22,8 @@ void ATestGridGameMode::BeginPlay()
 	Super::BeginPlay();
 
 	IsGameOver = false;
+
+	IsLevelWin = false;
 	
 	// con questa posizione la tile di coordinate griglia (0,0) ha come
 	// coordinate nello spazio dello spigolo inferiore sinistro (0,0) 
@@ -53,6 +55,7 @@ void ATestGridGameMode::BeginPlay()
 
 }
 
+
 void ATestGridGameMode::RespawnPositions()
 {
 	//BlinkyPawn = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
@@ -65,4 +68,17 @@ void ATestGridGameMode::RespawnPositions()
 	PacmanPawn->RespawnStartingPosition();
 
 	//PacmanPawn =  GetWorld()->SpawnActor<APacmanPawn>(PacmanClass, FVector((500) + 50, (900) + 50, 5.0f), FRotator(0, 0, 0));	
+}
+
+void ATestGridGameMode::SetLevelWin()
+{
+	this->RespawnPositions();
+
+	TMap<FVector2D, AEatableEntity*> EatableMap = GField->GetEatableEntityMap();
+
+	for (auto It = EatableMap.CreateIterator(); It; ++It)
+	{	
+		It->Value->setNotEaten();
+		It->Value->SetActorHiddenInGame(false);
+	}
 }

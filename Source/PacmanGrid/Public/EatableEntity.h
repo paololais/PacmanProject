@@ -48,6 +48,7 @@ public:
 
 	//utili per gestione delle proprietà
 	void setEaten();
+	void setNotEaten();
 	int getPointValue();
 	bool CheckNotEaten();
 
