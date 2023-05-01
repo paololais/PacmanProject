@@ -24,12 +24,13 @@ void AClyde::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 
-	this->LastNode = (*(GridGenTMap.Find(FVector2D(17, 12))));
-	this->SetNextNode(*(GridGenTMap.Find(FVector2D(17, 12))));
-	this->SetTargetNode(this->GetPlayerRelativeTarget());
+	const FVector Location(1750, 1250, GetActorLocation().Z);
 
-	this->CurrentGridCoords = FVector2D(17, 12);
-	this->SetActorLocation(FVector(1750, 1250, this->GetActorLocation().Z));
+	LastNode = (*(GridGenTMap.Find(FVector2D(17, 12))));
+	SetNextNode(*(GridGenTMap.Find(FVector2D(17, 12))));
+	SetTargetNode(NextNode);
+
+	SetActorLocation(Location);
 
 	this->SetChaseState();
 }

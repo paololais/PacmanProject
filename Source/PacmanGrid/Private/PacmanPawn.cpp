@@ -193,6 +193,7 @@ void APacmanPawn::PowerModeOn()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
 	CurrentMovementSpeed = 1000.0f;
+	this->SetNumberOfGhostsKilled(0);
 	float PowerModeTime = 10;
 	// set timer to call UFUNCTION that resets speed to default value
 	// // should also enter in frightened mode, will do later
@@ -223,22 +224,10 @@ void APacmanPawn::PowerModeOff()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
 
 	//set ghosts in Chase mode
-	if (IsValid(Blinky))
-	{
-		Blinky->SetChaseState();
-	}
-	if (IsValid(Inky))
-	{
-		Inky->SetChaseState();
-	}
-	if (IsValid(Pinky))
-	{
-		Pinky->SetChaseState();
-	}
-	if (IsValid(Clyde))
-	{
-		Clyde->SetChaseState();
-	}
+	Blinky->SetChaseState();
+	Inky->SetChaseState();
+	Pinky->SetChaseState();
+	Clyde->SetChaseState();
 
 	this->SetNumberOfGhostsKilled(0);
 }
