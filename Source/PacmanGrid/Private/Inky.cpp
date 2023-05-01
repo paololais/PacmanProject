@@ -34,3 +34,24 @@ void AInky::RespawnGhostStartingPosition()
 
 	this->SetChaseState();
 }
+
+void AInky::GoHome() {
+	//this->SetDeadState();
+
+	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(17, 17)));
+
+	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
+
+	//const FVector Dimensions(60, 60, 20);
+	//DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
+
+	if (PossibleNode)
+	{
+		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
+	}
+
+	if (CurrentGridCoords == FVector2D(17, 17))
+	{
+		this->SetChaseState();
+	}
+}

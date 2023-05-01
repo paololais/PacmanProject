@@ -21,6 +21,8 @@ public:
 
 	virtual void RespawnGhostStartingPosition() override;
 	
+	virtual void GoHome() override;
+
 
 protected:
 	virtual void BeginPlay() override;

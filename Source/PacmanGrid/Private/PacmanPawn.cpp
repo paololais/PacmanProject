@@ -194,9 +194,8 @@ void APacmanPawn::PowerModeOn()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
 	CurrentMovementSpeed = 1000.0f;
 	this->SetNumberOfGhostsKilled(0);
+
 	float PowerModeTime = 10;
-	// set timer to call UFUNCTION that resets speed to default value
-	// // should also enter in frightened mode, will do later
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);
 
 	//set ghosts in frightened mode
@@ -224,19 +223,31 @@ void APacmanPawn::PowerModeOff()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
 
 	//set ghosts in Chase mode
-	Blinky->SetChaseState();
-	Inky->SetChaseState();
-	Pinky->SetChaseState();
-	Clyde->SetChaseState();
+	if (IsValid(Blinky))
+	{
+		Blinky->SetChaseState();
+	}
+	if (IsValid(Inky))
+	{
+		Inky->SetChaseState();
+	}
+	if (IsValid(Pinky))
+	{
+		Pinky->SetChaseState();
+	}
+	if (IsValid(Clyde))
+	{
+		Clyde->SetChaseState();
+	}
 
 	this->SetNumberOfGhostsKilled(0);
 }
 
 void APacmanPawn::RespawnStartingPosition() {
-	this->LastNode = (*(GridGenTMap.Find(FVector2D(1, 1))));
-	this->SetNextNode(*(GridGenTMap.Find(FVector2D(1, 1))));
+	this->LastNode = (*(GridGenTMap.Find(FVector2D(5, 12))));
+	this->SetNextNode(*(GridGenTMap.Find(FVector2D(5, 12))));
 	this->SetTargetNode(NextNode);
 	this->LastInputDirection = FVector(0, 0, 0);
 	this->LastValidInputDirection = FVector(0, 0, 0);
-	this->SetActorLocation(FVector(150, 150, 0));
+	this->SetActorLocation(FVector(550, 1250, 0));
 }

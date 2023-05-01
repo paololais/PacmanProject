@@ -34,3 +34,23 @@ void APinky::RespawnGhostStartingPosition()
 	
 	this->SetChaseState();
 }
+
+void APinky::GoHome() {
+	this->SetDeadState();
+
+	//target node (17,14)
+
+	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(17, 14)));
+
+	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
+
+	if (PossibleNode)
+	{
+		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
+	}
+
+	if (CurrentGridCoords == FVector2D(17, 14))
+	{
+		this->SetChaseState();
+	}
+}

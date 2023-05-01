@@ -73,14 +73,6 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			
 			this->SetDeadState();
 
-			// set timer to call UFUNCTION that resets speed to default value
-			// // should also enter in frightened mode, will do later
-			//float DeadStateTime = 4;
-			//GetWorld()->GetTimerManager().SetTimer(DeadStateTimer, this, &APhantomPawn::RespawnGhostStartingPosition, DeadStateTime, false);
-
-			this->RespawnGhostStartingPosition();
-			//this->Destroy();
-
 			//score based on number of ghosts killed
 			if (IsValid(GameInstance)) {
 				int new_score = (GameInstance->getScore());
@@ -140,31 +132,51 @@ AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 }
 
 void APhantomPawn::SetGhostTarget()
-{
-	const AGridBaseNode* Target = GetPlayerRelativeTarget();
-	if (!Target)
+{	
+	//chase state allora insegue player, da togliere frightenedstate
+	if (this->IsChaseState()||this->IsFrightenedState())
 	{
-		Target = GetPlayer()->GetLastNode();
+		const AGridBaseNode* Target = GetPlayerRelativeTarget();
+		if (!Target)
+		{
+			Target = GetPlayer()->GetLastNode();
+		}
+
+		AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
+
+		//const FVector Dimensions(60, 60, 20);
+		//DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
+
+		if (PossibleNode)
+		{
+			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
+		}
 	}
-
-	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
-
-	//const FVector Dimensions(60, 60, 20);
-	//DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
-
-	if (PossibleNode)
+	if (this->IsDeadState())
 	{
-		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
+		//override della casella home per ciascun ghost
+		this->GoHome();
 	}
 }
 
-
+//in override in ciascun ghost
 void APhantomPawn::RespawnGhostStartingPosition()
 {
 }
 
+//in override in ciascun ghost
+void APhantomPawn::GoHome()
+{
+}
+
+void APhantomPawn::ChangeDirection() {
+
+}
+
 void APhantomPawn::SetChaseState()
 {
+	//todo: change direction
+
 	this->EEnemyState = Chase;
 }
 
@@ -177,6 +189,7 @@ bool APhantomPawn::IsChaseState()
 
 void APhantomPawn::SetScatterState()
 {
+	//todo: change direction
 	this->EEnemyState = Scatter;
 }
 
@@ -189,6 +202,9 @@ bool APhantomPawn::IsScatterState()
 
 void APhantomPawn::SetFrightenedState()
 {
+	//todo: change direction
+
+
 	this->EEnemyState = Frightened;
 }
 

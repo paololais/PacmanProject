@@ -34,3 +34,21 @@ void AClyde::RespawnGhostStartingPosition()
 
 	this->SetChaseState();
 }
+
+void AClyde::GoHome() {
+	this->SetDeadState();
+
+	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(17, 12)));
+
+	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
+
+	if (PossibleNode)
+	{
+		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
+	}
+
+	if (CurrentGridCoords == FVector2D(17, 12))
+	{
+		this->SetChaseState();
+	}
+}

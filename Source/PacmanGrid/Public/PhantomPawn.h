@@ -66,6 +66,11 @@ public:
 	//respawn starting position
 	virtual void RespawnGhostStartingPosition();
 
+	//go back in assigned position (when eaten by player)
+	virtual void GoHome();
+
+	void ChangeDirection();
+
 	//gestione stati
 	UPROPERTY(EditAnywhere)
 		TEnumAsByte<EEnemyState> EEnemyState = Idle;
