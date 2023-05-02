@@ -14,6 +14,10 @@ APhantomPawn::APhantomPawn()
 
 	// get the game instance reference
 	GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
+	DeadSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Engine/MapTemplates/Sky/M_BlackBackground.M_BlackBackground'"));
+
+	VulnerableSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_Blue.M_Blue'"));
 }
 
 void APhantomPawn::BeginPlay()
@@ -21,7 +25,7 @@ void APhantomPawn::BeginPlay()
 	Super::BeginPlay();
 	FVector2D StartNode = TheGridGen->GetXYPositionByRelativeLocation(GetActorLocation());
 	LastNode = TheGridGen->TileMap[StartNode];
-	
+
 	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 
 	GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
@@ -32,11 +36,11 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	Super::OnOverlapBegin(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 
 	const auto Pacman = Cast<APacmanPawn>(OtherActor);
-	
+
 	//chase state
 	if (this->IsChaseState() || this->IsScatterState())
 	{
-		if (Pacman && IsValid(GameInstance)){
+		if (Pacman && IsValid(GameInstance)) {
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you")));
 
 			//decrementa vita di 1
@@ -46,7 +50,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 			//play pacman dead sound
 			UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
-		
+
 			//respawn starting postion of pawns
 			GameMode->RespawnPositions();
 
@@ -70,7 +74,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			Pacman->SetNumberOfGhostsKilled(killings);
 
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("ghosts killed: %d"), killings));
-			
+
 			this->SetDeadState();
 
 			//score based on number of ghosts killed
@@ -132,9 +136,9 @@ AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 }
 
 void APhantomPawn::SetGhostTarget()
-{	
+{
 	//chase state allora insegue player, da togliere frightenedstate
-	if (this->IsChaseState()||this->IsFrightenedState())
+	if (this->IsChaseState() || this->IsFrightenedState())
 	{
 		const AGridBaseNode* Target = GetPlayerRelativeTarget();
 		if (!Target)
@@ -176,6 +180,7 @@ void APhantomPawn::ChangeDirection() {
 void APhantomPawn::SetChaseState()
 {
 	//todo: change direction
+	StaticMesh->SetMaterial(2, DefaultSkin);
 
 	this->EEnemyState = Chase;
 }
@@ -190,6 +195,7 @@ bool APhantomPawn::IsChaseState()
 void APhantomPawn::SetScatterState()
 {
 	//todo: change direction
+	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Scatter;
 }
 
@@ -203,7 +209,7 @@ bool APhantomPawn::IsScatterState()
 void APhantomPawn::SetFrightenedState()
 {
 	//todo: change direction
-
+	StaticMesh->SetMaterial(2, VulnerableSkin);
 
 	this->EEnemyState = Frightened;
 }
@@ -217,6 +223,7 @@ bool APhantomPawn::IsFrightenedState()
 
 void APhantomPawn::SetIdleState()
 {
+	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Idle;
 }
 
@@ -229,6 +236,8 @@ bool APhantomPawn::IsIdleState()
 
 void APhantomPawn::SetDeadState()
 {
+	StaticMesh->SetMaterial(2, DeadSkin);
+
 	this->EEnemyState = Dead;
 }
 

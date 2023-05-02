@@ -63,6 +63,16 @@ public:
 	UPROPERTY(EditAnywhere)
 		USoundCue* GhostDeadSound;
 
+	//skins
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* DefaultSkin;
+
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* VulnerableSkin;
+
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* DeadSkin;
+
 	//respawn starting position
 	virtual void RespawnGhostStartingPosition();
 

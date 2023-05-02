@@ -192,7 +192,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 void APacmanPawn::PowerModeOn()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
-	CurrentMovementSpeed = 1000.0f;
+	CurrentMovementSpeed = 800.0f;
 	this->SetNumberOfGhostsKilled(0);
 
 	float PowerModeTime = 10;
