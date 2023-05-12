@@ -39,7 +39,6 @@ protected:
 
 	virtual void OnNodeReached() override;
 
-private:
 	UPROPERTY(VisibleAnywhere)
 		class APacmanPawn* Player;
 
@@ -80,6 +79,16 @@ public:
 	virtual void GoHome();
 
 	void ChangeDirection();
+
+	//function called when ghost is in scattered mode
+	//every ghost as an assigned corner to go
+	virtual void GoToHisCorner();
+
+	FTimerHandle ScatterModeTimer;
+
+	FTimerHandle ChaseModeTimer;
+
+	void AlternateScatterChase();
 
 	//gestione stati
 	UPROPERTY(EditAnywhere)

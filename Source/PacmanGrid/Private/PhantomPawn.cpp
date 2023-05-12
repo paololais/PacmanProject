@@ -161,6 +161,11 @@ void APhantomPawn::SetGhostTarget()
 		//override della casella home per ciascun ghost
 		this->GoHome();
 	}
+
+	if (this->IsScatterState()) {
+
+		this->GoToHisCorner();
+	}
 }
 
 //in override in ciascun ghost
@@ -175,6 +180,42 @@ void APhantomPawn::GoHome()
 
 void APhantomPawn::ChangeDirection() {
 
+}
+
+void APhantomPawn::GoToHisCorner()
+{
+}
+
+void APhantomPawn::AlternateScatterChase()
+{
+	float ChaseModeTime = 20;
+	float ScatterModeTime = 7;
+	
+	//scatterMode 7 secondi
+	this->SetScatterState();
+	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+
+	//chase 20 secondi
+	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
+	
+	//scatterMode 7 secondi
+	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+
+	//chase 20 secondi
+	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
+
+	//scatterMode 5 secondi
+	ScatterModeTime = 5;
+	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+
+	//chase 20 secondi
+	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
+
+	//scatterMode 5 secondi
+	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+
+	// Chase Mode per sempre
+    GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetChaseState, 0.0f, true);
 }
 
 void APhantomPawn::SetChaseState()

@@ -18,10 +18,11 @@ class PACMANGRID_API AInky : public APhantomPawn
 public:
 	AInky();
 
-	virtual void RespawnGhostStartingPosition() override;
+	void RespawnGhostStartingPosition() override;
 
-	virtual void GoHome() override;
+	void GoHome() override;
 
+	void GoToHisCorner() override;
 	
 protected:
 	virtual void BeginPlay() override;

@@ -27,6 +27,7 @@ APacmanPawn::APacmanPawn()
 void APacmanPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
 int APacmanPawn::GetNumberOfGhostsKilled()

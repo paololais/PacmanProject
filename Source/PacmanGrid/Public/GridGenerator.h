@@ -133,15 +133,6 @@ public:
 
 	AGridBaseNode* GetNextNode(const FVector2D StartCoords, FVector InputDir);
 
-	//TODO
-	//function that respawns the pawns for example when the pacman is touched by a ghost 
-	//and he still has lives
-	UFUNCTION(BlueprintCallable)
-		void RespawnStartingPosition();
-
-	// check if Pacman ate all the pellets
-	//bool IsWin(AEatableEntity* Food) const;
-
 	UFUNCTION(BlueprintCallable)
 	int GetCountFood();
 

@@ -55,3 +55,7 @@ void AInky::GoHome() {
 		this->SetChaseState();
 	}
 }
+
+void AInky::GoToHisCorner()
+{
+}

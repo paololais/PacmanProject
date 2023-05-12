@@ -20,10 +20,9 @@ public:
 
 	virtual void RespawnGhostStartingPosition() override;
 
-	virtual void GoHome() override;
+	void GoHome() override;
 
-	//my function that uses dijkstra algorithm to find shortest path to reach pacman
-	//int FindShortestPath(AGridBaseNode* CurrentNode, AGridBaseNode* TargetPosition);
+	void GoToHisCorner() override;
 
 protected:
 	virtual void BeginPlay() override;

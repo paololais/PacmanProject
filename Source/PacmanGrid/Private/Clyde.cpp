@@ -52,3 +52,7 @@ void AClyde::GoHome() {
 		this->SetChaseState();
 	}
 }
+
+void AClyde::GoToHisCorner()
+{
+}
