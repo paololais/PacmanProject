@@ -221,9 +221,6 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	else if (CharId == 'B')
 	{
 		ClassToSpawn = PowerN;
-		//FVector OffsetVectorZ(0, 0, 5.0f);
-		//FVector PositionShifted = Position + OffsetVectorZ;
-		//Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
 	}
 	else if (CharId == 'N')
 	{
@@ -271,29 +268,8 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	}
 	else
 	{
-		// ho creato un nuovo nodo per la visualizzazione del percorso
-		// da sostituire eventualmente con un "pallino"  rappresentante il cibo"
 		ClassToSpawn = LabyrinthNode;
-		// ClassToSpawn = PointNode;
-
-		//FVector OffsetVectorZ(0, 0, +5.0f);
-		//FVector PositionShifted = Position + OffsetVectorZ;
-		//Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
 	}
-
-	//aggiugo alle strutture dati di riferimento gli oggetti EatableEntity spawnate
-	/*
-	if (Food != nullptr)
-	{
-		const auto SpawnedEatableEntity = Food;
-		//conversione delle cordinate in 2D
-		FVector2D Position2D = (Position.X, Position.Y);
-		//associo la posizione della griglia del oggetto spawnato
-		SpawnedEatableEntity->EatableEntityPosition = (Position2D);
-		//associo le coordinate spaziali
-		SpawnedEatableEntity->EatableEntityCoordinatesPosition = Position;
-	}
-	*/
 	Node = GetWorld()->SpawnActor<AGridBaseNode>(ClassToSpawn, Position, FRotator::ZeroRotator);
 	return Node;
 }

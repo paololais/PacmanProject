@@ -80,7 +80,7 @@ void APacmanPawn::OnClick()
 	if (AGridBaseNode* CurrTile = Cast<AGridBaseNode>(Hit.GetActor()))
 	{
 		FVector2D CurrCoords = CurrTile->GetGridPosition();
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Position x=%f  Y=%f "), CurrCoords.X, CurrCoords.Y));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Position x=%f  Y=%f "), CurrCoords.X, CurrCoords.Y));
 	}
 }
 
@@ -149,8 +149,14 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			//check if pacman has eaten all the food
 			if (TheGridGen->GetCountFood() == 0)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
-				GameMode->SetLevelWin();
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
+				this->Destroy();
+
+				GameMode->BlinkyPawn->Destroy();
+				GameMode->InkyPawn->Destroy();
+				GameMode->PinkyPawn->Destroy();
+				GameMode->ClydePawn->Destroy();
+				GameMode->ShowGameWinScreen();
 			}
 		}
 	}
@@ -183,8 +189,15 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			//check if pacman has eaten all the food
 			if (TheGridGen->GetCountFood() == 0)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
-				GameMode->SetLevelWin();
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
+				this->Destroy();
+
+				GameMode->BlinkyPawn->Destroy();
+				GameMode->InkyPawn->Destroy();
+				GameMode->PinkyPawn->Destroy();
+				GameMode->ClydePawn->Destroy();
+
+				GameMode->ShowGameWinScreen();
 			}
 		}
 	}

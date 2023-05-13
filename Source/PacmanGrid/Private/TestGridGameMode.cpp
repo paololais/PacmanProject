@@ -5,6 +5,8 @@
 #include "GridPlayerController.h"
 #include "GridPawn.h"
 #include "PacmanPawn.h"
+#include "GameOverWIdget.h"
+#include "GameWinWidget.h"
 #include "Blueprint/UserWidget.h"
 
 ATestGridGameMode::ATestGridGameMode()
@@ -24,6 +26,7 @@ void ATestGridGameMode::BeginPlay()
 	IsGameOver = false;
 
 	IsLevelWin = false;
+
 	
 	// con questa posizione la tile di coordinate griglia (0,0) ha come
 	// coordinate nello spazio dello spigolo inferiore sinistro (0,0) 
@@ -88,5 +91,34 @@ void ATestGridGameMode::SetLevelWin()
 	{	
 		It->Value->setNotEaten();
 		It->Value->SetActorHiddenInGame(false);
+	}
+}
+
+void ATestGridGameMode::ShowGameOverScreen()
+{
+	// Verifica se il widget "GameOverWidget" è valido
+	if (IsValid(GameOverWidgetClass))
+	{
+		GameOverWidget = Cast<UGameOverWIdget>(CreateWidget(GetWorld(), GameOverWidgetClass));
+
+		if (GameOverWidget != nullptr)
+		{
+			// Mostra il widget sulla viewport
+			GameOverWidget->AddToViewport();
+		}
+	}
+}
+
+void ATestGridGameMode::ShowGameWinScreen()
+{
+	if (IsValid(GameWinWidgetClass))
+	{
+		GameWinWidget = Cast<UGameWinWidget>(CreateWidget(GetWorld(), GameWinWidgetClass));
+
+		if (GameWinWidget != nullptr)
+		{
+			// Mostra il widget sulla viewport
+			GameWinWidget->AddToViewport();
+		}
 	}
 }

@@ -57,23 +57,30 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			//se player non ha più vite->destroy
 			if ((GameInstance->GetLives()) <= 0)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
 				GameMode->IsGameOver = true;
 				Pacman->Destroy();
+				
+				GameMode->BlinkyPawn->Destroy();
+				GameMode->InkyPawn->Destroy();
+				GameMode->PinkyPawn->Destroy();
+				GameMode->ClydePawn->Destroy();
+
+				GameMode->ShowGameOverScreen();
 			}
 		}
 	}
 
 	else if (this->IsFrightenedState()) {
 		if (Pacman) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("you killed a ghost")));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("you killed a ghost")));
 
 			UGameplayStatics::PlaySound2D(this, GhostDeadSound);
 
 			int killings = Pacman->GetNumberOfGhostsKilled() + 1;
 			Pacman->SetNumberOfGhostsKilled(killings);
 
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("ghosts killed: %d"), killings));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("ghosts killed: %d"), killings));
 
 			this->SetDeadState();
 
@@ -137,8 +144,8 @@ AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 
 void APhantomPawn::SetGhostTarget()
 {
-	//chase state allora insegue player, da togliere frightenedstate
-	if (this->IsChaseState() || this->IsFrightenedState())
+	//chase state allora insegue player
+	if (this->IsChaseState())
 	{
 		const AGridBaseNode* Target = GetPlayerRelativeTarget();
 		if (!Target)
@@ -165,6 +172,24 @@ void APhantomPawn::SetGhostTarget()
 	if (this->IsScatterState()) {
 
 		this->GoToHisCorner();
+	}
+
+	if (this->IsFrightenedState())
+	{
+		// Randomly select a target node for the ghost
+		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
+		if (AllNodes.Num() > 0)
+		{
+			int32 RandomIndex = FMath::RandRange(0, AllNodes.Num() - 1);
+			AGridBaseNode* RandomNode = AllNodes[RandomIndex];
+			
+			AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), RandomNode->GetGridPosition(), -(this->GetLastValidDirection()));
+
+			if (PossibleNode)
+			{
+				this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
+			}
+		}
 	}
 }
 

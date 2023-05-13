@@ -67,7 +67,7 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 			Target = (*(GridGenTMap.Find(TargetCoords)));
 		}
 	
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
 		return Target;
 	}
 

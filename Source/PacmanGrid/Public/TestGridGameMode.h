@@ -59,6 +59,22 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		AClyde* ClydePawn;
 
+	UPROPERTY(EditAnywhere, Category="Class Types")
+		TSubclassOf<UUserWidget> GameOverWidgetClass;
+
+	UPROPERTY(VisibleInstanceOnly, Category="Runtime")
+		class UGameOverWIdget* GameOverWidget;
+
+	UPROPERTY(EditAnywhere, Category = "Class Types")
+		TSubclassOf<UUserWidget> GameWinWidgetClass;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+		class UGameWinWidget* GameWinWidget;
+
+	void ShowGameOverScreen();
+
+	void ShowGameWinScreen();
+
 	ATestGridGameMode();
 
 	~ATestGridGameMode();
