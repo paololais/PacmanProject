@@ -2,9 +2,75 @@
 
 
 #include "Inky.h"
+#include "PacmanPawn.h"
+#include <Kismet/GameplayStatics.h>
 
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
 {
+	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
+	if (IsValid(Player)) {
+
+		FVector PlayerDirection = Player->GetLastValidDirection();
+
+		FVector2D PlayerCoords = Player->GetLastNodeCoords();
+
+		FVector2D TargetCoords = PlayerCoords;
+
+		AGridBaseNode* Target = nullptr;
+
+		//direzione verso l'alto
+		if (PlayerDirection == FVector(1, 0, 0))
+		{
+			TargetCoords += FVector2D(4, -4);
+			if (TargetCoords.Y < 0)
+			{
+				TargetCoords.Y += 3;
+			}
+			if (TargetCoords.X > 29)
+			{
+				TargetCoords.X -= 3;
+			}
+
+			Target = (*(GridGenTMap.Find(TargetCoords)));
+
+		}
+		//verso il basso
+		else if (PlayerDirection == FVector(-1, 0, 0))
+		{
+			TargetCoords += FVector2D(-4, 0);
+			if (TargetCoords.X < 0)
+			{
+				TargetCoords.X += 3;
+			}
+			Target = (*(GridGenTMap.Find(TargetCoords)));
+		}
+		//verso dx
+		else if (PlayerDirection == FVector(0, 1, 0))
+		{
+			TargetCoords += FVector2D(0, 4);
+			//gestione offset se la tile è fuori dal labirinto
+			if (TargetCoords.Y > 27)
+			{
+				TargetCoords.Y -= 3;
+			}
+
+			Target = (*(GridGenTMap.Find(TargetCoords)));
+		}
+		//verso sx
+		else if (PlayerDirection == FVector(0, -1, 0))
+		{
+			TargetCoords += FVector2D(0, -4);
+			if (TargetCoords.Y < 0)
+			{
+				TargetCoords.Y += 3;
+			}
+			Target = (*(GridGenTMap.Find(TargetCoords)));
+		}
+
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
+		return Target;
+	}
+
 	return Super::GetPlayerRelativeTarget();
 }
 

@@ -6,6 +6,7 @@
 #include "PowerNode.h"
 #include "TestGridGameMode.h"
 #include "Sound/SoundCue.h"
+#include "Math/Rotator.h"
 
 APacmanPawn::APacmanPawn()
 {
@@ -63,6 +64,21 @@ void APacmanPawn::SetVerticalInput(float AxisValue)
 	LastInputDirection = Dir.GetSafeNormal();
 	APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
 	SetNextNodeByDir(LastInputDirection);
+
+	// Calcola la rotazione desiderata in base all'input
+	float YawRotation = 0.0f;
+	float PitchRotation = 0.0f;
+	if (LastInputDirection.X > 0) // Va verso l'alto
+	{
+		YawRotation = 0.f;
+	}
+	else if (LastInputDirection.X < 0) // Va verso il basso
+	{
+		YawRotation = 180.f;
+	}
+
+	StaticMesh->SetWorldRotation(FRotator(PitchRotation, YawRotation, 0));
+
 }
 
 void APacmanPawn::SetHorizontalInput(float AxisValue)
@@ -71,6 +87,22 @@ void APacmanPawn::SetHorizontalInput(float AxisValue)
 	const FVector Dir = (GetActorRightVector() * AxisValue).GetSafeNormal();
 	LastInputDirection = Dir;
 	SetNextNodeByDir(LastInputDirection);
+
+	// Calcola la rotazione desiderata in base all'input
+	float YawRotation = 0.0f;
+	float PitchRotation = 0.0f;
+	if (LastInputDirection.Y > 0) // Va verso destra
+	{
+		YawRotation = 90.0f;
+		PitchRotation = 0.f;
+	}
+	else if (LastInputDirection.Y < 0) // Va verso sinistra
+	{
+		YawRotation = 90.f;;
+		PitchRotation = 180.f;
+	}
+
+	StaticMesh->SetWorldRotation(FRotator(PitchRotation, YawRotation, 0));
 }
 
 void APacmanPawn::OnClick()

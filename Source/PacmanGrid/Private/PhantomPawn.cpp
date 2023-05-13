@@ -41,7 +41,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	if (this->IsChaseState() || this->IsScatterState())
 	{
 		if (Pacman && IsValid(GameInstance)) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you")));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you")));
 
 			//decrementa vita di 1
 			int newvalue = (GameInstance->GetLives()) - 1;
