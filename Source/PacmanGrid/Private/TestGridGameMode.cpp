@@ -8,6 +8,7 @@
 #include "GameOverWIdget.h"
 #include "GameWinWidget.h"
 #include "Blueprint/UserWidget.h"
+#include "Sound/SoundCue.h"
 
 ATestGridGameMode::ATestGridGameMode()
 {
@@ -62,23 +63,25 @@ void ATestGridGameMode::BeginPlay()
 
 void ATestGridGameMode::RespawnPositions()
 {
-	//BlinkyPawn = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
 	if (IsValid(BlinkyPawn))
 	{
 		BlinkyPawn->RespawnGhostStartingPosition();
 	}
+	if (IsValid(InkyPawn)) {
+		InkyPawn->RespawnGhostStartingPosition();
+	}
+	if (IsValid(PinkyPawn)) {
+		PinkyPawn->RespawnGhostStartingPosition();
+	}
 
-	//InkyPawn = Cast<AInky>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
-	InkyPawn->RespawnGhostStartingPosition();
-
-	PinkyPawn->RespawnGhostStartingPosition();
-
-	ClydePawn->RespawnGhostStartingPosition();
+	if (IsValid(ClydePawn)) {
+		ClydePawn->RespawnGhostStartingPosition();
+	}
 
 	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
-	PacmanPawn->RespawnStartingPosition();
-
-	//PacmanPawn =  GetWorld()->SpawnActor<APacmanPawn>(PacmanClass, FVector((500) + 50, (900) + 50, 5.0f), FRotator(0, 0, 0));	
+	if (IsValid(PacmanPawn)) {
+		PacmanPawn->RespawnStartingPosition();
+	}
 }
 
 void ATestGridGameMode::SetLevelWin()
@@ -107,6 +110,9 @@ void ATestGridGameMode::ShowGameOverScreen()
 			GameOverWidget->AddToViewport();
 		}
 	}
+
+	//play sound
+	UGameplayStatics::PlaySound2D(this, GameOverSound);
 }
 
 void ATestGridGameMode::ShowGameWinScreen()
@@ -121,4 +127,5 @@ void ATestGridGameMode::ShowGameWinScreen()
 			GameWinWidget->AddToViewport();
 		}
 	}
+	UGameplayStatics::PlaySound2D(this, GameWinSound);
 }

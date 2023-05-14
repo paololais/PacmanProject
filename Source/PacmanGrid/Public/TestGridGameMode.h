@@ -71,6 +71,12 @@ public:
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 		class UGameWinWidget* GameWinWidget;
 
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundCue* GameOverSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundCue* GameWinSound;
+
 	void ShowGameOverScreen();
 
 	void ShowGameWinScreen();

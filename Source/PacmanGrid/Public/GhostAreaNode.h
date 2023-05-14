@@ -20,9 +20,13 @@ public:
 	AGhostAreaNode();
 
 	bool CanEnter();
-
+	
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<APhantomPawn> GhostClass;
 	UPROPERTY(VisibleAnywhere)
 		APhantomPawn* Ghost;
+
+protected:
+	virtual void BeginPlay() override;
+
 };

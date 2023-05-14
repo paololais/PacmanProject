@@ -184,10 +184,22 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
 				this->Destroy();
 
-				GameMode->BlinkyPawn->Destroy();
-				GameMode->InkyPawn->Destroy();
-				GameMode->PinkyPawn->Destroy();
-				GameMode->ClydePawn->Destroy();
+				if (IsValid(Blinky))
+				{
+					Blinky->Destroy();
+				}
+				if (IsValid(Inky))
+				{
+					Inky->Destroy();
+				}
+				if (IsValid(Pinky))
+				{
+					Pinky->Destroy();
+				}
+				if (IsValid(Clyde))
+				{
+					Clyde->Destroy();
+				}
 				GameMode->ShowGameWinScreen();
 			}
 		}
@@ -224,11 +236,22 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
 				this->Destroy();
 
-				GameMode->BlinkyPawn->Destroy();
-				GameMode->InkyPawn->Destroy();
-				GameMode->PinkyPawn->Destroy();
-				GameMode->ClydePawn->Destroy();
-
+				if (IsValid(Blinky))
+				{
+					Blinky->Destroy();
+				}
+				if (IsValid(Inky))
+				{
+					Inky->Destroy();
+				}
+				if (IsValid(Pinky))
+				{
+					Pinky->Destroy();
+				}
+				if (IsValid(Clyde))
+				{
+					Clyde->Destroy();
+				}
 				GameMode->ShowGameWinScreen();
 			}
 		}

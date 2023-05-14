@@ -47,15 +47,15 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			int newvalue = (GameInstance->GetLives()) - 1;
 			GameInstance->SetLives(newvalue);
 
-
-			//play pacman dead sound
-			UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
-
-			//respawn starting postion of pawns
-			GameMode->RespawnPositions();
+			if ((GameInstance->GetLives()) > 0) {
+				//play pacman dead sound
+				UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
+				//respawn starting postion of pawns
+				GameMode->RespawnPositions();
+			}
 
 			//se player non ha più vite->destroy
-			if ((GameInstance->GetLives()) <= 0)
+			else
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
 				GameMode->IsGameOver = true;
@@ -218,7 +218,8 @@ void APhantomPawn::AlternateScatterChase()
 	
 	//scatterMode 7 secondi
 	this->SetScatterState();
-	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+
+	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::AlternateScatterChase, ScatterModeTime, false);
 
 	//chase 20 secondi
 	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
@@ -247,7 +248,7 @@ void APhantomPawn::SetChaseState()
 {
 	//todo: change direction
 	StaticMesh->SetMaterial(2, DefaultSkin);
-
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
 	this->EEnemyState = Chase;
 }
 
@@ -261,6 +262,7 @@ bool APhantomPawn::IsChaseState()
 void APhantomPawn::SetScatterState()
 {
 	//todo: change direction
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Scatter;
 }
