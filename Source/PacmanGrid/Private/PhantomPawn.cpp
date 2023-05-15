@@ -250,6 +250,7 @@ void APhantomPawn::SetChaseState()
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
 	this->EEnemyState = Chase;
+	this->SetSpeed(NormalMovementSpeed);
 }
 
 bool APhantomPawn::IsChaseState()
@@ -265,6 +266,7 @@ void APhantomPawn::SetScatterState()
 	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Scatter;
+	this->SetSpeed(NormalMovementSpeed);
 }
 
 bool APhantomPawn::IsScatterState()
@@ -280,6 +282,8 @@ void APhantomPawn::SetFrightenedState()
 	StaticMesh->SetMaterial(2, VulnerableSkin);
 
 	this->EEnemyState = Frightened;
+
+	this->SetSpeed(400.f);
 }
 
 bool APhantomPawn::IsFrightenedState()
@@ -307,6 +311,8 @@ void APhantomPawn::SetDeadState()
 	StaticMesh->SetMaterial(2, DeadSkin);
 
 	this->EEnemyState = Dead;
+
+	this->SetSpeed(NormalMovementSpeed);
 }
 
 bool APhantomPawn::IsDeadState()
