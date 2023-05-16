@@ -13,10 +13,5 @@ UCLASS()
 class PACMANGRID_API UGameOverWIdget : public UUserWidget
 {
 	GENERATED_BODY()
-
-
-protected:
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-		class UTextBlock* TextLabel;
 	
 };
