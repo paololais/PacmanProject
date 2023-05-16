@@ -18,7 +18,7 @@ void AClyde::BeginPlay()
 	Super::BeginPlay();
 
 	//alterna scatter chase
-	AlternateScatterChase();
+	AlternateScatterChase(MyIndex);
 
 	//this->SetChaseState();
 }

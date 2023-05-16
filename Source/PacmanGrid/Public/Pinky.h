@@ -25,6 +25,10 @@ public:
 
 	void GoToHisCorner() override;
 
+
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	const int MyIndex = 1;
 };

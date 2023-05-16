@@ -27,4 +27,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	const int MyIndex = 3;
 };

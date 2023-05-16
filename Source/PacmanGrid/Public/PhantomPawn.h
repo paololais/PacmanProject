@@ -83,12 +83,10 @@ public:
 	//function called when ghost is in scattered mode
 	//every ghost as an assigned corner to go
 	virtual void GoToHisCorner();
+	
+	FTimerHandle TimerHandle;
 
-	FTimerHandle ScatterModeTimer;
-
-	FTimerHandle ChaseModeTimer;
-
-	void AlternateScatterChase();
+	void AlternateScatterChase(int GhostIndex);
 
 	//gestione stati
 	UPROPERTY(EditAnywhere)
@@ -108,4 +106,7 @@ public:
 
 	void SetDeadState();
 	bool IsDeadState();
+
+private:
+	int sequencePoints[4] = { 1,1,1,1 };
 };

@@ -211,44 +211,69 @@ void APhantomPawn::GoToHisCorner()
 {
 }
 
-void APhantomPawn::AlternateScatterChase()
+void APhantomPawn::AlternateScatterChase(int GhostIndex)
 {
-	float ChaseModeTime = 20;
-	float ScatterModeTime = 7;
-	
-	//scatterMode 7 secondi
-	this->SetScatterState();
+	int& sequencePoint = sequencePoints[GhostIndex];  // Ottiene il punto della sequenza per il fantasma chiamante
 
-	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::AlternateScatterChase, ScatterModeTime, false);
+	switch (sequencePoint)
+	{
+	case 1:
+		SetScatterState();
+		sequencePoint++;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex);}, 7.0f, false);
+		break;
 
-	//chase 20 secondi
-	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
-	
-	//scatterMode 7 secondi
-	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+	case 2:
+		SetChaseState();
+		sequencePoint++;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex); }, 20.0f, false);
+		break;
 
-	//chase 20 secondi
-	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
+	case 3:
+		SetScatterState();
+		sequencePoint++;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex); }, 7.0f, false);
+		break;
 
-	//scatterMode 5 secondi
-	ScatterModeTime = 5;
-	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+	case 4:
+		SetChaseState();
+		sequencePoint++;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex); }, 20.0f, false);
+		break;
 
-	//chase 20 secondi
-	GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetScatterState, ChaseModeTime, false);
+	case 5:
+		SetScatterState();
+		sequencePoint++;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex); }, 5.0f, false);
+		break;
 
-	//scatterMode 5 secondi
-	GetWorld()->GetTimerManager().SetTimer(ScatterModeTimer, this, &APhantomPawn::SetChaseState, ScatterModeTime, false);
+	case 6:
+		SetChaseState();
+		sequencePoint++;		
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex); }, 20.0f, false);
+		break;
 
-	// Chase Mode per sempre
-    GetWorld()->GetTimerManager().SetTimer(ChaseModeTimer, this, &APhantomPawn::SetChaseState, 0.0f, true);
+	case 7:
+		SetScatterState();
+		sequencePoint++;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, GhostIndex]() {AlternateScatterChase(GhostIndex); }, 5.0f, false);
+		break;
+
+	case 8:
+		SetChaseState();
+		// Rimani nello stato di chase per sempre
+		break;
+
+	default:
+		break;
+	}
 }
 
 void APhantomPawn::SetChaseState()
 {
 	//todo: change direction
 	StaticMesh->SetMaterial(2, DefaultSkin);
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
 	this->EEnemyState = Chase;
 	this->SetSpeed(NormalMovementSpeed);
 }
@@ -263,7 +288,7 @@ bool APhantomPawn::IsChaseState()
 void APhantomPawn::SetScatterState()
 {
 	//todo: change direction
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Scatter;
 	this->SetSpeed(NormalMovementSpeed);
