@@ -85,6 +85,8 @@ public:
 	virtual void GoToHisCorner();
 	
 	FTimerHandle TimerHandle;
+	
+	void ClearTimer();
 
 	void AlternateScatterChase(int GhostIndex);
 

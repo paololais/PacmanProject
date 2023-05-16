@@ -100,7 +100,7 @@ void AInky::RespawnGhostStartingPosition()
 
 	SetActorLocation(Location);
 
-	this->SetChaseState();
+	this->AlternateScatterChase(MyIndex);
 }
 
 void AInky::GoHome() {
@@ -120,14 +120,13 @@ void AInky::GoHome() {
 
 	if (CurrentGridCoords == FVector2D(17, 17))
 	{
-		this->SetChaseState();
+		this->AlternateScatterChase(MyIndex);
 	}
 }
 
 void AInky::GoToHisCorner()
 {
-	//nodo basso sx
-	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(23, 18)));
+	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(5, 21)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -136,10 +135,9 @@ void AInky::GoToHisCorner()
 		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode1->GetGridPosition() - this->GetLastNodeCoords()), true);
 	}
 
-	if (CurrentGridCoords == FVector2D(23, 18))
+	if (CurrentGridCoords == FVector2D(5, 21))
 	{
-		//nodo alto sx
-		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(5, 21)));
+		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(5, 26)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -148,10 +146,9 @@ void AInky::GoToHisCorner()
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode2->GetGridPosition() - this->GetLastNodeCoords()), true);
 		}
 
-		if (CurrentGridCoords == FVector2D(5, 21))
+		if (CurrentGridCoords == FVector2D(5, 26))
 		{
-			//nodo alto dx
-			const AGridBaseNode* Target3 = *(GridGenTMap.Find(FVector2D(5, 26)));
+			const AGridBaseNode* Target3 = *(GridGenTMap.Find(FVector2D(1, 26)));
 
 			AGridBaseNode* PossibleNode3 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -160,10 +157,9 @@ void AInky::GoToHisCorner()
 				this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode3->GetGridPosition() - this->GetLastNodeCoords()), true);
 			}
 
-			if (CurrentGridCoords == FVector2D(5, 26))
+			if (CurrentGridCoords == FVector2D(1, 26))
 			{
-				//nodo basso dx
-				const AGridBaseNode* Target4 = *(GridGenTMap.Find(FVector2D(1, 26)));
+				const AGridBaseNode* Target4 = *(GridGenTMap.Find(FVector2D(1, 21)));
 
 				AGridBaseNode* PossibleNode4 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -172,7 +168,7 @@ void AInky::GoToHisCorner()
 					this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode4->GetGridPosition() - this->GetLastNodeCoords()), true);
 				}
 
-				if (CurrentGridCoords == FVector2D(1, 26))
+				if (CurrentGridCoords == FVector2D(1, 21))
 				{
 					this->GoToHisCorner();
 				}

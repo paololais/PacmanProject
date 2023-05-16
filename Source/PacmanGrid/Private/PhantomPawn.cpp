@@ -211,6 +211,11 @@ void APhantomPawn::GoToHisCorner()
 {
 }
 
+void APhantomPawn::ClearTimer()
+{
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+}
+
 void APhantomPawn::AlternateScatterChase(int GhostIndex)
 {
 	int& sequencePoint = sequencePoints[GhostIndex];  // Ottiene il punto della sequenza per il fantasma chiamante

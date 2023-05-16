@@ -262,27 +262,31 @@ void APacmanPawn::PowerModeOn()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
 	CurrentMovementSpeed = 800.0f;
-	this->SetNumberOfGhostsKilled(0);
 
-	float PowerModeTime = 10;
+	float PowerModeTime = 10.0f;
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);
 
 	//set ghosts in frightened mode
 	if (IsValid(Blinky))
 	{
 		Blinky->SetFrightenedState();
+		//disattivo il timer della funzione alternateScatterChase
+		Blinky->ClearTimer();
 	}
 	if (IsValid(Inky))
 	{
 		Inky->SetFrightenedState();
+		Inky->ClearTimer();
 	}
 	if (IsValid(Pinky))
 	{
 		Pinky->SetFrightenedState();
+		Pinky->ClearTimer();
 	}
 	if (IsValid(Clyde))
 	{
 		Clyde->SetFrightenedState();
+		Clyde->ClearTimer();
 	}
 }
 
@@ -292,21 +296,21 @@ void APacmanPawn::PowerModeOff()
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Power Mode Off")));
 
 	//set ghosts in Chase mode
-	if (IsValid(Blinky))
+	if (IsValid(Blinky) && (Blinky->IsFrightenedState()))
 	{
-		Blinky->SetChaseState();
+		Blinky->AlternateScatterChase(0);
 	}
-	if (IsValid(Inky))
+	if (IsValid(Inky) && (Inky->IsFrightenedState()))
 	{
-		Inky->SetChaseState();
+		Inky->AlternateScatterChase(2);
 	}
-	if (IsValid(Pinky))
+	if (IsValid(Pinky) && (Pinky->IsFrightenedState()))
 	{
-		Pinky->SetChaseState();
+		Pinky->AlternateScatterChase(1);
 	}
-	if (IsValid(Clyde))
+	if (IsValid(Clyde) && (Clyde->IsFrightenedState()))
 	{
-		Clyde->SetChaseState();
+		Clyde->AlternateScatterChase(3);
 	}
 
 	this->SetNumberOfGhostsKilled(0);

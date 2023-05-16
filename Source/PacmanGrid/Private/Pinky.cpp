@@ -101,7 +101,7 @@ void APinky::RespawnGhostStartingPosition()
 
 	SetActorLocation(Location);
 	
-	this->SetChaseState();
+	this->AlternateScatterChase(MyIndex);
 }
 
 void APinky::GoHome() {
@@ -120,7 +120,7 @@ void APinky::GoHome() {
 
 	if (CurrentGridCoords == FVector2D(17, 14))
 	{
-		this->SetChaseState();
+		this->AlternateScatterChase(MyIndex);
 	}
 }
 

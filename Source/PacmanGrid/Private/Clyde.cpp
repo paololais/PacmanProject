@@ -35,7 +35,7 @@ void AClyde::RespawnGhostStartingPosition()
 
 	SetActorLocation(Location);
 
-	this->SetChaseState();
+	this->AlternateScatterChase(MyIndex);
 }
 
 void AClyde::GoHome() {
@@ -52,7 +52,7 @@ void AClyde::GoHome() {
 
 	if (CurrentGridCoords == FVector2D(17, 12))
 	{
-		this->SetChaseState();
+		this->AlternateScatterChase(MyIndex);
 	}
 }
 

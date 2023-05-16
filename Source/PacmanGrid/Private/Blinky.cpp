@@ -35,7 +35,7 @@ void ABlinky::RespawnGhostStartingPosition()
 
 	SetActorLocation(Location);
 
-	this->SetChaseState();
+	this->AlternateScatterChase(MyIndex);
 }
 
 void ABlinky::GoHome() {
@@ -54,7 +54,7 @@ void ABlinky::GoHome() {
 
 	if (CurrentGridCoords==FVector2D(17,10))
 	{
-		this->SetChaseState();
+		this->AlternateScatterChase(MyIndex);
 	}
 }
 
