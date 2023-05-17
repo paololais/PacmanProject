@@ -203,7 +203,7 @@ void APhantomPawn::GoHome()
 {
 }
 
-//funzione che inverte la direzione de fantasma, con un certo ritardo casuale
+//funzione che inverte la direzione del fantasma, con un certo ritardo casuale
 void APhantomPawn::ReverseDirection() {
 
 	// Genera un valore casuale per il ritardo tra 0 e 1 secondo

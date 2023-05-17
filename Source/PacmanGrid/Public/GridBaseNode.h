@@ -47,11 +47,6 @@ public:
 	FVector GetTileCoordinates();
 
 	UPROPERTY(EditAnywhere)
-		bool IsEatable;
-	UFUNCTION(BlueprintCallable)
-		bool CanBeEat();
-
-	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* StaticMesh;
 	UPROPERTY(EditAnywhere)
 		UBoxComponent* Collider;

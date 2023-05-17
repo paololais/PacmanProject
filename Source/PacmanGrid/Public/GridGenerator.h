@@ -39,35 +39,13 @@ private:
 		TSubclassOf<AGridBaseNode> NullNode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
-		TSubclassOf<AGridBaseNode> CharacterNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Ghosts")
-		TSubclassOf<AGridBaseNode> BlinkyNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Ghosts")
-		TSubclassOf<AGridBaseNode> PinkyNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Ghosts")
-		TSubclassOf<AGridBaseNode> InkyNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Ghosts")
-		TSubclassOf<AGridBaseNode> ClydeNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
-		TSubclassOf<AGridBaseNode> GhostRespawnNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
 		TSubclassOf<AGridBaseNode> TeleportNode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
 		TSubclassOf<AGridBaseNode> GhostAreaNode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
-		TSubclassOf<AGridBaseNode> InvisibleWallNode;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
 		TSubclassOf<AGridBaseNode> GhostExitNode;
-
 
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
 		TSubclassOf<AEatableEntity> PowerNode;

@@ -45,10 +45,3 @@ FVector AGridBaseNode::GetTileCoordinates()
 {
 	return TileCoordinatesPosition;
 }
-
-bool AGridBaseNode::CanBeEat()
-{
-	return IsEatable;
-}
-
-

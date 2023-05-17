@@ -19,8 +19,7 @@ constexpr int MapSizeY = 29;
 //    
 // C - Cherry
 // R - Ghost Respawn
-// N - Ghost Area
-// I - Invisible Not Walkable
+// G - Ghost Area
 // E - Ghost Exit
 
 static char Map[MapSizeX][MapSizeY] = {
@@ -29,7 +28,7 @@ static char Map[MapSizeX][MapSizeY] = {
 	"#0####0#####0##0#####0####0#",
 	"#B####0#####0##0#####0####B#",
 	"#0####0#####0##0#####0####0#",
-	"#00000000000000P00000000000#",
+	"#00000000000000000000000000#",
 	"#0####0##0########0##0####0#",
 	"#0####0##0########0##0####0#",
 	"#000000##0000##0000##000000#",
@@ -37,11 +36,11 @@ static char Map[MapSizeX][MapSizeY] = {
 	"######0#####0##0#####0######",
 	"######0##0000000000##0######",
 	"######0##0########0##0######",
-	"######0##0#IIIIII#0##0######",
-	"T000000000#IIIIII#000000000T",
-	"######0##0#IIIIII#0##0######",
-	"######0##0###II###0##0######",
-	"######0##0120RE0340##0######",
+	"######0##0#GGGGGG#0##0######",
+	"T000000000#GGGGGG#000000000T",
+	"######0##0#GGGGGG#0##0######",
+	"######0##0###E####0##0######",
+	"######0##0000000000##0######",
 	"######0##0########0##0######",
 	"######0##0########0##0######",
 	"#000000000000##000000000000#",
@@ -226,41 +225,13 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	{
 		ClassToSpawn = NullNode;
 	}
-	else if (CharId == 'P')
-	{
-		ClassToSpawn = CharacterNode;
-	}
-	else if (CharId == '1')
-	{
-		ClassToSpawn = BlinkyNode;
-	}
-	else if (CharId == '2')
-	{
-		ClassToSpawn = PinkyNode;
-	}
-	else if (CharId == '3')
-	{
-		ClassToSpawn = InkyNode;
-	}
-	else if (CharId == '4')
-	{
-		ClassToSpawn = ClydeNode;
-	}
-	else if (CharId == 'R')
-	{
-		ClassToSpawn = GhostRespawnNode;
-	}
 	else if (CharId == 'T')
 	{
 		ClassToSpawn = TeleportNode;
 	}
-	else if (CharId == 'N')
+	else if (CharId == 'G')
 	{
 		ClassToSpawn = GhostAreaNode;
-	}
-	else if (CharId == 'I')
-	{
-		ClassToSpawn = InvisibleWallNode;
 	}
 	else if (CharId == 'E')
 	{
