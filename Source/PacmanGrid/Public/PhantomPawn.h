@@ -78,7 +78,8 @@ public:
 	//go back in assigned position (when eaten by player)
 	virtual void GoHome();
 
-	void ChangeDirection();
+	FTimerHandle DelayReverse;
+	void ReverseDirection();
 
 	//function called when ghost is in scattered mode
 	//every ghost as an assigned corner to go

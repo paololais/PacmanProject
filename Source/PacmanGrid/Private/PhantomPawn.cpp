@@ -203,9 +203,18 @@ void APhantomPawn::GoHome()
 {
 }
 
-//TODO
-void APhantomPawn::ChangeDirection() {
+//funzione che inverte la direzione de fantasma, con un certo ritardo casuale
+void APhantomPawn::ReverseDirection() {
 
+	// Genera un valore casuale per il ritardo tra 0 e 1 secondo
+	float Delay = FMath::FRandRange(0.f, 1.f);
+
+	// Calcola la direzione opposta rispetto all'ultima direzione valida
+	FVector OppositeDirection = -GetLastValidDirection();
+
+	GetWorld()->GetTimerManager().SetTimer(DelayReverse, [this, OppositeDirection]() {
+		SetNextNodeByDir(OppositeDirection, true);
+	}, Delay, false);
 }
 
 void APhantomPawn::GoToHisCorner()
@@ -277,7 +286,11 @@ void APhantomPawn::AlternateScatterChase(int GhostIndex)
 
 void APhantomPawn::SetChaseState()
 {
-	//todo: change direction
+	if (!(this->IsFrightenedState()) || !(this->IsDeadState())) {
+		//change direction
+		this->ReverseDirection();
+	}
+
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
 	this->EEnemyState = Chase;
@@ -293,7 +306,11 @@ bool APhantomPawn::IsChaseState()
 
 void APhantomPawn::SetScatterState()
 {
-	//todo: change direction
+	if (!(this->IsFrightenedState()) || !(this->IsDeadState())) {
+		//change direction
+		this->ReverseDirection();
+	}
+
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Scatter;
@@ -309,11 +326,10 @@ bool APhantomPawn::IsScatterState()
 
 void APhantomPawn::SetFrightenedState()
 {
-	//todo: change direction
+	//change direction
+	this->ReverseDirection();
 	StaticMesh->SetMaterial(2, VulnerableSkin);
-
 	this->EEnemyState = Frightened;
-
 	this->SetSpeed(400.f);
 }
 
@@ -340,9 +356,7 @@ bool APhantomPawn::IsIdleState()
 void APhantomPawn::SetDeadState()
 {
 	StaticMesh->SetMaterial(2, DeadSkin);
-
 	this->EEnemyState = Dead;
-
 	this->SetSpeed(NormalMovementSpeed);
 }
 
