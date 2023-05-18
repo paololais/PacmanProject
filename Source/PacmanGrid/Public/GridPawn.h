@@ -34,6 +34,8 @@ public:
 		FVector2D GetLastNodeCoords() const;
 	UFUNCTION(BlueprintCallable)
 		FVector2D GetTargetNodeCoords() const;
+	UFUNCTION(BlueprintCallable)
+		FVector2D GetNextNodeCoords() const;
 
 	UPROPERTY(EditAnywhere)
 		USoundCue* TeleportSound;

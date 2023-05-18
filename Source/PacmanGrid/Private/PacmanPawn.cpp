@@ -261,10 +261,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 void APacmanPawn::OnNodeReached()
 {
 	Super::OnNodeReached();
-
-	//vuole entrare nella ghost area
-	if (CurrentGridCoords == (FVector2D(17, 13)) && (NextNode == (*(GridGenTMap.Find(FVector2D(16, 13))))))
-	{
+	if (CurrentGridCoords == (FVector2D(17, 13)) && (LastInputDirection == FVector(-1, 0, 0) || LastValidInputDirection == FVector(-1, 0, 0))) {
 		// Imposta il prossimo nodo come nodo precedente per rimanere fermo
 		LastInputDirection = FVector(0, 0, 0);
 		LastValidInputDirection = FVector(0, 0, 0);

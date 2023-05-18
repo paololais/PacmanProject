@@ -218,6 +218,15 @@ FVector2D AGridPawn::GetTargetNodeCoords() const
 	return FVector2D::ZeroVector;
 }
 
+FVector2D AGridPawn::GetNextNodeCoords() const
+{
+	if (NextNode)
+	{
+		return NextNode->GetGridPosition();
+	}
+	return FVector2D::ZeroVector;
+}
+
 void AGridPawn::SetLastValidDirection(FVector Dir)
 {
 	if (Dir == FVector::ZeroVector) return;
