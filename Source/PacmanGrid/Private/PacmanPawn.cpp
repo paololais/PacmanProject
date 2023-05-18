@@ -261,12 +261,10 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 void APacmanPawn::OnNodeReached()
 {
 	Super::OnNodeReached();
-	if (CurrentGridCoords == (FVector2D(17, 13)) && (LastInputDirection == FVector(-1, 0, 0) || LastValidInputDirection == FVector(-1, 0, 0))) {
-		// Imposta il prossimo nodo come nodo precedente per rimanere fermo
-		LastInputDirection = FVector(0, 0, 0);
-		LastValidInputDirection = FVector(0, 0, 0);
-		LastNode = (*(GridGenTMap.Find(FVector2D(17, 13))));
-		SetNextNode(LastNode);
+	if (CurrentGridCoords == (FVector2D(17, 13)) && (LastInputDirection.X < 0 || LastValidInputDirection.X < 0)) {
+		// Ignora l'input e prosegue per la direzione valida
+		LastValidInputDirection = PreviousDirection;
+		SetNextNodeByDir(LastValidInputDirection, true);
 		SetTargetNode(NextNode);
 	}
 }

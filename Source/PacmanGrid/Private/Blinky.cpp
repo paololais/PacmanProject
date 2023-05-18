@@ -18,9 +18,7 @@ void ABlinky::BeginPlay()
 	Super::BeginPlay();
 
 	//alterna scatter chase
-	//AlternateScatterChase(MyIndex);
-	GoHome();
-	//this->SetChaseState();
+	AlternateScatterChase(MyIndex);
 }
 
 void ABlinky::RespawnGhostStartingPosition()
@@ -41,7 +39,7 @@ void ABlinky::RespawnGhostStartingPosition()
 void ABlinky::GoHome() {
 	this->SetDeadState();
 
-	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(14, 13)));
+	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(14, 14)));
 
 	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -50,9 +48,12 @@ void ABlinky::GoHome() {
 		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
 	}
 
-	if (CurrentGridCoords==FVector2D(14,13))
+	if (CurrentGridCoords==FVector2D(14,14))
 	{
-		this->AlternateScatterChase(MyIndex);
+		this->SetIdleState();
+		if (CurrentGridCoords == FVector2D(16, 13)) {
+			this->AlternateScatterChase(MyIndex);
+		}
 	}
 }
 

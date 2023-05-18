@@ -153,6 +153,13 @@ void AGridPawn::OnNodeReached()
 
 		SetActorLocation(Location);
 	}
+
+	//save Direction for ghost exit denied enter
+	if (CurrentGridCoords == (FVector2D(17, 11)) || CurrentGridCoords == (FVector2D(17, 16))) {
+		PreviousDirection = GetLastValidDirection();
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Previous direction saved:  %s"), *PreviousDirection.ToString()));
+	}
+
 }
 
 void AGridPawn::SetTargetNode(AGridBaseNode* Node)

@@ -78,6 +78,9 @@ public:
 	//go back in assigned position (when eaten by player)
 	virtual void GoHome();
 
+	//exit ghost area
+	void ExitGhostArea();
+
 	FTimerHandle DelayReverse;
 	void ReverseDirection();
 

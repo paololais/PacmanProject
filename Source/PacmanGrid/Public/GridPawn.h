@@ -52,6 +52,8 @@ protected:
 		FVector LastInputDirection;
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 		FVector LastValidInputDirection;
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+		FVector PreviousDirection;
 
 	void SetLastValidDirection(FVector Dir);
 

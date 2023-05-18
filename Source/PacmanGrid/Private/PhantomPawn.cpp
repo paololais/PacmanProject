@@ -117,91 +117,48 @@ void APhantomPawn::OnNodeReached()
 {
 	Super::OnNodeReached();
 
-	// Ottieni il vettore di direzione del fantasma
-	FVector GhostDirection = this->GetLastValidDirection();
 	//vuole entrare nella ghost area
-	if ((CurrentGridCoords == (FVector2D(17, 13)) || CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (LastInputDirection == FVector(-1, 0, 0) || LastValidInputDirection == FVector(-1, 0, 0))) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to enter")));
-		if (this->IsDeadState())
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("enter granted")));
-			// Permetti il transito
-		}
-		else
-		{
-
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("enter denied")));
-			LastNode = (*(GridGenTMap.Find(FVector2D(17, 13))));
-
-			SetNextNode(*(GridGenTMap.Find(FVector2D(17, 14))));
-
-			SetTargetNode(NextNode);
-		}
-	}
-	/*
-	if ((NextNode == (*(GridGenTMap.Find(FVector2D(16, 13))))) && (LastNode == (*(GridGenTMap.Find(FVector2D(17, 13))))))
+	//if (CurrentGridCoords == (FVector2D(17, 13)) || CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14)) && (LastInputDirection.X<0 || LastValidInputDirection.X<0))
+	//if(CurrentGridCoords == (FVector2D(17, 13)) && (LastInputDirection.X < 0 || LastValidInputDirection.X < 0))
+	if(CurrentGridCoords == (FVector2D(17, 13)))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ghost Trying to enter"));
-
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to enter")));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to enter")));
+		// Permetti il transito
 		if (this->IsDeadState())
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("enter granted")));
-			// Permetti il transito
 		}
+		
+		//Non può entrare, prosegue per la sua direzione
 		else
 		{
-			SetNextNodeByDir(-GhostDirection, true);
-			
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("enter denied")));
-			//LastNode = (*(GridGenTMap.Find(FVector2D(17, 13))));
-
-			//SetNextNode(*(GridGenTMap.Find(FVector2D(17, 14))));
-
-			//SetTargetNode(NextNode);
-		}
-	}
-	*/
-	//vuole uscire dalla ghost area
-	if ((CurrentGridCoords == (FVector2D(15, 13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) && (LastInputDirection == FVector(1, 0, 0) || LastValidInputDirection == FVector(1, 0, 0))) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
-		if (this->IsChaseState() || this->IsScatterState())
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("exit granted")));
-			// Permetti il transito
-		}
-		else
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("exit denied")));
-			// Blocca il transito
-			LastNode = (*(GridGenTMap.Find(FVector2D(15, 13))));
-			SetNextNode(*(GridGenTMap.Find(FVector2D(14, 13))));
+			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("enter denied")));
+			LastValidInputDirection = PreviousDirection;
+			SetNextNodeByDir(LastValidInputDirection, true);
 			SetTargetNode(NextNode);
 		}
 	}
-	/*
-	if ((NextNode == (*(GridGenTMap.Find(FVector2D(16, 13))))) && (LastNode == (*(GridGenTMap.Find(FVector2D(15, 13)))))) {
-		UE_LOG(LogTemp, Warning, TEXT("ghost Trying to exit"));
+
+	//vuole uscire dalla ghost area
+	if ((CurrentGridCoords == (FVector2D(15, 13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) && (LastInputDirection.X>0 || LastValidInputDirection.X>0)) {
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
+		
+		// Permetti il transito
 		if (this->IsChaseState() || this->IsScatterState())
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("exit granted")));
-			// Permetti il transito
 		}
+		// Blocca il transito
 		else
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("exit denied")));
-			// Blocca il transito
-
-			SetNextNodeByDir(-GhostDirection, true);
-			//LastNode = (*(GridGenTMap.Find(FVector2D(15, 13))));
-
-			//SetNextNode(*(GridGenTMap.Find(FVector2D(14, 13))));
-
-			//SetTargetNode(NextNode);
+			LastNode = (*(GridGenTMap.Find(FVector2D(15, 13))));
+			//torna indietro
+			FVector OppositeDirection = this->GetLastValidDirection();
+			SetNextNodeByDir(OppositeDirection, true);
+			SetTargetNode(NextNode);
 		}
 	}
-	*/
 }
 
 void APhantomPawn::Tick(float DeltaTime)
@@ -255,6 +212,11 @@ void APhantomPawn::SetGhostTarget()
 		this->GoHome();
 	}
 
+	if (this->IsIdleState())
+	{
+		this->ExitGhostArea();
+	}
+
 	if (this->IsScatterState()) {
 
 		this->GoToHisCorner();
@@ -287,6 +249,35 @@ void APhantomPawn::RespawnGhostStartingPosition()
 //in override in ciascun ghost
 void APhantomPawn::GoHome()
 {
+}
+
+void APhantomPawn::ExitGhostArea()
+{
+	this->SetIdleState();
+	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(15, 13)));
+
+	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
+
+	if (PossibleNode1)
+	{
+		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode1->GetGridPosition() - this->GetLastNodeCoords()), true);
+	}
+
+	if (CurrentGridCoords == FVector2D(15, 13))
+	{
+		//esci
+		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(17, 13)));
+
+		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
+
+		if (PossibleNode2)
+		{
+			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode2->GetGridPosition() - this->GetLastNodeCoords()), true);
+		}
+		if (CurrentGridCoords == FVector2D(17, 13)) {
+			return;
+		}
+	}
 }
 
 //funzione che inverte la direzione del fantasma, con un certo ritardo casuale
@@ -372,7 +363,7 @@ void APhantomPawn::AlternateScatterChase(int GhostIndex)
 
 void APhantomPawn::SetChaseState()
 {
-	if (!(this->IsFrightenedState()) || !(this->IsDeadState())) {
+	if (this->IsScatterState()) {
 		//change direction
 		this->ReverseDirection();
 	}
@@ -392,7 +383,7 @@ bool APhantomPawn::IsChaseState()
 
 void APhantomPawn::SetScatterState()
 {
-	if (!(this->IsFrightenedState()) || !(this->IsDeadState())) {
+	if (this->IsChaseState()) {
 		//change direction
 		this->ReverseDirection();
 	}
@@ -412,6 +403,10 @@ bool APhantomPawn::IsScatterState()
 
 void APhantomPawn::SetFrightenedState()
 {
+	if (this->IsDeadState())
+	{
+		return;
+	}
 	//change direction
 	this->ReverseDirection();
 	StaticMesh->SetMaterial(2, VulnerableSkin);

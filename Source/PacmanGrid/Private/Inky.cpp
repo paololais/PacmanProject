@@ -76,51 +76,59 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 
 AInky::AInky()
 {
-	CurrentGridCoords = FVector2D(17, 17);
+	CurrentGridCoords = FVector2D(14, 11);
 }
 
 void AInky::BeginPlay()
 {
 	Super::BeginPlay();
-	//alterna scatter chase
-	AlternateScatterChase(MyIndex);
-
-	//this->SetChaseState();
+	
+	this->SetIdleState();
+	if (CurrentGridCoords == FVector2D(15, 13)) {
+		this->AlternateScatterChase(MyIndex);
+	}
 }
 
 void AInky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 
-	const FVector Location(1750, 1750, GetActorLocation().Z);
+	const FVector Location(1450, 1150, GetActorLocation().Z);
 
-	LastNode = (*(GridGenTMap.Find(FVector2D(17, 17))));
-	SetNextNode(*(GridGenTMap.Find(FVector2D(17, 17))));
+	LastNode = (*(GridGenTMap.Find(FVector2D(14, 11))));
+	SetNextNode(*(GridGenTMap.Find(FVector2D(14, 11))));
 	SetTargetNode(NextNode);
 
 	SetActorLocation(Location);
-
-	this->AlternateScatterChase(MyIndex);
+	
+	//da modificare facendolo uscire dopo
+	if (CurrentGridCoords == FVector2D(14, 11))
+	{
+		this->SetIdleState();
+		if (CurrentGridCoords == FVector2D(16, 13)) {
+			this->AlternateScatterChase(MyIndex);
+		}
+	}
 }
 
 void AInky::GoHome() {
 	//this->SetDeadState();
 
-	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(17, 17)));
+	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(14, 11)));
 
 	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
-
-	//const FVector Dimensions(60, 60, 20);
-	//DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
 
 	if (PossibleNode)
 	{
 		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
 	}
 
-	if (CurrentGridCoords == FVector2D(17, 17))
+	if (CurrentGridCoords == FVector2D(14, 11))
 	{
-		this->AlternateScatterChase(MyIndex);
+		this->SetIdleState();
+		if (CurrentGridCoords == FVector2D(16, 13)) {
+			this->AlternateScatterChase(MyIndex);
+		}
 	}
 }
 
