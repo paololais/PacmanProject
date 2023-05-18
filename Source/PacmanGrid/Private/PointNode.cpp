@@ -22,29 +22,10 @@ void APointNode::BeginPlay()
     Super::BeginPlay();
     //registrazione degli eventi di collisione attraverso AddDynamic
     Collider->OnComponentBeginOverlap.AddDynamic(this, &APointNode::OnBeginOverlap);
-
-    //GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
 }
 
 
 void APointNode::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{   /*
-    if (this->CheckNotEaten())
-    {
-        if (OtherActor->IsA(APacmanPawn::StaticClass()))
-        {
-            this->setEaten();
-            APlayerController* PacmanController = GetWorld()->GetFirstPlayerController();
-            const auto Pacman = Cast<APacmanPawn>(PacmanController->GetPawn());
-
-            //Score System
-            int new_value = (GameMode->getScore()) + 10;
-
-            GameMode->setScore(new_value);
-
-            //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Score: %d"), GameMode->getScore()));
-        }
-    }
-    */
+{ 
 }

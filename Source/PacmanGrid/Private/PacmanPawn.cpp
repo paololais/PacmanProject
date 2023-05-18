@@ -258,9 +258,25 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	}
 }
 
+void APacmanPawn::OnNodeReached()
+{
+	Super::OnNodeReached();
+
+	//vuole entrare nella ghost area
+	if (CurrentGridCoords == (FVector2D(17, 13)) && (NextNode == (*(GridGenTMap.Find(FVector2D(16, 13))))))
+	{
+		// Imposta il prossimo nodo come nodo precedente per rimanere fermo
+		LastInputDirection = FVector(0, 0, 0);
+		LastValidInputDirection = FVector(0, 0, 0);
+		LastNode = (*(GridGenTMap.Find(FVector2D(17, 13))));
+		SetNextNode(LastNode);
+		SetTargetNode(NextNode);
+	}
+}
+
 void APacmanPawn::PowerModeOn()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
+	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
 	CurrentMovementSpeed = 800.0f;
 
 	float PowerModeTime = 10.0f;

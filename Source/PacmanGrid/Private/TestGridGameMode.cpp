@@ -55,9 +55,9 @@ void ATestGridGameMode::BeginPlay()
 	//PacmanPawn =  GetWorld()->SpawnActor<APacmanPawn>(PacmanClass, FVector((500) + 50, (900) + 50, 5.0f), FRotator(0, 0, 0));
 
 	BlinkyPawn = GetWorld()->SpawnActor<ABlinky>(BlinkyClass, FVector((100 * 17) + 50, (100 * 10) + 50, 5.0f), FRotator(0, 0, 0));
-	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 17) + 50, (100 * 17) + 50, 5.0f), FRotator(0, 0, 0));
-	PinkyPawn = GetWorld()->SpawnActor<APinky>(PinkyClass, FVector((100 * 17) + 50, (100 * 14) + 50, 5.0f), FRotator(0, 0, 0));
-	ClydePawn = GetWorld()->SpawnActor<AClyde>(ClydeClass, FVector((100 * 17) + 50, (100 * 12) + 50, 5.0f), FRotator(0, 0, 0));
+	PinkyPawn = GetWorld()->SpawnActor<APinky>(PinkyClass, FVector((100 * 14) + 50, (100 * 13) + 50, 5.0f), FRotator(0, 0, 0));
+	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 14) + 50, (100 * 11) + 50, 5.0f), FRotator(0, 0, 0));
+	ClydePawn = GetWorld()->SpawnActor<AClyde>(ClydeClass, FVector((100 * 14) + 50, (100 * 16) + 50, 5.0f), FRotator(0, 0, 0));
 }
 
 

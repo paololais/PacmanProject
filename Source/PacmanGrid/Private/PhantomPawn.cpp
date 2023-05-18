@@ -116,6 +116,49 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 void APhantomPawn::OnNodeReached()
 {
 	Super::OnNodeReached();
+
+	// Ottieni il vettore di direzione del fantasma
+	FVector GhostDirection = this->GetLastValidDirection();
+
+	//vuole entrare nella ghost area
+	if (CurrentGridCoords == (FVector2D(17, 13)) && (GhostDirection.X < 0))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("trying to enter")));
+		if (this->IsDeadState())
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("enter granted")));
+			// Permetti il transito
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("enter denied")));
+			LastNode = (*(GridGenTMap.Find(FVector2D(17, 13))));
+
+			SetNextNode(*(GridGenTMap.Find(FVector2D(17, 14))));
+
+			SetTargetNode(NextNode);
+		}
+	}
+
+	//vuole uscire dalla ghost area
+	if (CurrentGridCoords == (FVector2D(15, 13)) && (GhostDirection.X > 0)) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
+		if (this->IsChaseState() || this->IsScatterState())
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("exit granted")));
+			// Permetti il transito
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("exit denied")));
+			// Blocca il transito
+			LastNode = (*(GridGenTMap.Find(FVector2D(15, 13))));
+
+			SetNextNode(*(GridGenTMap.Find(FVector2D(14, 13))));
+
+			SetTargetNode(NextNode);
+		}
+	}
 }
 
 void APhantomPawn::Tick(float DeltaTime)
