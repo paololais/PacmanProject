@@ -5,6 +5,21 @@
 #include "PacmanPawn.h"
 #include <Kismet/GameplayStatics.h>
 
+AInky::AInky()
+{
+	CurrentGridCoords = FVector2D(14, 11);
+}
+
+void AInky::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	this->SetExitState();
+	if (CurrentGridCoords == FVector2D(15, 13)) {
+		this->AlternateScatterChase(MyIndex());
+	}
+}
+
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
 {
 	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
@@ -74,20 +89,6 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 	return Super::GetPlayerRelativeTarget();
 }
 
-AInky::AInky()
-{
-	CurrentGridCoords = FVector2D(14, 11);
-}
-
-void AInky::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	this->SetIdleState();
-	if (CurrentGridCoords == FVector2D(15, 13)) {
-		this->AlternateScatterChase(MyIndex);
-	}
-}
 
 void AInky::RespawnGhostStartingPosition()
 {
@@ -101,18 +102,14 @@ void AInky::RespawnGhostStartingPosition()
 
 	SetActorLocation(Location);
 	
-	//da modificare facendolo uscire dopo
-	if (CurrentGridCoords == FVector2D(14, 11))
-	{
-		this->SetIdleState();
-		if (CurrentGridCoords == FVector2D(16, 13)) {
-			this->AlternateScatterChase(MyIndex);
-		}
+	this->SetExitState();
+	if (CurrentGridCoords == FVector2D(15, 13)) {
+		this->AlternateScatterChase(MyIndex());
 	}
 }
 
 void AInky::GoHome() {
-	//this->SetDeadState();
+	this->SetDeadState();
 
 	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(14, 11)));
 
@@ -125,9 +122,9 @@ void AInky::GoHome() {
 
 	if (CurrentGridCoords == FVector2D(14, 11))
 	{
-		this->SetIdleState();
-		if (CurrentGridCoords == FVector2D(16, 13)) {
-			this->AlternateScatterChase(MyIndex);
+		this->SetExitState();
+		if (CurrentGridCoords == FVector2D(15, 13)) {
+			this->AlternateScatterChase(MyIndex());
 		}
 	}
 }

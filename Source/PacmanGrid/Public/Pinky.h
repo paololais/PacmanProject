@@ -14,21 +14,22 @@ class PACMANGRID_API APinky : public APhantomPawn
 {
 	GENERATED_BODY()
 	
-	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	const int GhostIndex = 1;
 
 public:
 	APinky();
 
 	void RespawnGhostStartingPosition() override;
 	
+	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
+	
 	void GoHome() override;
 
 	void GoToHisCorner() override;
 
-
-protected:
-	virtual void BeginPlay() override;
-
-private:
-	const int MyIndex = 1;
+	virtual int MyIndex() const override { return GhostIndex; }
 };

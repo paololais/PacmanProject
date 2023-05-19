@@ -3,11 +3,6 @@
 
 #include "Clyde.h"
 
-AGridBaseNode* AClyde::GetPlayerRelativeTarget()
-{
-	return Super::GetPlayerRelativeTarget();
-}
-
 AClyde::AClyde()
 {
 	CurrentGridCoords = FVector2D(14, 16);
@@ -19,8 +14,13 @@ void AClyde::BeginPlay()
 
 	this->SetIdleState();
 	if (CurrentGridCoords == FVector2D(15, 13)) {
-		this->AlternateScatterChase(MyIndex);
+		this->AlternateScatterChase(MyIndex());
 	}
+}
+
+AGridBaseNode* AClyde::GetPlayerRelativeTarget()
+{
+	return Super::GetPlayerRelativeTarget();
 }
 
 void AClyde::RespawnGhostStartingPosition()
@@ -35,13 +35,9 @@ void AClyde::RespawnGhostStartingPosition()
 
 	SetActorLocation(Location);
 	
-	//da modificare facendolo uscire dopo
-	if (CurrentGridCoords == FVector2D(14, 16))
-	{
-		this->SetIdleState();
-		if (CurrentGridCoords == FVector2D(16, 13)) {
-			this->AlternateScatterChase(MyIndex);
-		}
+	this->SetIdleState();
+	if (CurrentGridCoords == FVector2D(15, 13)) {
+		this->AlternateScatterChase(MyIndex());
 	}
 }
 
@@ -60,8 +56,8 @@ void AClyde::GoHome() {
 	if (CurrentGridCoords == FVector2D(14, 16))
 	{
 		this->SetIdleState();
-		if (CurrentGridCoords == FVector2D(16, 13)) {
-			this->AlternateScatterChase(MyIndex);
+		if (CurrentGridCoords == FVector2D(15, 13)) {
+			this->AlternateScatterChase(MyIndex());
 		}
 	}
 }

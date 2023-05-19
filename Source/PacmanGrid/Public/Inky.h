@@ -13,20 +13,22 @@ UCLASS()
 class PACMANGRID_API AInky : public APhantomPawn
 {
 	GENERATED_BODY()
-	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	const int GhostIndex = 2;
 
 public:
 	AInky();
 
 	void RespawnGhostStartingPosition() override;
 
+	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
+	
 	void GoHome() override;
 
 	void GoToHisCorner() override;
-	
-protected:
-	virtual void BeginPlay() override;
 
-private:
-	const int MyIndex = 2;
+	virtual int MyIndex() const override { return GhostIndex; }
 };

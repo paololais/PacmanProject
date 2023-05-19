@@ -3,11 +3,6 @@
 
 #include "Blinky.h"
 
-AGridBaseNode* ABlinky::GetPlayerRelativeTarget()
-{
-	return Super::GetPlayerRelativeTarget();
-}
-
 ABlinky::ABlinky()
 {
 	CurrentGridCoords = FVector2D(17, 10);
@@ -18,22 +13,19 @@ void ABlinky::BeginPlay()
 	Super::BeginPlay();
 
 	//alterna scatter chase
-	AlternateScatterChase(MyIndex);
+	AlternateScatterChase(GhostIndex);
+}
+
+AGridBaseNode* ABlinky::GetPlayerRelativeTarget()
+{
+	return Super::GetPlayerRelativeTarget();
 }
 
 void ABlinky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 
-	const FVector Location(1750, 1050, GetActorLocation().Z);
-
-	LastNode = (*(GridGenTMap.Find(FVector2D(17, 10))));
-	SetNextNode(*(GridGenTMap.Find(FVector2D(17, 10))));
-	SetTargetNode(NextNode);
-
-	SetActorLocation(Location);
-
-	this->AlternateScatterChase(MyIndex);
+	this->AlternateScatterChase(MyIndex());
 }
 
 void ABlinky::GoHome() {
@@ -50,10 +42,7 @@ void ABlinky::GoHome() {
 
 	if (CurrentGridCoords==FVector2D(14,14))
 	{
-		this->SetIdleState();
-		if (CurrentGridCoords == FVector2D(16, 13)) {
-			this->AlternateScatterChase(MyIndex);
-		}
+		AlternateScatterChase(MyIndex());
 	}
 }
 

@@ -18,7 +18,8 @@ enum EEnemyState{
 	Scatter, //ghost walks a default path
 	Frightened, //ghost can be eat by pacman
 	Idle, //ghost in his house
-	Dead //ghost eaten by player when in frightened state
+	Dead, //ghost eaten by player when in frightened state
+	Exit, //ghost is leaving ghost area
 };
 
 
@@ -41,6 +42,18 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		class APacmanPawn* Player;
+
+private:
+	//Indexes: 0 - Blinky, 1 - Pinky, 2 - Inky, 3 - Clyde
+	int GhostIndex = 0;
+
+	//tracks sequence point of AlternateScatterChase() 
+	int sequencePoints[4] = { 1,1,1,1 };
+
+	//Starting positions
+	FVector2D HomePosition[4] = {FVector2D(14,14), FVector2D(14,13), FVector2D(14,11), FVector2D(14,16)};
+	//called when spawn or respawn
+	FVector2D StartPosition[4] = { FVector2D(17,10), FVector2D(14,13), FVector2D(14,11), FVector2D(14,16) };
 
 public:
 	virtual void Tick(float DeltaTime) override;
@@ -81,8 +94,9 @@ public:
 	//exit ghost area
 	void ExitGhostArea();
 
-	FTimerHandle DelayReverse;
+	//called when ghost changes state
 	void ReverseDirection();
+	FTimerHandle DelayReverse;
 
 	//function called when ghost is in scattered mode
 	//every ghost as an assigned corner to go
@@ -94,25 +108,27 @@ public:
 
 	void AlternateScatterChase(int GhostIndex);
 
-	//gestione stati
-	UPROPERTY(EditAnywhere)
+	//StateManager
+	UPROPERTY(EditAnywhere, Category = "Ghost State", meta = (DisplayName = "Ghost State"))
 		TEnumAsByte<EEnemyState> EEnemyState = Idle;
 
 	void SetChaseState();
-	bool IsChaseState();
-
 	void SetScatterState();
-	bool IsScatterState();
-
 	void SetFrightenedState();
-	bool IsFrightenedState();
-
 	void SetIdleState();
-	bool IsIdleState();
-
 	void SetDeadState();
-	bool IsDeadState();
+	void SetExitState();
 
-private:
-	int sequencePoints[4] = { 1,1,1,1 };
+	bool IsChaseState();
+	bool IsScatterState();
+	bool IsFrightenedState();
+	bool IsIdleState();
+	bool IsDeadState();
+	bool IsExitState();
+	
+	virtual int MyIndex() const { return GhostIndex; };
+
+	//keeps tracks if ghost is exiting the ghost area (necessary for ghost exit logic)
+	UPROPERTY(VisibleAnywhere, Category = "Ghost State")
+		bool bIsLeaving = false;
 };

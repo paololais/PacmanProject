@@ -14,20 +14,22 @@ class PACMANGRID_API AClyde : public APhantomPawn
 {
 	GENERATED_BODY()
 
-	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	const int GhostIndex = 3;
 
 public:
 	AClyde();
+
+	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
 
 	void RespawnGhostStartingPosition() override;
 
 	void GoHome() override;
 
 	void GoToHisCorner() override;
-
-protected:
-	virtual void BeginPlay() override;
-
-private:
-	const int MyIndex = 3;
+	
+	virtual int MyIndex() const override { return GhostIndex; }
 };
