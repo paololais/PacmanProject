@@ -13,7 +13,6 @@ UCLASS()
 class PACMANGRID_API ABlinky : public APhantomPawn
 {
 	GENERATED_BODY()
-	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
 
 private:
 	const int GhostIndex = 0;
@@ -23,6 +22,8 @@ protected:
 
 public:
 	ABlinky();
+	
+	virtual AGridBaseNode* GetPlayerRelativeTarget() override;
 
 	virtual void RespawnGhostStartingPosition() override;
 

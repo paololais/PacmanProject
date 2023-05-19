@@ -12,10 +12,7 @@ void AClyde::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->SetIdleState();
-	if (CurrentGridCoords == FVector2D(15, 13)) {
-		this->AlternateScatterChase(MyIndex());
-	}
+	this->SetExitState();
 }
 
 AGridBaseNode* AClyde::GetPlayerRelativeTarget()
@@ -26,40 +23,12 @@ AGridBaseNode* AClyde::GetPlayerRelativeTarget()
 void AClyde::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
-
-	const FVector Location(1450, 1650, GetActorLocation().Z);
-
-	LastNode = (*(GridGenTMap.Find(FVector2D(14, 16))));
-	SetNextNode(*(GridGenTMap.Find(FVector2D(14, 16))));
-	SetTargetNode(NextNode);
-
-	SetActorLocation(Location);
 	
-	this->SetIdleState();
-	if (CurrentGridCoords == FVector2D(15, 13)) {
-		this->AlternateScatterChase(MyIndex());
-	}
+	this->SetExitState();
 }
 
 void AClyde::GoHome() {
-	this->SetDeadState();
-
-	const AGridBaseNode* Target = *(GridGenTMap.Find(FVector2D(14, 16)));
-
-	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
-
-	if (PossibleNode)
-	{
-		this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
-	}
-
-	if (CurrentGridCoords == FVector2D(14, 16))
-	{
-		this->SetIdleState();
-		if (CurrentGridCoords == FVector2D(15, 13)) {
-			this->AlternateScatterChase(MyIndex());
-		}
-	}
+	Super::GoHome();
 }
 
 void AClyde::GoToHisCorner()
