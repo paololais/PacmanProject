@@ -181,16 +181,11 @@ void APhantomPawn::OnNodeReached()
 
 			}
 		}
-
-		if (this->IsExitState() && (CurrentGridCoords == FVector2D(16, 13) || CurrentGridCoords == FVector2D(15,13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) {
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("scatter chase on")));
-			this->AlternateScatterChase(GhostIndex);
-		}
 	}
 
 	if ((CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (this->bIsLeaving == true)) {
 		this->bIsLeaving = false;
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("isLeaving = false")));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("isLeaving = false")));
 	}
 }
 
@@ -348,8 +343,16 @@ void APhantomPawn::ExitGhostArea()
 		{
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode2->GetGridPosition() - this->GetLastNodeCoords()), true);
 		}
+		/*
 		if (CurrentGridCoords == FVector2D(16, 13)) {
 			this->AlternateScatterChase(this->MyIndex());
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("scatter chase on (exit ghost area)")));
+		}
+		*/
+		if (NextNode == (*(GridGenTMap.Find(FVector2D(16, 13)))))
+		{
+			this->AlternateScatterChase(this->MyIndex());
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("scatter chase on (exit ghost area)")));
 		}
 	}
 }
@@ -529,6 +532,7 @@ void APhantomPawn::SetExitState()
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Exit;
 	this->SetSpeed(NormalMovementSpeed);
+	this->bIsLeaving = true;
 }
 
 bool APhantomPawn::IsExitState()

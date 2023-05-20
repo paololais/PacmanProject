@@ -333,5 +333,5 @@ void APacmanPawn::RespawnStartingPosition() {
 	this->SetTargetNode(NextNode);
 	this->LastInputDirection = FVector(0, 0, 0);
 	this->LastValidInputDirection = FVector(0, 0, 0);
-	this->SetActorLocation(FVector(550, 1250, 0));
+	this->SetActorLocation(FVector(550, 1250, GetActorLocation().Z));
 }
