@@ -272,7 +272,7 @@ void APacmanPawn::OnNodeReached()
 void APacmanPawn::PowerModeOn()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Green, FString::Printf(TEXT("Power Mode on")));
-	CurrentMovementSpeed = 800.0f;
+	CurrentMovementSpeed = PowerSpeed;
 
 	float PowerModeTime = 10.0f;
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);

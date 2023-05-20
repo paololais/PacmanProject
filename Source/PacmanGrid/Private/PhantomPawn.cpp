@@ -143,7 +143,7 @@ void APhantomPawn::OnNodeReached()
 	}
 
 	//vuole uscire dalla ghost area
-	if ((CurrentGridCoords == (FVector2D(15, 13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) && (LastInputDirection.X > 0 || LastValidInputDirection.X > 0))
+	else if ((CurrentGridCoords == (FVector2D(15, 13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) && (LastInputDirection.X > 0 || LastValidInputDirection.X > 0))
 		//if (CurrentGridCoords == (FVector2D(15, 13)) && (LastInputDirection.X>0 || LastValidInputDirection.X>0))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
@@ -183,9 +183,59 @@ void APhantomPawn::OnNodeReached()
 		}
 	}
 
-	if ((CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (this->bIsLeaving == true)) {
+	else if ((CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (this->bIsLeaving == true)) {
 		this->bIsLeaving = false;
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("isLeaving = false")));
+	}
+
+	//tunnel speed
+	//tunnel sx
+	else if (CurrentGridCoords == FVector2D(14, 4))
+	{
+		//enters the tunnel
+		if (LastValidInputDirection.Y < 0 )
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("ghost is entering tunnel")));
+			this->SetSpeed(TunnelSpeed);
+		}
+		//leaves the tunnel
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ghost is leaving tunnel")));
+			//checks ghost state
+			if (IsFrightenedState())
+			{
+				this->SetSpeed(FrightenedSpeed);
+			}
+			else
+			{
+				this->SetSpeed(NormalMovementSpeed);
+			}
+		}
+	}
+	//tunnel dx
+	else if (CurrentGridCoords == FVector2D(14, 23))
+	{
+		//enters the tunnel
+		if (LastValidInputDirection.Y > 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ghost is entering tunnel")));
+			this->SetSpeed(TunnelSpeed);
+		}
+		//leaves the tunnel
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ghost is leaving tunnel")));
+			//checks ghost state
+			if (IsFrightenedState())
+			{
+				this->SetSpeed(FrightenedSpeed);
+			}
+			else
+			{
+				this->SetSpeed(NormalMovementSpeed);
+			}
+		}
 	}
 }
 
@@ -489,7 +539,7 @@ void APhantomPawn::SetFrightenedState()
 	this->ReverseDirection();
 	StaticMesh->SetMaterial(2, VulnerableSkin);
 	this->EEnemyState = Frightened;
-	this->SetSpeed(400.f);
+	this->SetSpeed(FrightenedSpeed);
 }
 
 bool APhantomPawn::IsFrightenedState()
@@ -516,7 +566,7 @@ void APhantomPawn::SetDeadState()
 {
 	StaticMesh->SetMaterial(2, DeadSkin);
 	this->EEnemyState = Dead;
-	this->SetSpeed(NormalMovementSpeed);
+	this->SetSpeed(DeadSpeed);
 }
 
 bool APhantomPawn::IsDeadState()

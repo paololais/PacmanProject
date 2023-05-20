@@ -57,10 +57,20 @@ protected:
 
 	void SetLastValidDirection(FVector Dir);
 
+	//speed
 	UPROPERTY(EditAnywhere, Category = "Movement")
 		float CurrentMovementSpeed = 600.0f;
-	UPROPERTY(EditAnywhere, Category = "Movement")
-		float NormalMovementSpeed = 600.0f;
+	//normal speed
+	float NormalMovementSpeed = 600.0f;
+	//Tunnel Speed - ghosts
+	float TunnelSpeed = 300.0f;
+	//frightened speed - ghosts
+	float FrightenedSpeed = 400.0f;
+	//dead speed - ghosts
+	float DeadSpeed = 1000.0f;;
+	//power mode on
+	float PowerSpeed = 700.0f;
+
 	UPROPERTY(EditAnywhere)
 		float AcceptedDistance = 4.f;
 

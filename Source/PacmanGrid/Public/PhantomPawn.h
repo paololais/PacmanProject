@@ -19,7 +19,7 @@ enum EEnemyState{
 	Frightened, //ghost can be eat by pacman
 	Idle, //ghost in his house
 	Dead, //ghost eaten by player when in frightened state
-	Exit, //ghost is leaving ghost area
+	Exit, //ghost is leaving his house
 };
 
 
