@@ -25,9 +25,7 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 
 		FVector PlayerDirection = Player->GetLastValidDirection();
 
-		FVector2D PlayerCoords = Player->GetLastNodeCoords();
-
-		FVector2D TargetCoords = PlayerCoords;
+		FVector2D TargetCoords = Player->GetLastNodeCoords();
 
 		AGridBaseNode* Target = nullptr;
 
@@ -81,7 +79,14 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 		}
 	
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
-		return Target;
+		if (Target!=nullptr)
+		{
+			return Target;
+		}
+		else
+		{
+			return Super::GetPlayerRelativeTarget();
+		}
 	}
 
 	return Super::GetPlayerRelativeTarget();

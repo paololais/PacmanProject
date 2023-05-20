@@ -234,25 +234,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			if (TheGridGen->GetCountFood() == 0)
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
-				this->Destroy();
-
-				if (IsValid(Blinky))
-				{
-					Blinky->Destroy();
-				}
-				if (IsValid(Inky))
-				{
-					Inky->Destroy();
-				}
-				if (IsValid(Pinky))
-				{
-					Pinky->Destroy();
-				}
-				if (IsValid(Clyde))
-				{
-					Clyde->Destroy();
-				}
-				GameMode->ShowGameWinScreen();
+				GameMode->GameWin();
 			}
 		}
 	}
@@ -325,6 +307,11 @@ void APacmanPawn::PowerModeOff()
 	}
 
 	this->SetNumberOfGhostsKilled(0);
+}
+
+void APacmanPawn::ClearTimer()
+{
+	GetWorld()->GetTimerManager().ClearTimer(PowerModeTimer);
 }
 
 void APacmanPawn::RespawnStartingPosition() {

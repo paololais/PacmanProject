@@ -26,7 +26,7 @@ void ATestGridGameMode::BeginPlay()
 
 	IsGameOver = false;
 
-	IsLevelWin = false;
+	//IsLevelWin = false;
 
 	
 	// con questa posizione la tile di coordinate griglia (0,0) ha come
@@ -60,6 +60,68 @@ void ATestGridGameMode::BeginPlay()
 	ClydePawn = GetWorld()->SpawnActor<AClyde>(ClydeClass, FVector((100 * 14) + 50, (100 * 16) + 50, 5.0f), FRotator(0, 0, 0));
 }
 
+void ATestGridGameMode::GameOver()
+{
+	IsGameOver = true;
+
+	if (IsValid(BlinkyPawn))
+	{
+		BlinkyPawn->ClearTimer();
+		BlinkyPawn->Destroy();
+	}
+	if (IsValid(InkyPawn)) {
+		InkyPawn->ClearTimer();
+		InkyPawn->Destroy();
+	}
+	if (IsValid(PinkyPawn)) {
+		PinkyPawn->ClearTimer();
+		PinkyPawn->Destroy();
+	}
+
+	if (IsValid(ClydePawn)) {
+		ClydePawn->ClearTimer();
+		ClydePawn->Destroy();
+	}
+
+	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
+	if (IsValid(PacmanPawn)) {
+		PacmanPawn->ClearTimer();
+		PacmanPawn->Destroy();
+	}
+
+	ShowGameOverScreen();
+}
+
+
+void ATestGridGameMode::GameWin()
+{
+	if (IsValid(BlinkyPawn))
+	{
+		BlinkyPawn->ClearTimer();
+		BlinkyPawn->Destroy();
+	}
+	if (IsValid(InkyPawn)) {
+		InkyPawn->ClearTimer();
+		InkyPawn->Destroy();
+	}
+	if (IsValid(PinkyPawn)) {
+		PinkyPawn->ClearTimer();
+		PinkyPawn->Destroy();
+	}
+
+	if (IsValid(ClydePawn)) {
+		ClydePawn->ClearTimer();
+		ClydePawn->Destroy();
+	}
+
+	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
+	if (IsValid(PacmanPawn)) {
+		PacmanPawn->ClearTimer();
+		PacmanPawn->Destroy();
+	}
+
+	ShowGameWinScreen();
+}
 
 void ATestGridGameMode::RespawnPositions()
 {
@@ -84,6 +146,8 @@ void ATestGridGameMode::RespawnPositions()
 	}
 }
 
+//use if you implement other levels
+/*
 void ATestGridGameMode::SetLevelWin()
 {
 	this->RespawnPositions();
@@ -96,6 +160,7 @@ void ATestGridGameMode::SetLevelWin()
 		It->Value->SetActorHiddenInGame(false);
 	}
 }
+*/
 
 void ATestGridGameMode::ShowGameOverScreen()
 {

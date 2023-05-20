@@ -91,10 +91,13 @@ public:
 	//tracks if the game is over
 	bool IsGameOver;
 
-	//tracks if level is win
-	bool IsLevelWin;
+	void GameOver();
 
-	void SetLevelWin();
+	//tracks if level is win - use only if you implement other levels
+	//bool IsLevelWin;
+	//void SetLevelWin();
+
+	void GameWin();
 
 	void RespawnPositions();
 };

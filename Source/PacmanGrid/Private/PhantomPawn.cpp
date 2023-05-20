@@ -54,19 +54,11 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 				GameMode->RespawnPositions();
 			}
 
-			//se player non ha più vite->destroy
+			//se player non ha più vite->game over
 			else
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
-				GameMode->IsGameOver = true;
-				Pacman->Destroy();
-				
-				GameMode->BlinkyPawn->Destroy();
-				GameMode->InkyPawn->Destroy();
-				GameMode->PinkyPawn->Destroy();
-				GameMode->ClydePawn->Destroy();
-
-				GameMode->ShowGameOverScreen();
+				GameMode->GameOver();
 			}
 		}
 	}
@@ -146,7 +138,7 @@ void APhantomPawn::OnNodeReached()
 	else if ((CurrentGridCoords == (FVector2D(15, 13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) && (LastInputDirection.X > 0 || LastValidInputDirection.X > 0))
 		//if (CurrentGridCoords == (FVector2D(15, 13)) && (LastInputDirection.X>0 || LastValidInputDirection.X>0))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
 
 		// Permetti il transito
 		if (IsChaseState() || IsScatterState() || IsExitState())
@@ -178,14 +170,12 @@ void APhantomPawn::OnNodeReached()
 				FVector OppositeDirection = -GetLastValidDirection();
 				SetNextNodeByDir(OppositeDirection, true);
 				SetTargetNode(NextNode);
-
 			}
 		}
 	}
 
 	else if ((CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (this->bIsLeaving == true)) {
 		this->bIsLeaving = false;
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("isLeaving = false")));
 	}
 
 	//tunnel speed
@@ -195,13 +185,11 @@ void APhantomPawn::OnNodeReached()
 		//enters the tunnel
 		if (LastValidInputDirection.Y < 0 )
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("ghost is entering tunnel")));
 			this->SetSpeed(TunnelSpeed);
 		}
 		//leaves the tunnel
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ghost is leaving tunnel")));
 			//checks ghost state
 			if (IsFrightenedState())
 			{
@@ -219,13 +207,11 @@ void APhantomPawn::OnNodeReached()
 		//enters the tunnel
 		if (LastValidInputDirection.Y > 0)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ghost is entering tunnel")));
 			this->SetSpeed(TunnelSpeed);
 		}
 		//leaves the tunnel
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("ghost is leaving tunnel")));
 			//checks ghost state
 			if (IsFrightenedState())
 			{
@@ -309,7 +295,6 @@ void APhantomPawn::SetGhostTarget()
 	}
 
 	if (this->IsScatterState()) {
-
 		this->GoToHisCorner();
 	}
 
@@ -393,15 +378,10 @@ void APhantomPawn::ExitGhostArea()
 		{
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode2->GetGridPosition() - this->GetLastNodeCoords()), true);
 		}
-		/*
-		if (CurrentGridCoords == FVector2D(16, 13)) {
-			this->AlternateScatterChase(this->MyIndex());
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("scatter chase on (exit ghost area)")));
-		}
-		*/
+
 		if (NextNode == (*(GridGenTMap.Find(FVector2D(16, 13)))))
 		{
-			this->AlternateScatterChase(this->MyIndex());
+			this->AlternateScatterChase(MyIndex());
 			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("scatter chase on (exit ghost area)")));
 		}
 	}

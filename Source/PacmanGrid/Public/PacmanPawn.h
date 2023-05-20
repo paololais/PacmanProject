@@ -34,6 +34,7 @@ public:
 
 	void PowerModeOn();
 	void PowerModeOff();
+	void ClearTimer();
 
 	FTimerHandle PowerModeTimer;
 
