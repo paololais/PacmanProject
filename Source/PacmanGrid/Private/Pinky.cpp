@@ -8,6 +8,7 @@
 APinky::APinky()
 {
 	CurrentGridCoords = FVector2D(14, 13);
+	DefaultSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_Pink.M_Pink'"));
 }
 
 void APinky::BeginPlay()

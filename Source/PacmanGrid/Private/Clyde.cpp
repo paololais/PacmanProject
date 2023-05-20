@@ -6,6 +6,7 @@
 AClyde::AClyde()
 {
 	CurrentGridCoords = FVector2D(14, 16);
+	DefaultSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_PlainOrange.M_PlainOrange'"));
 }
 
 void AClyde::BeginPlay()

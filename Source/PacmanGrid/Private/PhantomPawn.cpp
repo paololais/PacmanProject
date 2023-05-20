@@ -18,6 +18,8 @@ APhantomPawn::APhantomPawn()
 	DeadSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Engine/MapTemplates/Sky/M_BlackBackground.M_BlackBackground'"));
 
 	VulnerableSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_Blue.M_Blue'"));
+
+	FlashingSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_FlashSkin.M_FlashSkin'"));
 }
 
 void APhantomPawn::BeginPlay()

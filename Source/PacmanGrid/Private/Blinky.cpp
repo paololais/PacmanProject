@@ -6,6 +6,7 @@
 ABlinky::ABlinky()
 {
 	CurrentGridCoords = FVector2D(17, 10);
+	DefaultSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_PlainRed.M_PlainRed'"));
 }
 
 void ABlinky::BeginPlay()

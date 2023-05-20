@@ -85,6 +85,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		UMaterialInterface* DeadSkin;
 
+	UPROPERTY(EditAnywhere)
+		UMaterialInterface* FlashingSkin;
+
 	//respawn starting position
 	virtual void RespawnGhostStartingPosition();
 

@@ -8,6 +8,7 @@
 AInky::AInky()
 {
 	CurrentGridCoords = FVector2D(14, 11);
+	DefaultSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_Cyan.M_Cyan'"));
 }
 
 void AInky::BeginPlay()
