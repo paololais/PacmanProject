@@ -398,9 +398,12 @@ void APhantomPawn::ReverseDirection() {
 	// Calcola la direzione opposta rispetto all'ultima direzione valida
 	FVector OppositeDirection = -GetLastValidDirection();
 
+	SetNextNodeByDir(OppositeDirection, true);
+	/*
 	GetWorld()->GetTimerManager().SetTimer(DelayReverse, [this, OppositeDirection]() {
 		SetNextNodeByDir(OppositeDirection, true);
 	}, Delay, false);
+	*/
 }
 
 void APhantomPawn::GoToHisCorner()
@@ -574,3 +577,8 @@ bool APhantomPawn::IsExitState()
 	else return false;
 }
 
+void APhantomPawn::FlashSkin() {
+	if (IsFrightenedState()) {
+		StaticMesh->SetMaterial(2, FlashingSkin);
+	}
+}

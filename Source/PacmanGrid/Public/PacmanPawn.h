@@ -37,6 +37,7 @@ public:
 	void ClearTimer();
 
 	FTimerHandle PowerModeTimer;
+	FTimerHandle FlashGhostTimer;
 
 	// game instance reference
 	UMyGameInstance* GameInstance;

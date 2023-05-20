@@ -258,6 +258,18 @@ void APacmanPawn::PowerModeOn()
 
 	float PowerModeTime = 10.0f;
 	GetWorld()->GetTimerManager().SetTimer(PowerModeTimer, this, &APacmanPawn::PowerModeOff, PowerModeTime, false);
+	//flash ghost skin when power mode is finishing
+	float FlashGhostTime = 7.0f;
+	GetWorld()->GetTimerManager().SetTimer(FlashGhostTimer, [this]() {
+		if (Blinky)
+			Blinky->FlashSkin();
+		if (Inky)
+			Inky->FlashSkin();
+		if (Pinky)
+			Pinky->FlashSkin();
+		if (Clyde)
+			Clyde->FlashSkin();
+		}, FlashGhostTime, false);
 
 	//set ghosts in frightened mode
 	if (IsValid(Blinky))
@@ -312,6 +324,7 @@ void APacmanPawn::PowerModeOff()
 void APacmanPawn::ClearTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(PowerModeTimer);
+	GetWorld()->GetTimerManager().ClearTimer(FlashGhostTimer);
 }
 
 void APacmanPawn::RespawnStartingPosition() {

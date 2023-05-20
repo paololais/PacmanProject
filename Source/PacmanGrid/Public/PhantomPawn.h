@@ -99,7 +99,7 @@ public:
 
 	//called when ghost changes state
 	void ReverseDirection();
-	FTimerHandle DelayReverse;
+	//FTimerHandle DelayReverse;
 
 	//function called when ghost is in scattered mode
 	//every ghost as an assigned corner to go
@@ -114,6 +114,8 @@ public:
 	//StateManager
 	UPROPERTY(EditAnywhere, Category = "Ghost State", meta = (DisplayName = "Ghost State"))
 		TEnumAsByte<EEnemyState> EEnemyState = Idle;
+
+	void FlashSkin();
 
 	void SetChaseState();
 	void SetScatterState();
