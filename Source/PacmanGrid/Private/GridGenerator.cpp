@@ -10,13 +10,6 @@ constexpr int MapSizeY = 29;
 // # - Wall
 // B - Big Point
 // N - Empty
-// P - Player
-//     Phantom:
-//     - 1 - Blinky
-//     - 2 - Pinky
-//     - 3 - Inky
-//     - 4 - Clyde
-//    
 // C - Cherry
 // R - Ghost Respawn
 // G - Ghost Area

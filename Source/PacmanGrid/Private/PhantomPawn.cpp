@@ -25,6 +25,7 @@ APhantomPawn::APhantomPawn()
 void APhantomPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
 	FVector2D StartNode = TheGridGen->GetXYPositionByRelativeLocation(GetActorLocation());
 	LastNode = TheGridGen->TileMap[StartNode];
 
