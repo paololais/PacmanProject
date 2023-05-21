@@ -14,6 +14,7 @@ void ABlinky::BeginPlay()
 	Super::BeginPlay();
 
 	//alterna scatter chase
+	this->bIsLeaving = false;
 	AlternateScatterChase(GhostIndex);
 }
 

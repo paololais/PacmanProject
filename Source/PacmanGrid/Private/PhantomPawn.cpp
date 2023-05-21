@@ -143,7 +143,7 @@ void APhantomPawn::OnNodeReached()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
 
 		// Permetti il transito
-		if (IsChaseState() || IsScatterState() || IsExitState())
+		if (IsChaseState() || IsScatterState() || IsFrightenedState())
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("exit granted")));
 		}
@@ -254,7 +254,7 @@ AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 void APhantomPawn::SetGhostTarget()
 {
 	//chase state allora insegue player
-	if (this->IsChaseState())
+	if (this->IsChaseState() && !bIsLeaving)
 	{
 		const AGridBaseNode* Target = GetPlayerRelativeTarget();
 		if (!Target)
@@ -272,13 +272,13 @@ void APhantomPawn::SetGhostTarget()
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
 		}
 	}
-	if (this->IsDeadState())
+	else if (this->IsDeadState())
 	{
 		//override della casella home per ciascun ghost
 		this->GoHome();
 	}
 
-	if (this->IsIdleState())
+	else if (this->IsIdleState())
 	{
 		// Randomly select a target node for the ghost
 		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
@@ -296,11 +296,11 @@ void APhantomPawn::SetGhostTarget()
 		}
 	}
 
-	if (this->IsScatterState()) {
+	else if (this->IsScatterState() && !bIsLeaving) {
 		this->GoToHisCorner();
 	}
 
-	if (this->IsFrightenedState())
+	else if (this->IsFrightenedState() && !bIsLeaving)
 	{
 		// Randomly select a target node for the ghost
 		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
@@ -317,7 +317,9 @@ void APhantomPawn::SetGhostTarget()
 			}
 		}
 	}
-	if (this->IsExitState()) {
+
+	else if (bIsLeaving && (IsScatterState() || IsChaseState() || IsFrightenedState()) )
+	{
 		this->ExitGhostArea();
 	}
 }
@@ -352,14 +354,13 @@ void APhantomPawn::GoHome()
 
 	if (CurrentGridCoords == HomePosition[MyIndex()])
 	{
-		this->SetExitState();
+		this->AlternateScatterChase(MyIndex());
+		this->bIsLeaving = true;
 	}
 }
 
 void APhantomPawn::ExitGhostArea()
 {	
-	this->bIsLeaving = true;
-
 	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(15, 13)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
@@ -379,12 +380,6 @@ void APhantomPawn::ExitGhostArea()
 		if (PossibleNode2)
 		{
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode2->GetGridPosition() - this->GetLastNodeCoords()), true);
-		}
-
-		if (NextNode == (*(GridGenTMap.Find(FVector2D(16, 13)))))
-		{
-			this->AlternateScatterChase(MyIndex());
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("scatter chase on (exit ghost area)")));
 		}
 	}
 }
@@ -562,20 +557,6 @@ bool APhantomPawn::IsDeadState()
 	else return false;
 }
 
-void APhantomPawn::SetExitState()
-{
-	StaticMesh->SetMaterial(2, DefaultSkin);
-	this->EEnemyState = Exit;
-	this->SetSpeed(NormalMovementSpeed);
-	this->bIsLeaving = true;
-}
-
-bool APhantomPawn::IsExitState()
-{
-	if (this->EEnemyState == Exit) return true;
-
-	else return false;
-}
 
 void APhantomPawn::FlashSkin() {
 	if (IsFrightenedState()) {

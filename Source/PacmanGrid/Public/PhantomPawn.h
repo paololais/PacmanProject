@@ -19,9 +19,7 @@ enum EEnemyState{
 	Frightened, //ghost can be eat by pacman
 	Idle, //ghost in his house
 	Dead, //ghost eaten by player when in frightened state
-	Exit, //ghost is leaving his house
 };
-
 
 UCLASS()
 class PACMANGRID_API APhantomPawn : public AGridPawn
@@ -44,7 +42,7 @@ protected:
 		class APacmanPawn* Player;
 
 private:
-	//Indexes: 0 - Blinky, 1 - Pinky, 2 - Inky, 3 - Clyde
+	//Indexes overridden: 0 - Blinky, 1 - Pinky, 2 - Inky, 3 - Clyde
 	int GhostIndex = 0;
 
 	//tracks sequence point of AlternateScatterChase() 
@@ -109,7 +107,7 @@ public:
 	
 	void ClearTimer();
 
-	void AlternateScatterChase(int GhostIndex);
+	void AlternateScatterChase(int Index);
 
 	//StateManager
 	UPROPERTY(EditAnywhere, Category = "Ghost State", meta = (DisplayName = "Ghost State"))
@@ -122,14 +120,12 @@ public:
 	void SetFrightenedState();
 	void SetIdleState();
 	void SetDeadState();
-	void SetExitState();
 
 	bool IsChaseState();
 	bool IsScatterState();
 	bool IsFrightenedState();
 	bool IsIdleState();
 	bool IsDeadState();
-	bool IsExitState();
 	
 	virtual int MyIndex() const { return GhostIndex; };
 

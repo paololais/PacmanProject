@@ -15,7 +15,8 @@ void AInky::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	this->SetExitState();
+	this->AlternateScatterChase(MyIndex());
+	this->bIsLeaving = true;
 }
 
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
@@ -97,7 +98,8 @@ void AInky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 
-	this->SetExitState();
+	this->AlternateScatterChase(MyIndex());
+	this->bIsLeaving = true;
 }
 
 void AInky::GoHome() {

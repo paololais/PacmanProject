@@ -15,8 +15,9 @@ void APinky::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//blinky esce subito dalla ghost area
-	this->SetExitState();
+	//Pinky esce subito dalla ghost area
+	this->AlternateScatterChase(MyIndex());
+	this->bIsLeaving = true;
 }
 
 AGridBaseNode* APinky::GetPlayerRelativeTarget()
@@ -97,8 +98,9 @@ void APinky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 	
-	//blinky esce subito dalla ghost area
-	this->SetExitState();
+	//Pinky esce subito dalla ghost area
+	this->AlternateScatterChase(MyIndex());
+	this->bIsLeaving = true;
 }
 
 void APinky::GoHome() {

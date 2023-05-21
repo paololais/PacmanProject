@@ -13,7 +13,8 @@ void AClyde::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->SetExitState();
+	this->AlternateScatterChase(MyIndex());
+	this->bIsLeaving = true;
 }
 
 AGridBaseNode* AClyde::GetPlayerRelativeTarget()
@@ -25,7 +26,8 @@ void AClyde::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 	
-	this->SetExitState();
+	this->AlternateScatterChase(MyIndex());
+	this->bIsLeaving = true;
 }
 
 void AClyde::GoHome() {
