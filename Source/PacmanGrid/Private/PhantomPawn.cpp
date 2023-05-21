@@ -419,43 +419,43 @@ void APhantomPawn::AlternateScatterChase(int Index)
 	case 1:
 		SetScatterState();
 		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex);}, 7.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex());}, 7.0f, false);
 		break;
 
 	case 2:
 		SetChaseState();
 		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex); }, 20.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 20.0f, false);
 		break;
 
 	case 3:
 		SetScatterState();
 		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex); }, 7.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 7.0f, false);
 		break;
 
 	case 4:
 		SetChaseState();
 		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex); }, 20.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 20.0f, false);
 		break;
 
 	case 5:
 		SetScatterState();
 		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex); }, 5.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 5.0f, false);
 		break;
 
 	case 6:
 		SetChaseState();
 		sequencePoint++;		
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex); }, 20.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 20.0f, false);
 		break;
 
 	case 7:
 		SetScatterState();
 		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(GhostIndex); }, 5.0f, false);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 5.0f, false);
 		break;
 
 	case 8:

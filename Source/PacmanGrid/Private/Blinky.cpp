@@ -15,7 +15,7 @@ void ABlinky::BeginPlay()
 
 	//alterna scatter chase
 	this->bIsLeaving = false;
-	AlternateScatterChase(GhostIndex);
+	this->AlternateScatterChase(MyIndex());
 }
 
 AGridBaseNode* ABlinky::GetPlayerRelativeTarget()
@@ -27,7 +27,7 @@ void ABlinky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 
-	this->AlternateScatterChase(GhostIndex);
+	this->AlternateScatterChase(MyIndex());
 }
 
 void ABlinky::GoHome() {
