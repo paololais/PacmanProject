@@ -15,9 +15,8 @@ void APinky::BeginPlay()
 {
 	Super::BeginPlay();
 	PinkyLimit = 0;
-	//Pinky esce subito dalla ghost area
-	this->AlternateScatterChase(MyIndex());
-	this->bIsLeaving = true;
+	this->SetIdleState();
+	this->bIsLeaving = false;
 }
 
 AGridBaseNode* APinky::GetPlayerRelativeTarget()
@@ -97,10 +96,9 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 void APinky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
-	
-	//Pinky esce subito dalla ghost area
-	this->AlternateScatterChase(MyIndex());
-	this->bIsLeaving = true;
+	this->ClearTimer();
+	this->SetIdleState();
+	this->bIsLeaving = false;
 }
 
 void APinky::GoHome() {

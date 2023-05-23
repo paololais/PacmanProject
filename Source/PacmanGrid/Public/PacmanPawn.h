@@ -51,6 +51,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	APhantomPawn* CurrentPreferredGhost;
 
+	void SetNextPreferredGhost();
+	void ResetPreferredGhost();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void HandleMovement() override;

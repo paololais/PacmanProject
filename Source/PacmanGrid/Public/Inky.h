@@ -37,4 +37,5 @@ public:
 	virtual int PointGhostCounter() const { return InkyCounter; }
 	virtual int PointGhostLimit() const override{ return InkyLimit; }
 	virtual void IncrementPointCounter() override { InkyCounter++; }
+	virtual void ResetPointCounter() override{ InkyCounter = 0; }
 };

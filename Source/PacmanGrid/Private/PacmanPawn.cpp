@@ -59,9 +59,9 @@ void APacmanPawn::BeginPlay()
 	Pinky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APinky::StaticClass()));
 	Clyde = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), AClyde::StaticClass()));
 	
-	if (IsValid(Inky))
+	if (IsValid(Pinky))
 	{
-		CurrentPreferredGhost = Inky;
+		CurrentPreferredGhost = Pinky;
 	}
 
 }
@@ -184,44 +184,11 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			//decrement food count
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
 			TheGridGen->SetCountFood(new_foodcount);
-			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
-			/*
-			GameMode->GlobalCounter++; 
-			int counter = GameMode->GlobalCounter;
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Global Counter = %d"), counter));
 
-			if (GameMode->GlobalCounter == 30)
+			if (IsValid(CurrentPreferredGhost))
 			{
-				if (IsValid(Inky))
-				{
-					Inky->bIsLeaving = true;
-					Inky->AlternateScatterChase(Inky->MyIndex());
-				}
-			}
-			else if (GameMode->GlobalCounter == 90) {
-				if (IsValid(Clyde))
-				{
-					Clyde->bIsLeaving = true;
-					Clyde->AlternateScatterChase(Clyde->MyIndex());
-				}
-			}
-			*/
-			CurrentPreferredGhost->IncrementPointCounter();
-			int counter = CurrentPreferredGhost->PointGhostCounter();
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
-			int limit = CurrentPreferredGhost->PointGhostLimit();
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
-			CurrentPreferredGhost->CanExitHouse();
-			if (CurrentPreferredGhost->CanExitHouse()) {
-				if (CurrentPreferredGhost == Pinky)
-				{
-					CurrentPreferredGhost = Inky;
-					CurrentPreferredGhost->IncrementPointCounter();
-				}
-				else if (CurrentPreferredGhost == Inky)
-				{
-					CurrentPreferredGhost = Clyde;
-				}
+				//increment counter and check if can exit house
+				CurrentPreferredGhost->CanExitHouse();
 			}
 
 			//check if pacman has eaten all the food
@@ -263,42 +230,12 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			Point->setEaten();
 			Point->SetActorHiddenInGame(true);
 
-			/*
-			GameMode->GlobalCounter++;
-			int counter = GameMode->GlobalCounter;
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Global Counter = %d"), counter));
-			
-			if (GameMode->GlobalCounter == 30)
+			if (IsValid(CurrentPreferredGhost))
 			{
-				if (IsValid(Inky))
-				{
-					Inky->AlternateScatterChase(Inky->MyIndex());
-				}
+				//increment counter and check if can exit house
+				CurrentPreferredGhost->CanExitHouse();
 			}
-			else if (GameMode->GlobalCounter == 90) {
-				if (IsValid(Clyde))
-				{
-					Clyde->AlternateScatterChase(Clyde->MyIndex());
-				}
-			}
-			*/
-			CurrentPreferredGhost->IncrementPointCounter();
-			int counter = CurrentPreferredGhost->PointGhostCounter();
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
-			int limit = CurrentPreferredGhost->PointGhostLimit();
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
-			CurrentPreferredGhost->CanExitHouse();
-			if (CurrentPreferredGhost->CanExitHouse()) {
-				if (CurrentPreferredGhost == Pinky)
-				{
-					CurrentPreferredGhost = Inky;
-					CurrentPreferredGhost->IncrementPointCounter();
-				}
-				else if (CurrentPreferredGhost == Inky)
-				{
-					CurrentPreferredGhost = Clyde;
-				}
-			}
+		
 			//Score System
 			if (IsValid(GameInstance))
 			{
@@ -416,4 +353,26 @@ void APacmanPawn::RespawnStartingPosition() {
 	this->LastInputDirection = FVector(0, 0, 0);
 	this->LastValidInputDirection = FVector(0, 0, 0);
 	this->SetActorLocation(FVector(550, 1250, GetActorLocation().Z));
+}
+
+void APacmanPawn::SetNextPreferredGhost()
+{
+	if (CurrentPreferredGhost == Pinky)
+	{
+		CurrentPreferredGhost = Inky;
+	}
+	else if (CurrentPreferredGhost == Inky)
+	{
+		CurrentPreferredGhost = Clyde;
+	}
+	else
+	{
+		CurrentPreferredGhost = Pinky;
+	}
+}
+
+void APacmanPawn::ResetPreferredGhost() {
+	if (IsValid(Pinky)) {
+		CurrentPreferredGhost = Pinky;
+	}
 }

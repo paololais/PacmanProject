@@ -25,9 +25,9 @@ AGridBaseNode* AClyde::GetPlayerRelativeTarget()
 void AClyde::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
-	
-	this->AlternateScatterChase(MyIndex());
-	this->bIsLeaving = true;
+	this->ClearTimer();
+	this->SetIdleState();
+	this->bIsLeaving = false;
 }
 
 void AClyde::GoHome() {

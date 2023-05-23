@@ -138,10 +138,15 @@ public:
 
 	//counter
 	int PointCounter = 0;
-	int PointLimit = 40;
+	int PointLimit;
 	virtual int PointGhostCounter() const { return PointCounter; }
 	virtual int PointGhostLimit() const { return PointLimit; }
 	virtual void IncrementPointCounter() { PointCounter++; }
+	virtual void ResetPointCounter() { PointCounter = 0; }
 
-	bool CanExitHouse();
+	//global counter used after pacman loses a life
+	int GlobalCounter;
+	int GlobalLimits[4] = { 0,7,17,32 };
+
+	void CanExitHouse();
 };

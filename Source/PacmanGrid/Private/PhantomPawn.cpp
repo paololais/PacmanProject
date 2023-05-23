@@ -34,6 +34,8 @@ void APhantomPawn::BeginPlay()
 	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 
 	GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
+
+	GlobalCounter = 0;
 }
 
 void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -58,6 +60,8 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 				//GameMode->StopMovement(1.0f);
 				//respawn starting postion of pawns
+				Pacman->ResetPreferredGhost();
+				GlobalCounter = 0;
 				GameMode->RespawnPositions();
 			}
 
@@ -149,9 +153,13 @@ void APhantomPawn::OnNodeReached()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
 
 		// Permetti il transito
-		if ((IsChaseState() || IsScatterState() || IsFrightenedState()) && bIsLeaving)
+		if ((IsChaseState() || IsScatterState()) && bIsLeaving)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("exit granted")));
+		}
+		else if (IsFrightenedState())
+		{
+			this->bIsLeaving = true;
 		}
 		// Blocca il transito
 		else
@@ -286,22 +294,6 @@ void APhantomPawn::SetGhostTarget()
 
 	else if (this->IsIdleState())
 	{
-		// Randomly select a target node for the ghost
-		/*
-		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
-		if (AllNodes.Num() > 0)
-		{
-			int32 RandomIndex = FMath::RandRange(0, AllNodes.Num() - 1);
-			AGridBaseNode* RandomNode = AllNodes[RandomIndex];
-
-			AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), RandomNode->GetGridPosition(), -(this->GetLastValidDirection()));
-
-			if (PossibleNode)
-			{
-				this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
-			}
-		}
-		*/
 		this->UpAndDown();
 	}
 
@@ -309,7 +301,7 @@ void APhantomPawn::SetGhostTarget()
 		this->GoToHisCorner();
 	}
 
-	else if (this->IsFrightenedState() && !bIsLeaving)
+	else if (this->IsFrightenedState())
 	{
 		// Randomly select a target node for the ghost
 		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
@@ -597,15 +589,50 @@ void APhantomPawn::UpAndDown() {
 	}
 }
 
-bool APhantomPawn::CanExitHouse()
+void APhantomPawn::CanExitHouse()
 {
-	if (this->PointGhostCounter() == PointGhostLimit())
+	//use each ghost counter
+	if ((GameInstance->GetLives()) == 3)
 	{
-		this->bIsLeaving = true;
-		this->AlternateScatterChase(this->MyIndex());
-		return true;
+		this->IncrementPointCounter();
+
+		int counter = this->PointGhostCounter();
+
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
+		int limit = this->PointGhostLimit();
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
+		
+		if (this->PointGhostCounter() >= this->PointGhostLimit())
+		{
+			this->bIsLeaving = true;
+			if (!(this->IsFrightenedState() && this->IsDeadState()))
+			{
+				this->AlternateScatterChase(this->MyIndex());
+			}
+			this->ResetPointCounter();
+			Player->SetNextPreferredGhost();
+		}
 	}
-	return false;
+	//use global counter
+	else
+	{
+		this->GlobalCounter++;
+		int counter = this->GlobalCounter;
+
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("global Counter = %d"), counter));
+		int limit = this->GlobalLimits[this->MyIndex()];
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("my global limit = %d"), limit));
+		
+		if (counter >= limit)
+		{
+			this->bIsLeaving = true;
+			if (!(this->IsFrightenedState() && this->IsDeadState()))
+			{
+				this->AlternateScatterChase(this->MyIndex());
+			}
+			Player->SetNextPreferredGhost();
+		}
+	}
 }
 
 

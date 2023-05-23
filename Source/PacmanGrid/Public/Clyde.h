@@ -39,5 +39,6 @@ public:
 	virtual int PointGhostCounter() const override { return ClydeCounter;  }
 	virtual int PointGhostLimit() const override { return ClydeLimit; }
 	virtual void IncrementPointCounter() override { ClydeCounter++; }
+	virtual void ResetPointCounter() override { ClydeCounter = 0; }
 
 };
