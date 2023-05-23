@@ -108,13 +108,13 @@ void AGridGenerator::GenerateGrid()
 			if (MapTile == 'B') {
 				FVector OffsetVectorZ(0, 0, 5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
-				Food = GetWorld()->SpawnActor<AEatableEntity>(PowerNode, PositionShifted, FRotator::ZeroRotator);
+				Food = GetWorld()->SpawnActor<AEatableEntity>(PowerPoint, PositionShifted, FRotator::ZeroRotator);
 			}
 
-			if (MapTile == '0') {
+			else if (MapTile == '0') {
 				FVector OffsetVectorZ(0, 0, +5.0f);
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
-				Food = GetWorld()->SpawnActor<AEatableEntity>(PointNode, PositionShifted, FRotator::ZeroRotator);
+				Food = GetWorld()->SpawnActor<AEatableEntity>(Point, PositionShifted, FRotator::ZeroRotator);
 			}
 
 			if (Food != nullptr)
@@ -212,7 +212,7 @@ AGridBaseNode* AGridGenerator::SpawnNodeActorById(char CharId, FVector Position)
 	}
 	else if (CharId == 'B')
 	{
-		ClassToSpawn = PowerN;
+		ClassToSpawn = PowerNode;
 	}
 	else if (CharId == 'N')
 	{

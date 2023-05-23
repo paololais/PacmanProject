@@ -158,10 +158,6 @@ void APhantomPawn::OnNodeReached()
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("exit granted")));
 		}
-		else if (IsFrightenedState())
-		{
-			this->bIsLeaving = true;
-		}
 		// Blocca il transito
 		else
 		{

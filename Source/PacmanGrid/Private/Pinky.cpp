@@ -84,8 +84,15 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 		{
 			return Target;
 		}
+		else if (Player->GetTargetNode() != nullptr)
+		{
+			return Player->GetTargetNode();
+		}
+		else if (Player->GetLastNode() != nullptr)
+		{
+			return Super::GetPlayerRelativeTarget();
+		}
 	}
-
 	return Super::GetPlayerRelativeTarget();
 }
 

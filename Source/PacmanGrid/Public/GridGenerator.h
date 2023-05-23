@@ -27,7 +27,7 @@ private:
 		TSubclassOf<AGridBaseNode> WallNode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
-		TSubclassOf<AGridBaseNode> PowerN;
+		TSubclassOf<AGridBaseNode> PowerNode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Nodes")
 		TSubclassOf<AGridBaseNode> BasePoint;
@@ -48,10 +48,10 @@ private:
 		TSubclassOf<AGridBaseNode> GhostExitNode;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
-		TSubclassOf<AEatableEntity> PowerNode;
+		TSubclassOf<AEatableEntity> PowerPoint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
-		TSubclassOf<AEatableEntity> PointNode;
+		TSubclassOf<AEatableEntity> Point;
 
 
 public:
