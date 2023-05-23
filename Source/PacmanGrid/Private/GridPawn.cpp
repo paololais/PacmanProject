@@ -44,7 +44,6 @@ void AGridPawn::BeginPlay()
 	Super::BeginPlay();
 	GameMode = (ATestGridGameMode*)(GetWorld()->GetAuthGameMode());
 	TheGridGen = GameMode->GField;
-	CurrentMovementSpeed = NormalMovementSpeed;
 	CanMove = true;
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &AGridPawn::OnOverlapBegin);
 
@@ -197,6 +196,11 @@ FVector AGridPawn::GetLastValidDirection() const
 	return LastValidInputDirection;
 }
 
+FVector AGridPawn::GetPreviousDirection() const
+{
+	return PreviousDirection;
+}
+
 AGridBaseNode* AGridPawn::GetLastNode() const
 {
 	return LastNode;
@@ -238,4 +242,16 @@ void AGridPawn::SetLastValidDirection(FVector Dir)
 {
 	if (Dir == FVector::ZeroVector) return;
 	LastValidInputDirection = Dir;
+}
+
+void AGridPawn::SetPreviousDirection(FVector Dir)
+{
+	if (Dir == FVector::ZeroVector) return;
+	PreviousDirection = Dir;
+}
+
+void AGridPawn::SetLastInputDirection(FVector Dir)
+{
+	if (Dir == FVector::ZeroVector) return;
+	LastInputDirection = Dir;
 }

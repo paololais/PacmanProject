@@ -14,7 +14,7 @@ APinky::APinky()
 void APinky::BeginPlay()
 {
 	Super::BeginPlay();
-
+	PinkyLimit = 0;
 	//Pinky esce subito dalla ghost area
 	this->AlternateScatterChase(MyIndex());
 	this->bIsLeaving = true;
@@ -81,7 +81,7 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 		}
 	
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
-		if (Target!=nullptr)
+		if (IsValid(Target))
 		{
 			return Target;
 		}

@@ -32,4 +32,10 @@ public:
 	void GoToHisCorner() override;
 
 	virtual int MyIndex() const override { return GhostIndex; }
+
+	int PinkyCounter;
+	int PinkyLimit;
+	virtual int PointGhostCounter() const override { return PinkyCounter; }
+	virtual int PointGhostLimit() const override { return PinkyLimit; }
+	virtual void IncrementPointCounter() override { PinkyCounter++; }
 };

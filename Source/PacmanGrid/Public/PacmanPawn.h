@@ -8,6 +8,7 @@
 #include "GridPlayerController.h"
 #include "GridBaseNode.h"
 #include "MyGameInstance.h"
+#include "PhantomPawn.h"
 #include "PacmanPawn.generated.h"
 
 /**
@@ -46,6 +47,9 @@ public:
 	void SetNumberOfGhostsKilled(int n);
 
 	void RespawnStartingPosition();
+
+	UPROPERTY(VisibleAnywhere)
+	APhantomPawn* CurrentPreferredGhost;
 
 protected:
 	virtual void BeginPlay() override;

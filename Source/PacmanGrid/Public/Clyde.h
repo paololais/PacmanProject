@@ -32,4 +32,12 @@ public:
 	void GoToHisCorner() override;
 	
 	virtual int MyIndex() const override { return GhostIndex; }
+
+	int ClydeCounter;
+	int ClydeLimit;
+
+	virtual int PointGhostCounter() const override { return ClydeCounter;  }
+	virtual int PointGhostLimit() const override { return ClydeLimit; }
+	virtual void IncrementPointCounter() override { ClydeCounter++; }
+
 };

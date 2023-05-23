@@ -20,6 +20,9 @@ APacmanPawn::APacmanPawn()
 	LastValidInputDirection = FVector(0, 0, 0);
 	////posizione iniziale  del pawn nelle coordinate di griglia (1,1)
 	CurrentGridCoords = FVector2D(5, 12);
+
+	//speed
+	CurrentMovementSpeed = NormalMovementSpeed;
 	
 	// get the game instance reference
 	GameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -55,6 +58,12 @@ void APacmanPawn::BeginPlay()
 	Inky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), AInky::StaticClass()));
 	Pinky = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APinky::StaticClass()));
 	Clyde = Cast<APhantomPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), AClyde::StaticClass()));
+	
+	if (IsValid(Inky))
+	{
+		CurrentPreferredGhost = Inky;
+	}
+
 }
 
 void APacmanPawn::SetVerticalInput(float AxisValue)
@@ -175,8 +184,45 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			//decrement food count
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
 			TheGridGen->SetCountFood(new_foodcount);
-
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
+			/*
+			GameMode->GlobalCounter++; 
+			int counter = GameMode->GlobalCounter;
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Global Counter = %d"), counter));
+
+			if (GameMode->GlobalCounter == 30)
+			{
+				if (IsValid(Inky))
+				{
+					Inky->bIsLeaving = true;
+					Inky->AlternateScatterChase(Inky->MyIndex());
+				}
+			}
+			else if (GameMode->GlobalCounter == 90) {
+				if (IsValid(Clyde))
+				{
+					Clyde->bIsLeaving = true;
+					Clyde->AlternateScatterChase(Clyde->MyIndex());
+				}
+			}
+			*/
+			CurrentPreferredGhost->IncrementPointCounter();
+			int counter = CurrentPreferredGhost->PointGhostCounter();
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
+			int limit = CurrentPreferredGhost->PointGhostLimit();
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
+			CurrentPreferredGhost->CanExitHouse();
+			if (CurrentPreferredGhost->CanExitHouse()) {
+				if (CurrentPreferredGhost == Pinky)
+				{
+					CurrentPreferredGhost = Inky;
+					CurrentPreferredGhost->IncrementPointCounter();
+				}
+				else if (CurrentPreferredGhost == Inky)
+				{
+					CurrentPreferredGhost = Clyde;
+				}
+			}
 
 			//check if pacman has eaten all the food
 			if (TheGridGen->GetCountFood() == 0)
@@ -217,6 +263,42 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			Point->setEaten();
 			Point->SetActorHiddenInGame(true);
 
+			/*
+			GameMode->GlobalCounter++;
+			int counter = GameMode->GlobalCounter;
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Global Counter = %d"), counter));
+			
+			if (GameMode->GlobalCounter == 30)
+			{
+				if (IsValid(Inky))
+				{
+					Inky->AlternateScatterChase(Inky->MyIndex());
+				}
+			}
+			else if (GameMode->GlobalCounter == 90) {
+				if (IsValid(Clyde))
+				{
+					Clyde->AlternateScatterChase(Clyde->MyIndex());
+				}
+			}
+			*/
+			CurrentPreferredGhost->IncrementPointCounter();
+			int counter = CurrentPreferredGhost->PointGhostCounter();
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
+			int limit = CurrentPreferredGhost->PointGhostLimit();
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
+			CurrentPreferredGhost->CanExitHouse();
+			if (CurrentPreferredGhost->CanExitHouse()) {
+				if (CurrentPreferredGhost == Pinky)
+				{
+					CurrentPreferredGhost = Inky;
+					CurrentPreferredGhost->IncrementPointCounter();
+				}
+				else if (CurrentPreferredGhost == Inky)
+				{
+					CurrentPreferredGhost = Clyde;
+				}
+			}
 			//Score System
 			if (IsValid(GameInstance))
 			{

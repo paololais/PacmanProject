@@ -41,6 +41,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		class APacmanPawn* Player;
 
+
 private:
 	//Indexes overridden: 0 - Blinky, 1 - Pinky, 2 - Inky, 3 - Clyde
 	int GhostIndex = 0;
@@ -126,10 +127,21 @@ public:
 	bool IsFrightenedState();
 	bool IsIdleState();
 	bool IsDeadState();
+
+	void UpAndDown();
 	
-	virtual int MyIndex() const { return GhostIndex; };
+	virtual int MyIndex() const { return GhostIndex; }
 
 	//keeps tracks if ghost is exiting the ghost area (necessary for ghost exit logic)
 	UPROPERTY(VisibleAnywhere, Category = "Ghost State")
 		bool bIsLeaving = false;
+
+	//counter
+	int PointCounter = 0;
+	int PointLimit = 40;
+	virtual int PointGhostCounter() const { return PointCounter; }
+	virtual int PointGhostLimit() const { return PointLimit; }
+	virtual void IncrementPointCounter() { PointCounter++; }
+
+	bool CanExitHouse();
 };

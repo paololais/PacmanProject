@@ -12,9 +12,9 @@ AClyde::AClyde()
 void AClyde::BeginPlay()
 {
 	Super::BeginPlay();
-
-	this->AlternateScatterChase(MyIndex());
-	this->bIsLeaving = true;
+	ClydeLimit = 60;
+	this->bIsLeaving = false;
+	this->IsIdleState();
 }
 
 AGridBaseNode* AClyde::GetPlayerRelativeTarget()

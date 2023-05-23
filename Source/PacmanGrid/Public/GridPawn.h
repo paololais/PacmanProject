@@ -24,7 +24,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetNextNodeByDir(FVector InputDir, bool ForceLast = false);
 
-	FVector GetLastValidDirection() const;
 
 	UFUNCTION(BlueprintCallable)
 		AGridBaseNode* GetLastNode() const;
@@ -39,6 +38,12 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		USoundCue* TeleportSound;
+
+	FVector GetLastValidDirection() const;
+	FVector GetPreviousDirection() const;
+	void SetLastValidDirection(FVector Dir);
+	void SetPreviousDirection(FVector Dir);
+	void SetLastInputDirection(FVector Dir);
 
 protected:
 	// Called when the game starts or when spawned
@@ -55,21 +60,23 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 		FVector PreviousDirection;
 
-	void SetLastValidDirection(FVector Dir);
 
 	//speed
 	UPROPERTY(EditAnywhere, Category = "Movement")
 		float CurrentMovementSpeed = 600.0f;
-	//normal speed
+	//speed value = 750.0f
+	//normal speed - pacman = 80%
 	float NormalMovementSpeed = 600.0f;
-	//Tunnel Speed - ghosts
-	float TunnelSpeed = 300.0f;
-	//frightened speed - ghosts
-	float FrightenedSpeed = 400.0f;
-	//dead speed - ghosts
-	float DeadSpeed = 1000.0f;;
-	//power mode on
+	//power mode on - 90%
 	float PowerSpeed = 700.0f;
+	//normal speed - ghosts = 75%
+	float NormalGhostSpeed = 562.5f;
+	//Tunnel Speed - ghosts - 40%
+	float TunnelSpeed = 300.0f;
+	//frightened speed - ghosts - 50%
+	float FrightenedSpeed = 375.0f;
+	//dead speed - ghosts
+	float DeadSpeed = 900.0f;;
 
 	UPROPERTY(EditAnywhere)
 		float AcceptedDistance = 4.f;

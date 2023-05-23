@@ -14,9 +14,9 @@ AInky::AInky()
 void AInky::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	this->AlternateScatterChase(MyIndex());
-	this->bIsLeaving = true;
+	InkyLimit = 30;
+	this->bIsLeaving = false;
+	this->IsIdleState();
 }
 
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
@@ -80,7 +80,7 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 		}
 
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
-		if (Target != nullptr)
+		if (IsValid(Target))
 		{
 			return Target;
 		}
