@@ -63,6 +63,9 @@ void APacmanPawn::BeginPlay()
 	{
 		CurrentPreferredGhost = Pinky;
 	}
+	GetWorld()->GetTimerManager().SetTimer(CurrentPreferredGhost->GhostLeaveTimer, [this]() {
+		CurrentPreferredGhost->ExitOnTimer();
+		}, CurrentPreferredGhost->GhostLeaveTime, false);
 
 }
 
@@ -230,8 +233,16 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			Point->setEaten();
 			Point->SetActorHiddenInGame(true);
 
+
 			if (IsValid(CurrentPreferredGhost))
 			{
+				//reset GhostLeaveTimer when eating
+				if (GetWorld()->GetTimerManager().IsTimerActive(CurrentPreferredGhost->GhostLeaveTimer)) {
+					GetWorld()->GetTimerManager().ClearTimer(CurrentPreferredGhost->GhostLeaveTimer);
+				}
+				GetWorld()->GetTimerManager().SetTimer(CurrentPreferredGhost->GhostLeaveTimer, [this]() {
+					CurrentPreferredGhost->ExitOnTimer();
+					}, CurrentPreferredGhost->GhostLeaveTime, false);
 				//increment counter and check if can exit house
 				CurrentPreferredGhost->CanExitHouse();
 			}
@@ -353,6 +364,15 @@ void APacmanPawn::RespawnStartingPosition() {
 	this->LastInputDirection = FVector(0, 0, 0);
 	this->LastValidInputDirection = FVector(0, 0, 0);
 	this->SetActorLocation(FVector(550, 1250, GetActorLocation().Z));
+
+	ResetPreferredGhost();
+
+	if (IsValid(CurrentPreferredGhost))
+	{
+		GetWorld()->GetTimerManager().SetTimer(CurrentPreferredGhost->GhostLeaveTimer, [this]() {
+			CurrentPreferredGhost->ExitOnTimer();
+			}, CurrentPreferredGhost->GhostLeaveTime, false);
+	}
 }
 
 void APacmanPawn::SetNextPreferredGhost()
@@ -367,7 +387,7 @@ void APacmanPawn::SetNextPreferredGhost()
 	}
 	else
 	{
-		CurrentPreferredGhost = Pinky;
+		CurrentPreferredGhost = nullptr;
 	}
 }
 

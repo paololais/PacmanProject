@@ -20,6 +20,8 @@ APhantomPawn::APhantomPawn()
 	VulnerableSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_Blue.M_Blue'"));
 
 	FlashingSkin = LoadObject<UMaterialInterface>(nullptr, TEXT("Material'/Game/Materials/M_FlashSkin.M_FlashSkin'"));
+
+	GhostLeaveTime = 4.0f;
 }
 
 void APhantomPawn::BeginPlay()
@@ -60,7 +62,6 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 				//GameMode->StopMovement(1.0f);
 				//respawn starting postion of pawns
-				Pacman->ResetPreferredGhost();
 				GlobalCounter = 0;
 				GameMode->RespawnPositions();
 			}
@@ -327,6 +328,8 @@ void APhantomPawn::SetGhostTarget()
 
 void APhantomPawn::RespawnGhostStartingPosition()
 {
+	GetWorld()->GetTimerManager().ClearTimer(GhostLeaveTimer);
+
 	int LocationX = StartPosition[MyIndex()].X;
 	int LocationY = StartPosition[MyIndex()].Y;
 
@@ -409,6 +412,7 @@ void APhantomPawn::GoToHisCorner()
 void APhantomPawn::ClearTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+	GetWorld()->GetTimerManager().ClearTimer(GhostLeaveTimer);
 }
 
 void APhantomPawn::AlternateScatterChase(int Index)
@@ -609,6 +613,7 @@ void APhantomPawn::CanExitHouse()
 			{
 				this->AlternateScatterChase(this->MyIndex());
 			}
+			GetWorld()->GetTimerManager().ClearTimer(this->GhostLeaveTimer);
 			this->ResetPointCounter();
 			Player->SetNextPreferredGhost();
 		}
@@ -630,8 +635,26 @@ void APhantomPawn::CanExitHouse()
 			{
 				this->AlternateScatterChase(this->MyIndex());
 			}
+			GetWorld()->GetTimerManager().ClearTimer(this->GhostLeaveTimer);
 			Player->SetNextPreferredGhost();
 		}
+	}
+}
+
+void APhantomPawn::ExitOnTimer()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Exit on timer")));
+	GetWorld()->GetTimerManager().ClearTimer(this->GhostLeaveTimer);
+	this->bIsLeaving = true;
+	if (!(this->IsFrightenedState() && this->IsDeadState()))
+	{
+		this->AlternateScatterChase(this->MyIndex());
+	}
+	Player->SetNextPreferredGhost();
+	if(IsValid((Player->CurrentPreferredGhost)))  {
+		GetWorld()->GetTimerManager().SetTimer(Player->CurrentPreferredGhost->GhostLeaveTimer, [this]() {
+			Player->CurrentPreferredGhost->ExitOnTimer();
+			}, Player->CurrentPreferredGhost->GhostLeaveTime, false);
 	}
 }
 

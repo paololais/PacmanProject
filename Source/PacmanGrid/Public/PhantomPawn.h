@@ -148,5 +148,10 @@ public:
 	int GlobalCounter;
 	int GlobalLimits[4] = { 0,7,17,32 };
 
+	//timer used to exit if pacman doesn't eat points
+	FTimerHandle GhostLeaveTimer;
+	float GhostLeaveTime;
+
 	void CanExitHouse();
+	void ExitOnTimer();
 };

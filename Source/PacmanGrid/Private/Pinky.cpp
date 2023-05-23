@@ -80,13 +80,9 @@ AGridBaseNode* APinky::GetPlayerRelativeTarget()
 		}
 	
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
-		if (IsValid(Target))
+		if (Target != nullptr)
 		{
 			return Target;
-		}
-		else
-		{
-			return Super::GetPlayerRelativeTarget();
 		}
 	}
 
