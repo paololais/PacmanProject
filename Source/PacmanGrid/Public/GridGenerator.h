@@ -52,9 +52,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
 		TSubclassOf<AEatableEntity> Point;
-	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
-		TSubclassOf<AEatableEntity> Fruit;
-
 
 public:
 	// Sets default values for this actor's properties

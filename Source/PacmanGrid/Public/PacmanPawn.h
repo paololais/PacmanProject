@@ -86,4 +86,6 @@ private:
 		class APhantomPawn* Clyde;
 
 	int NumberOfGhostsKilled = 0;
+
+	int PointsCounter = 0;
 };

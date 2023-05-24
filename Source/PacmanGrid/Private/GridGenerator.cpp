@@ -2,6 +2,7 @@
 
 
 #include "GridGenerator.h"
+#include "Fruit.h"
 
 constexpr int MapSizeX = 30;
 // la y contiene 28 elementi (+ il carattere di fine stringa)
@@ -84,6 +85,7 @@ TMap<FVector2D, AEatableEntity*> AGridGenerator::GetEatableEntityMap()
 void AGridGenerator::GenerateGrid()
 {
 	AEatableEntity* Food = nullptr;
+	AFruit* FruitSpawn = nullptr;
 
 	for (int x = 0; x < MapSizeX; x++)
 	{
@@ -116,13 +118,6 @@ void AGridGenerator::GenerateGrid()
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Food = GetWorld()->SpawnActor<AEatableEntity>(Point, PositionShifted, FRotator::ZeroRotator);
 			}
-
-			else if (MapTile == 'C') {
-				FVector OffsetVectorZ(0, 0, +5.0f);
-				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
-				Food = GetWorld()->SpawnActor<AEatableEntity>(Fruit, PositionShifted, FRotator::ZeroRotator);
-			}
-
 
 			if (Food != nullptr)
 			{

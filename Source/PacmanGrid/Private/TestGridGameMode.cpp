@@ -58,6 +58,12 @@ void ATestGridGameMode::BeginPlay()
 	PinkyPawn = GetWorld()->SpawnActor<APinky>(PinkyClass, FVector((100 * 14) + 50, (100 * 13) + 50, 5.0f), FRotator(0, 0, 0));
 	InkyPawn = GetWorld()->SpawnActor<AInky>(InkyClass, FVector((100 * 14) + 50, (100 * 11) + 50, 5.0f), FRotator(0, 0, 0));
 	ClydePawn = GetWorld()->SpawnActor<AClyde>(ClydeClass, FVector((100 * 14) + 50, (100 * 16) + 50, 5.0f), FRotator(0, 0, 0));
+	Fruit = GetWorld()->SpawnActor<AFruit>(FruitClass, FVector((100 * 11) + 50, (100 * 13) + 50, 5.0f), FRotator(0, 0, 0));
+
+	if (Fruit != nullptr)
+	{
+		Fruit->HideFruit();
+	}
 }
 
 void ATestGridGameMode::GameOver()
@@ -89,6 +95,11 @@ void ATestGridGameMode::GameOver()
 	if (IsValid(PacmanPawn)) {
 		PacmanPawn->ClearTimer();
 		PacmanPawn->Destroy();
+	}
+
+	if (IsValid(Fruit))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(Fruit->ShowFruitTimer);
 	}
 
 	ShowGameOverScreen();
@@ -123,6 +134,10 @@ void ATestGridGameMode::GameWin()
 		PacmanPawn->ClearTimer();
 		PacmanPawn->Destroy();
 	}
+	if (IsValid(Fruit))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(Fruit->ShowFruitTimer);
+	}
 
 	ShowGameWinScreen();
 }
@@ -147,6 +162,11 @@ void ATestGridGameMode::RespawnPositions()
 	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 	if (IsValid(PacmanPawn)) {
 		PacmanPawn->RespawnStartingPosition();
+	}
+
+	if (IsValid(Fruit))
+	{
+		Fruit->HideFruit();
 	}
 }
 

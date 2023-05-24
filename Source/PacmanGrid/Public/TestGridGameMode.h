@@ -9,6 +9,7 @@
 #include "Inky.h"
 #include "Pinky.h"
 #include "Clyde.h"
+#include "Fruit.h"
 #include "GameFramework/GameMode.h"
 #include "TestGridGameMode.generated.h"
 
@@ -33,7 +34,7 @@ public:
 		TSubclassOf<APacmanPawn> PacmanClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ABlinky> BlinkyClass;
+		TSubclassOf<ABlinky> BlinkyClass;
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<AInky> InkyClass;
@@ -76,6 +77,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundCue* GameWinSound;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AFruit> FruitClass;
+
+	UPROPERTY(VisibleAnywhere)
+		AFruit* Fruit;
 
 	void ShowGameOverScreen();
 

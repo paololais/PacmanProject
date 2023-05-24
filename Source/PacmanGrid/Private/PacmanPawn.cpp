@@ -4,6 +4,7 @@
 #include "PacmanPawn.h"
 #include "PointNode.h"
 #include "PowerNode.h"
+#include "Fruit.h"
 #include "TestGridGameMode.h"
 #include "Sound/SoundCue.h"
 #include "Math/Rotator.h"
@@ -66,7 +67,6 @@ void APacmanPawn::BeginPlay()
 	GetWorld()->GetTimerManager().SetTimer(CurrentPreferredGhost->GhostLeaveTimer, [this]() {
 		CurrentPreferredGhost->ExitOnTimer();
 		}, CurrentPreferredGhost->GhostLeaveTime, false);
-
 }
 
 void APacmanPawn::SetVerticalInput(float AxisValue)
@@ -222,7 +222,7 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	}
 
 	//eating point
-	if (OtherActor->IsA(APointNode::StaticClass()))
+	else if (OtherActor->IsA(APointNode::StaticClass()))
 	{
 		const auto Point = Cast<APointNode>(OtherActor);
 		if (IsValid(Point) && Point->CheckNotEaten())
@@ -257,7 +257,17 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			//decrement food count
 			int new_foodcount = (TheGridGen->GetCountFood()) - 1;
 			TheGridGen->SetCountFood(new_foodcount);
+			
+			PointsCounter++;
+			if (PointsCounter == 70 || PointsCounter == 170)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("mostro frutto")));
+				if (GameMode->Fruit != nullptr)
+				{
 
+				}
+				GameMode->Fruit->ShowFruit();
+			}
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("There are %d points left"), new_foodcount));
 			
 			//check if pacman has eaten all the food
@@ -265,6 +275,25 @@ void APacmanPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 			{
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("WIN! you ate all the points")));
 				GameMode->GameWin();
+			}
+		}
+	}
+
+	//eating fruit
+	else if (OtherActor->IsA(AFruit::StaticClass()))
+	{
+		const auto FruitPoint = Cast<AFruit>(OtherActor);
+		if (IsValid(FruitPoint) && FruitPoint->CheckNotEaten())
+		{
+			//punto mangiato viene settato a Eaten e nascosto
+			UGameplayStatics::PlaySound2D(this, ConsumptionSound);
+
+			FruitPoint->setEaten();
+			FruitPoint->HideFruit();
+			if (IsValid(GameInstance))
+			{
+				int new_value = (GameInstance->getScore()) + 100;
+				GameInstance->setScore(new_value);
 			}
 		}
 	}

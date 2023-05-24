@@ -13,6 +13,7 @@ AFruit::AFruit()
     MeshComponent->SetupAttachment(Collider);
     FVector BoxDimension = FVector(40.f, 40.f, 120.f);
     Collider->SetBoxExtent(BoxDimension);
+    Collider->SetGenerateOverlapEvents(false);
 }
 
 void AFruit::BeginPlay()
@@ -26,4 +27,19 @@ void AFruit::BeginPlay()
 void AFruit::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+}
+
+void AFruit::ShowFruit()
+{
+    EEatId = NotEaten;
+    this->SetActorHiddenInGame(false);
+    Collider->SetGenerateOverlapEvents(true);
+
+    GetWorld()->GetTimerManager().SetTimer(ShowFruitTimer, this, &AFruit::HideFruit, 10.0f, false);
+}
+
+void AFruit::HideFruit()
+{
+    Collider->SetGenerateOverlapEvents(false);
+    this->SetActorHiddenInGame(true);
 }
