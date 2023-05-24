@@ -113,9 +113,11 @@ void AGridPawn::OnNodeReached()
 	SetTargetNode(nullptr);
 
 	
+	//Teletrasporto
 	//passo dal portale sx
-	if (CurrentGridCoords == (FVector2D(14, 0))) {
+	if (CurrentGridCoords == (FVector2D(14, 0)) && bCanTeleport) {
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+		this->bCanTeleport = false;
 		
 		//play sound
 		if (this->IsA(APacmanPawn::StaticClass()))
@@ -127,15 +129,18 @@ void AGridPawn::OnNodeReached()
 
 		LastNode = (*(GridGenTMap.Find(FVector2D(14, 27))));
 		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 26))));
-		SetTargetNode(NextNode);
+		SetTargetNode(nullptr);
 
 		SetActorLocation(Location);
+		CurrentGridCoords = (FVector2D(14, 27));
 	}
 
 	//passo dal portale dx
-	if (CurrentGridCoords == (FVector2D(14, 27)))
+	else if (CurrentGridCoords == (FVector2D(14, 27)) && bCanTeleport)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+		this->bCanTeleport = false;
+
 		//play sound
 		if (this->IsA(APacmanPawn::StaticClass()))
 		{
@@ -148,13 +153,20 @@ void AGridPawn::OnNodeReached()
 		
 		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 1))));
 		
-		SetTargetNode(NextNode);
+		SetTargetNode(nullptr);
 
 		SetActorLocation(Location);
+
+		CurrentGridCoords = (FVector2D(14, 0));
+	}
+
+	else if (CurrentGridCoords == (FVector2D(14, 26)) || CurrentGridCoords == (FVector2D(14, 1)))
+	{
+		this->bCanTeleport = true;
 	}
 
 	//save Direction for ghost exit denied enter
-	if (CurrentGridCoords == (FVector2D(17, 11)) || CurrentGridCoords == (FVector2D(17, 16))) {
+	else if (CurrentGridCoords == (FVector2D(17, 11)) || CurrentGridCoords == (FVector2D(17, 16))) {
 		PreviousDirection = GetLastValidDirection();
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Previous direction saved:  %s"), *PreviousDirection.ToString()));
 	}

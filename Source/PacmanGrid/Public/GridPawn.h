@@ -53,14 +53,15 @@ protected:
 		virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	UPROPERTY(VisibleAnywhere, Category = "Movement")
+	UPROPERTY(EditAnywhere, Category = "Movement")
 		FVector LastInputDirection;
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 		FVector LastValidInputDirection;
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 		FVector PreviousDirection;
-
-
+	
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+		bool bCanTeleport;
 	//speed
 	UPROPERTY(EditAnywhere, Category = "Movement")
 		float CurrentMovementSpeed = 600.0f;
