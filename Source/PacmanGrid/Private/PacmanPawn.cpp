@@ -356,10 +356,10 @@ void APacmanPawn::ClearTimer()
 	GetWorld()->GetTimerManager().ClearTimer(PowerModeTimer);
 	GetWorld()->GetTimerManager().ClearTimer(FlashGhostTimer);
 	GetWorld()->GetTimerManager().ClearTimer(PacmanDeadTimerHandle);
-	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer1);
-	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer2);
-	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer3);
-	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer4);
+	GetWorld()->GetTimerManager().ClearTimer(HideGhostTimer1);
+	GetWorld()->GetTimerManager().ClearTimer(HideGhostTimer2);
+	GetWorld()->GetTimerManager().ClearTimer(HideGhostTimer3);
+	GetWorld()->GetTimerManager().ClearTimer(HideGhostTimer4);
 }
 
 void APacmanPawn::RespawnStartingPosition() {
@@ -417,9 +417,8 @@ void APacmanPawn::OnPacmanDead() {
 	if (IsValid(Blinky))
 	{
 		Blinky->SetSpeed(0.f);
-		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer1, [this]()
+		GetWorld()->GetTimerManager().SetTimer(HideGhostTimer1, [this]()
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("Nascondo blinky")));
 				Blinky->SetActorHiddenInGame(true);
 			}, 1.0f, false);
 		//Blinky->SetActorHiddenInGame(true);
@@ -427,7 +426,7 @@ void APacmanPawn::OnPacmanDead() {
 	if (IsValid(Inky))
 	{
 		Inky->SetSpeed(0.f);
-		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer2, [this]()
+		GetWorld()->GetTimerManager().SetTimer(HideGhostTimer2, [this]()
 			{
 				Inky->SetActorHiddenInGame(true);
 			}, 1.0f, false);
@@ -436,7 +435,7 @@ void APacmanPawn::OnPacmanDead() {
 	if (IsValid(Pinky))
 	{
 		Pinky->SetSpeed(0.f);
-		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer3, [this]()
+		GetWorld()->GetTimerManager().SetTimer(HideGhostTimer3, [this]()
 			{
 				Pinky->SetActorHiddenInGame(true);
 			}, 1.0f, false);
@@ -445,7 +444,7 @@ void APacmanPawn::OnPacmanDead() {
 	if (IsValid(Clyde))
 	{
 		Clyde->SetSpeed(0.f);
-		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer4, [this]()
+		GetWorld()->GetTimerManager().SetTimer(HideGhostTimer4, [this]()
 			{
 				Clyde->SetActorHiddenInGame(true);
 			}, 1.0f, false);

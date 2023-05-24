@@ -27,7 +27,7 @@ static char Map[MapSizeX][MapSizeY] = {
 	"#000000##0000##0000##000000#",
 	"######0#####G##G#####0######",
 	"######0#####G##G#####0######",
-	"######0##GGGGGGGGGG##0######",
+	"######0##GGGGCGGGGG##0######",
 	"######0##G########G##0######",
 	"######0##G#GGGGGG#G##0######",
 	"TTTTTT0GGG#GGGGGG#GGG0TTTTTT",
@@ -116,6 +116,13 @@ void AGridGenerator::GenerateGrid()
 				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
 				Food = GetWorld()->SpawnActor<AEatableEntity>(Point, PositionShifted, FRotator::ZeroRotator);
 			}
+
+			else if (MapTile == 'C') {
+				FVector OffsetVectorZ(0, 0, +5.0f);
+				FVector PositionShifted = CurrentSpawnPosition + OffsetVectorZ;
+				Food = GetWorld()->SpawnActor<AEatableEntity>(Fruit, PositionShifted, FRotator::ZeroRotator);
+			}
+
 
 			if (Food != nullptr)
 			{

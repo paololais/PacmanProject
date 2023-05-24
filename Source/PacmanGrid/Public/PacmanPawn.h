@@ -40,10 +40,10 @@ public:
 	FTimerHandle PowerModeTimer;
 	FTimerHandle FlashGhostTimer;
 	FTimerHandle PacmanDeadTimerHandle;
-	FTimerHandle GhostRespawnTimer1;
-	FTimerHandle GhostRespawnTimer2;
-	FTimerHandle GhostRespawnTimer3;
-	FTimerHandle GhostRespawnTimer4;
+	FTimerHandle HideGhostTimer1;
+	FTimerHandle HideGhostTimer2;
+	FTimerHandle HideGhostTimer3;
+	FTimerHandle HideGhostTimer4;
 	// game instance reference
 	UMyGameInstance* GameInstance;
 

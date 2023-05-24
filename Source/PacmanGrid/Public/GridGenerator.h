@@ -52,6 +52,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
 		TSubclassOf<AEatableEntity> Point;
+	UPROPERTY(EditDefaultsOnly, Category = "EatableEntity")
+		TSubclassOf<AEatableEntity> Fruit;
 
 
 public:
