@@ -56,6 +56,9 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			int newvalue = (GameInstance->GetLives()) - 1;
 			GameInstance->SetLives(newvalue);
 
+			GlobalCounter = 0;
+			Pacman->OnPacmanDead();
+			/*
 			if ((GameInstance->GetLives()) > 0) {
 				//play pacman dead sound
 				UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
@@ -63,6 +66,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 				//GameMode->StopMovement(1.0f);
 				//respawn starting postion of pawns
 				GlobalCounter = 0;
+				
 				GameMode->RespawnPositions();
 			}
 
@@ -73,6 +77,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 				//GameMode->StopMovement(1.0f);
 				GameMode->GameOver();
 			}
+			*/
 		}
 	}
 
@@ -252,11 +257,6 @@ APacmanPawn* APhantomPawn::GetPlayer() const
 	return Player;
 }
 
-void APhantomPawn::SetSpeed(float Speed)
-{
-	CurrentMovementSpeed = Speed;
-}
-
 AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 {
 	return Player->GetLastNode();
@@ -336,6 +336,9 @@ void APhantomPawn::RespawnGhostStartingPosition()
 	SetTargetNode(NextNode);
 
 	SetActorLocation(Location);
+
+	this->SetSpeed(NormalGhostSpeed);
+	this->SetActorHiddenInGame(false);
 }
 
 //in override in ciascun ghost

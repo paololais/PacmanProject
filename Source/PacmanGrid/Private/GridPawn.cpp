@@ -20,6 +20,8 @@ AGridPawn::AGridPawn()
 
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	RootComponent = Collider;
+	Collider->SetGenerateOverlapEvents(true);
+
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	StaticMesh->SetupAttachment(Collider);
@@ -117,6 +119,7 @@ void AGridPawn::OnNodeReached()
 	//passo dal portale sx
 	if (CurrentGridCoords == (FVector2D(14, 0)) && bCanTeleport) {
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+		//avoids teleport infinite loops
 		this->bCanTeleport = false;
 		
 		//play sound
@@ -139,6 +142,7 @@ void AGridPawn::OnNodeReached()
 	else if (CurrentGridCoords == (FVector2D(14, 27)) && bCanTeleport)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("Reached Left Portal %s"), *CurrentGridCoords.ToString()));
+		//avoids teleport infinite loops
 		this->bCanTeleport = false;
 
 		//play sound
@@ -266,4 +270,9 @@ void AGridPawn::SetLastInputDirection(FVector Dir)
 {
 	if (Dir == FVector::ZeroVector) return;
 	LastInputDirection = Dir;
+}
+
+void AGridPawn::SetSpeed(float Speed)
+{
+	CurrentMovementSpeed = Speed;
 }

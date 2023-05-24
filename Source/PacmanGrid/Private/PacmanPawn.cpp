@@ -355,6 +355,11 @@ void APacmanPawn::ClearTimer()
 {
 	GetWorld()->GetTimerManager().ClearTimer(PowerModeTimer);
 	GetWorld()->GetTimerManager().ClearTimer(FlashGhostTimer);
+	GetWorld()->GetTimerManager().ClearTimer(PacmanDeadTimerHandle);
+	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer1);
+	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer2);
+	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer3);
+	GetWorld()->GetTimerManager().ClearTimer(GhostRespawnTimer4);
 }
 
 void APacmanPawn::RespawnStartingPosition() {
@@ -364,9 +369,13 @@ void APacmanPawn::RespawnStartingPosition() {
 	this->LastInputDirection = FVector(0, 0, 0);
 	this->LastValidInputDirection = FVector(0, 0, 0);
 	this->SetActorLocation(FVector(550, 1250, GetActorLocation().Z));
+	//enable collision for pacman
+	this->Collider->SetGenerateOverlapEvents(true);
+	this->SetSpeed(NormalMovementSpeed);
 
 	ResetPreferredGhost();
 
+	//set timer di uscita
 	if (IsValid(CurrentPreferredGhost))
 	{
 		GetWorld()->GetTimerManager().SetTimer(CurrentPreferredGhost->GhostLeaveTimer, [this]() {
@@ -394,5 +403,71 @@ void APacmanPawn::SetNextPreferredGhost()
 void APacmanPawn::ResetPreferredGhost() {
 	if (IsValid(Pinky)) {
 		CurrentPreferredGhost = Pinky;
+	}
+}
+
+void APacmanPawn::OnPacmanDead() {
+	//disable collision for pacman temporarily
+	this->Collider->SetGenerateOverlapEvents(false);
+
+	//stop movement
+	this->SetSpeed(0.f);
+
+	//nascondi fantasmi
+	if (IsValid(Blinky))
+	{
+		Blinky->SetSpeed(0.f);
+		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer1, [this]()
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::White, FString::Printf(TEXT("Nascondo blinky")));
+				Blinky->SetActorHiddenInGame(true);
+			}, 1.0f, false);
+		//Blinky->SetActorHiddenInGame(true);
+	}
+	if (IsValid(Inky))
+	{
+		Inky->SetSpeed(0.f);
+		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer2, [this]()
+			{
+				Inky->SetActorHiddenInGame(true);
+			}, 1.0f, false);
+		//Inky->SetActorHiddenInGame(true);
+	}
+	if (IsValid(Pinky))
+	{
+		Pinky->SetSpeed(0.f);
+		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer3, [this]()
+			{
+				Pinky->SetActorHiddenInGame(true);
+			}, 1.0f, false);
+		//Pinky->SetActorHiddenInGame(true);
+	}
+	if (IsValid(Clyde))
+	{
+		Clyde->SetSpeed(0.f);
+		GetWorld()->GetTimerManager().SetTimer(GhostRespawnTimer4, [this]()
+			{
+				Clyde->SetActorHiddenInGame(true);
+			}, 1.0f, false);
+		//Clyde->SetActorHiddenInGame(true);
+	}
+
+	//play pacman dead sound
+	UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
+	
+	if ((GameInstance->GetLives()) > 0) {
+		float Delay = 2.0f;  // Tempo di attesa in secondi
+		GetWorld()->GetTimerManager().SetTimer(PacmanDeadTimerHandle, GameMode, &ATestGridGameMode::RespawnPositions, Delay, false);
+		//GameMode->RespawnPositions();
+	}
+
+	//se player non ha più vite->game over
+	else
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
+		//GameMode->StopMovement(1.0f);
+		float Delay = 2.0f;
+		GetWorld()->GetTimerManager().SetTimer(PacmanDeadTimerHandle, GameMode, &ATestGridGameMode::GameOver, Delay, false);
+		//GameMode->GameOver();
 	}
 }

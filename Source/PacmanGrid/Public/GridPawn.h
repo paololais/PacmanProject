@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetNextNodeByDir(FVector InputDir, bool ForceLast = false);
 
+	UFUNCTION()
+		void SetSpeed(float Speed);
 
 	UFUNCTION(BlueprintCallable)
 		AGridBaseNode* GetLastNode() const;
@@ -60,6 +62,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 		FVector PreviousDirection;
 	
+	//avoids teleport infinite loops
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 		bool bCanTeleport;
 	//speed

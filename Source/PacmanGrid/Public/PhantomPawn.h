@@ -59,8 +59,6 @@ public:
 	UFUNCTION()
 		APacmanPawn* GetPlayer() const;
 	UFUNCTION()
-		void SetSpeed(float Speed);
-	UFUNCTION()
 		virtual AGridBaseNode* GetPlayerRelativeTarget();
 	void SetGhostTarget();
 
@@ -69,9 +67,9 @@ public:
 	// game instance reference
 	UMyGameInstance* GameInstance;
 
-	UPROPERTY(EditAnywhere)
-		USoundCue* PacmanDeadSound;
-	UPROPERTY(EditAnywhere)
+	//UPROPERTY(EditAnywhere)
+		//USoundCue* PacmanDeadSound;
+	UPROPERTY(EditAnywhere, Category = "Audio")
 		USoundCue* GhostDeadSound;
 
 	//skins

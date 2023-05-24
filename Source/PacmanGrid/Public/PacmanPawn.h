@@ -39,7 +39,11 @@ public:
 
 	FTimerHandle PowerModeTimer;
 	FTimerHandle FlashGhostTimer;
-
+	FTimerHandle PacmanDeadTimerHandle;
+	FTimerHandle GhostRespawnTimer1;
+	FTimerHandle GhostRespawnTimer2;
+	FTimerHandle GhostRespawnTimer3;
+	FTimerHandle GhostRespawnTimer4;
 	// game instance reference
 	UMyGameInstance* GameInstance;
 
@@ -54,6 +58,9 @@ public:
 	void SetNextPreferredGhost();
 	void ResetPreferredGhost();
 
+	//pacman dead animation
+	void OnPacmanDead();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void HandleMovement() override;
@@ -62,10 +69,13 @@ protected:
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 	virtual void OnNodeReached() override;
 private: 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Audio")
 		USoundCue* ConsumptionSound;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Audio")
 		USoundCue* EatingPowerSound;
+	UPROPERTY(EditAnywhere, Category = "Audio")
+		USoundCue* PacmanDeadSound;
+
 	UPROPERTY(VisibleAnywhere)
 		class APhantomPawn* Blinky;
 	UPROPERTY(VisibleAnywhere)
