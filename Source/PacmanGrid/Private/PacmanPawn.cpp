@@ -392,8 +392,8 @@ void APacmanPawn::ClearTimer()
 }
 
 void APacmanPawn::RespawnStartingPosition() {
-	this->LastNode = (*(GridGenTMap.Find(FVector2D(5, 12))));
-	this->SetNextNode(*(GridGenTMap.Find(FVector2D(5, 12))));
+	this->LastNode = (*(TheGridGen->TileMap.Find(FVector2D(5, 12))));
+	this->SetNextNode(*(TheGridGen->TileMap.Find(FVector2D(5, 12))));
 	this->SetTargetNode(NextNode);
 	this->LastInputDirection = FVector(0, 0, 0);
 	this->LastValidInputDirection = FVector(0, 0, 0);

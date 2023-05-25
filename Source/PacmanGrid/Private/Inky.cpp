@@ -27,57 +27,88 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 
 		FVector PlayerDirection = Player->GetLastValidDirection();
 
-		FVector2D TargetCoords = Player->GetLastNodeCoords();
+		FVector2D TargetCoords = Player->GetCurrentGridCoords();
 
 		AGridBaseNode* Target = nullptr;
 
 		//direzione verso l'alto
 		if (PlayerDirection == FVector(1, 0, 0))
 		{
-			TargetCoords += FVector2D(4, -4);
-			if (TargetCoords.Y < 0)
+			//gestione confini labirinto
+			if (TargetCoords.X >= 24)
 			{
-				TargetCoords.Y += 3;
+				TargetCoords.X = 28;
+				if (TargetCoords.Y <= 5)
+				{
+					TargetCoords.Y = 1;
+				}
+				else
+				{
+					TargetCoords.Y -= 4;
+				}
 			}
-			if (TargetCoords.X > 29)
+			else if (TargetCoords.Y <= 5)
 			{
-				TargetCoords.X -= 3;
+				TargetCoords.Y = 1;
+				if (TargetCoords.X >= 24)
+				{
+					TargetCoords.X = 28;
+				}
+				else
+				{
+					TargetCoords.X += 4;
+				}
+			}
+			else
+			{
+				TargetCoords += FVector2D(4, -4);
 			}
 
-			Target = (*(GridGenTMap.Find(TargetCoords)));
+			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
 
 		}
 		//verso il basso
 		else if (PlayerDirection == FVector(-1, 0, 0))
 		{
-			TargetCoords += FVector2D(-4, 0);
-			if (TargetCoords.X < 0)
+			if (TargetCoords.X <=5)
 			{
-				TargetCoords.X += 3;
+				TargetCoords.X = 1;
 			}
-			Target = (*(GridGenTMap.Find(TargetCoords)));
+			else
+			{
+				TargetCoords += FVector2D(-4, 0);
+			}
+			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
 		}
 		//verso dx
 		else if (PlayerDirection == FVector(0, 1, 0))
 		{
-			TargetCoords += FVector2D(0, 4);
 			//gestione offset se la tile è fuori dal labirinto
-			if (TargetCoords.Y > 27)
+			if (TargetCoords.Y >= 22)
 			{
-				TargetCoords.Y -= 3;
+				TargetCoords.Y = 26;
+			}
+			else
+			{
+				TargetCoords += FVector2D(0, 4);
 			}
 
-			Target = (*(GridGenTMap.Find(TargetCoords)));
+			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
+
 		}
 		//verso sx
 		else if (PlayerDirection == FVector(0, -1, 0))
 		{
-			TargetCoords += FVector2D(0, -4);
-			if (TargetCoords.Y < 0)
+			
+			if (TargetCoords.Y <=5)
 			{
-				TargetCoords.Y += 3;
+				TargetCoords.Y = 1;
 			}
-			Target = (*(GridGenTMap.Find(TargetCoords)));
+			else
+			{
+				TargetCoords += FVector2D(0, -4);
+			}
+			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
 		}
 
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
@@ -85,11 +116,7 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 		{
 			return Target;
 		}
-		else if (Player->GetTargetNode() != nullptr)
-		{
-			return Player->GetTargetNode();
-		}
-		else if(Player->GetLastNode() != nullptr)
+		else
 		{
 			return Super::GetPlayerRelativeTarget();
 		}
@@ -112,7 +139,7 @@ void AInky::GoHome() {
 
 void AInky::GoToHisCorner()
 {
-	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(5, 21)));
+	const AGridBaseNode* Target1 = *(TheGridGen->TileMap.Find(FVector2D(5, 21)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -123,7 +150,7 @@ void AInky::GoToHisCorner()
 
 	if (CurrentGridCoords == FVector2D(5, 21))
 	{
-		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(5, 26)));
+		const AGridBaseNode* Target2 = *(TheGridGen->TileMap.Find(FVector2D(5, 26)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -134,7 +161,7 @@ void AInky::GoToHisCorner()
 
 		if (CurrentGridCoords == FVector2D(5, 26))
 		{
-			const AGridBaseNode* Target3 = *(GridGenTMap.Find(FVector2D(1, 26)));
+			const AGridBaseNode* Target3 = *(TheGridGen->TileMap.Find(FVector2D(1, 26)));
 
 			AGridBaseNode* PossibleNode3 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -145,7 +172,7 @@ void AInky::GoToHisCorner()
 
 			if (CurrentGridCoords == FVector2D(1, 26))
 			{
-				const AGridBaseNode* Target4 = *(GridGenTMap.Find(FVector2D(1, 21)));
+				const AGridBaseNode* Target4 = *(TheGridGen->TileMap.Find(FVector2D(1, 21)));
 
 				AGridBaseNode* PossibleNode4 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 

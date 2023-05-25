@@ -47,6 +47,8 @@ public:
 	void SetPreviousDirection(FVector Dir);
 	void SetLastInputDirection(FVector Dir);
 
+	FVector2D GetCurrentGridCoords();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -90,9 +92,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		class ATestGridGameMode* GameMode;
-
-	UPROPERTY(VisibleAnywhere)
-		TMap<FVector2D, AGridBaseNode*> GridGenTMap;
 
 	UPROPERTY(VisibleAnywhere)
 		AGridGenerator* TheGridGen;

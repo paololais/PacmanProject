@@ -48,9 +48,6 @@ void AGridPawn::BeginPlay()
 	TheGridGen = GameMode->GField;
 	CanMove = true;
 	Collider->OnComponentBeginOverlap.AddDynamic(this, &AGridPawn::OnOverlapBegin);
-
-	GridGenTMap = TheGridGen->GetTileMAp();
-
 }
 
 void AGridPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -130,8 +127,8 @@ void AGridPawn::OnNodeReached()
 
 		const FVector Location(1450, 2750, GetActorLocation().Z);
 
-		LastNode = (*(GridGenTMap.Find(FVector2D(14, 27))));
-		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 26))));
+		LastNode = (*(TheGridGen->TileMap.Find(FVector2D(14, 27))));
+		SetNextNode(*(TheGridGen->TileMap.Find(FVector2D(14, 26))));
 		SetTargetNode(nullptr);
 
 		SetActorLocation(Location);
@@ -153,9 +150,9 @@ void AGridPawn::OnNodeReached()
 
 		const FVector Location(1450, 50, GetActorLocation().Z);
 		
-		LastNode = (*(GridGenTMap.Find(FVector2D(14, 0))));
+		LastNode = (*(TheGridGen->TileMap.Find(FVector2D(14, 0))));
 		
-		SetNextNode(*(GridGenTMap.Find(FVector2D(14, 1))));
+		SetNextNode(*(TheGridGen->TileMap.Find(FVector2D(14, 1))));
 		
 		SetTargetNode(nullptr);
 
@@ -270,6 +267,11 @@ void AGridPawn::SetLastInputDirection(FVector Dir)
 {
 	if (Dir == FVector::ZeroVector) return;
 	LastInputDirection = Dir;
+}
+
+FVector2D AGridPawn::GetCurrentGridCoords()
+{
+	return CurrentGridCoords;
 }
 
 void AGridPawn::SetSpeed(float Speed)

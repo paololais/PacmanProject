@@ -148,7 +148,7 @@ void APhantomPawn::OnNodeReached()
 		else
 		{
 			if (CurrentGridCoords == FVector2D(15, 12)) {
-				LastNode = (*(GridGenTMap.Find(FVector2D(15, 12))));
+				LastNode = (*(TheGridGen->TileMap.Find(FVector2D(15, 12))));
 				//torna indietro
 				FVector OppositeDirection = -GetLastValidDirection();
 				SetNextNodeByDir(OppositeDirection, true);
@@ -156,7 +156,7 @@ void APhantomPawn::OnNodeReached()
 			}
 			else if (CurrentGridCoords == FVector2D(15, 13)) {
 				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("exit denied")));
-				LastNode = (*(GridGenTMap.Find(FVector2D(15, 13))));
+				LastNode = (*(TheGridGen->TileMap.Find(FVector2D(15, 13))));
 				//torna indietro
 				FVector OppositeDirection = -GetLastValidDirection();
 				SetNextNodeByDir(OppositeDirection, true);
@@ -164,7 +164,7 @@ void APhantomPawn::OnNodeReached()
 			}
 			
 			else { // (CurrentGridCoords == FVector2D(15, 14))
-				LastNode = (*(GridGenTMap.Find(FVector2D(15, 14))));
+				LastNode = (*(TheGridGen->TileMap.Find(FVector2D(15, 14))));
 				//torna indietro
 				FVector OppositeDirection = -GetLastValidDirection();
 				SetNextNodeByDir(OppositeDirection, true);
@@ -311,8 +311,8 @@ void APhantomPawn::RespawnGhostStartingPosition()
 
 	const FVector Location(LocationX*100, LocationY*100, GetActorLocation().Z);
 
-	LastNode = (*(GridGenTMap.Find(StartPosition[MyIndex()])));
-	SetNextNode(*(GridGenTMap.Find(StartPosition[MyIndex()])));
+	LastNode = (*(TheGridGen->TileMap.Find(StartPosition[MyIndex()])));
+	SetNextNode(*(TheGridGen->TileMap.Find(StartPosition[MyIndex()])));
 	SetTargetNode(NextNode);
 
 	SetActorLocation(Location);
@@ -325,7 +325,7 @@ void APhantomPawn::GoHome()
 {
 	this->SetDeadState();
 
-	const AGridBaseNode* Target = *(GridGenTMap.Find(HomePosition[MyIndex()]));
+	const AGridBaseNode* Target = *(TheGridGen->TileMap.Find(HomePosition[MyIndex()]));
 
 	AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -343,7 +343,7 @@ void APhantomPawn::GoHome()
 
 void APhantomPawn::ExitGhostArea()
 {	
-	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(15, 13)));
+	const AGridBaseNode* Target1 = *(TheGridGen->TileMap.Find(FVector2D(15, 13)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -355,7 +355,7 @@ void APhantomPawn::ExitGhostArea()
 	if (CurrentGridCoords == FVector2D(15, 13))
 	{
 		//esci
-		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(17, 13)));
+		const AGridBaseNode* Target2 = *(TheGridGen->TileMap.Find(FVector2D(17, 13)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -523,7 +523,7 @@ bool APhantomPawn::IsDeadState()
 void APhantomPawn::UpAndDown() {
 	FVector2D center = HomePosition[MyIndex()];
 	//nodo alto dx
-	const AGridBaseNode* Up = *(GridGenTMap.Find(FVector2D(center.X+1, center.Y)));
+	const AGridBaseNode* Up = *(TheGridGen->TileMap.Find(FVector2D(center.X+1, center.Y)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Up->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -535,7 +535,7 @@ void APhantomPawn::UpAndDown() {
 	if (CurrentGridCoords == FVector2D(center.X + 1, center.Y))
 	{
 		//nodo basso dx
-		const AGridBaseNode* Down = *(GridGenTMap.Find(FVector2D(center.X - 1, center.Y)));
+		const AGridBaseNode* Down = *(TheGridGen->TileMap.Find(FVector2D(center.X - 1, center.Y)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Down->GetGridPosition(), -(this->GetLastValidDirection()));
 

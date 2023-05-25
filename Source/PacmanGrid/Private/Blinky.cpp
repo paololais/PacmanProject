@@ -40,7 +40,7 @@ void ABlinky::GoToHisCorner()
 
 
 	//nodo basso sx
-	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(23, 18)));
+	const AGridBaseNode* Target1 = *(TheGridGen->TileMap.Find(FVector2D(23, 18)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -52,7 +52,7 @@ void ABlinky::GoToHisCorner()
 	if (CurrentGridCoords == FVector2D(23, 18))
 	{
 		//nodo alto sx
-		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(28, 15)));
+		const AGridBaseNode* Target2 = *(TheGridGen->TileMap.Find(FVector2D(28, 15)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -64,7 +64,7 @@ void ABlinky::GoToHisCorner()
 		if (CurrentGridCoords == FVector2D(28, 15))
 		{
 			//nodo alto dx
-			const AGridBaseNode* Target3 = *(GridGenTMap.Find(FVector2D(28, 26)));
+			const AGridBaseNode* Target3 = *(TheGridGen->TileMap.Find(FVector2D(28, 26)));
 
 			AGridBaseNode* PossibleNode3 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -76,7 +76,7 @@ void ABlinky::GoToHisCorner()
 			if (CurrentGridCoords == FVector2D(28, 15))
 			{
 				//nodo basso dx
-				const AGridBaseNode* Target4 = *(GridGenTMap.Find(FVector2D(25, 21)));
+				const AGridBaseNode* Target4 = *(TheGridGen->TileMap.Find(FVector2D(25, 21)));
 
 				AGridBaseNode* PossibleNode4 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 

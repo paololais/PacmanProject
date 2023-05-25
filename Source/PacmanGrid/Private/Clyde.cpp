@@ -39,7 +39,7 @@ void AClyde::GoHome() {
 void AClyde::GoToHisCorner()
 {
 	//nodo basso sx
-	const AGridBaseNode* Target1 = *(GridGenTMap.Find(FVector2D(5, 6)));
+	const AGridBaseNode* Target1 = *(TheGridGen->TileMap.Find(FVector2D(5, 6)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -51,7 +51,7 @@ void AClyde::GoToHisCorner()
 	if (CurrentGridCoords == FVector2D(5, 6))
 	{
 		//nodo alto sx
-		const AGridBaseNode* Target2 = *(GridGenTMap.Find(FVector2D(5, 1)));
+		const AGridBaseNode* Target2 = *(TheGridGen->TileMap.Find(FVector2D(5, 1)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -63,7 +63,7 @@ void AClyde::GoToHisCorner()
 		if (CurrentGridCoords == FVector2D(5, 1))
 		{
 			//nodo alto dx
-			const AGridBaseNode* Target3 = *(GridGenTMap.Find(FVector2D(1, 1)));
+			const AGridBaseNode* Target3 = *(TheGridGen->TileMap.Find(FVector2D(1, 1)));
 
 			AGridBaseNode* PossibleNode3 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 
@@ -75,7 +75,7 @@ void AClyde::GoToHisCorner()
 			if (CurrentGridCoords == FVector2D(1, 1))
 			{
 				//nodo basso dx
-				const AGridBaseNode* Target4 = *(GridGenTMap.Find(FVector2D(1, 6)));
+				const AGridBaseNode* Target4 = *(TheGridGen->TileMap.Find(FVector2D(1, 6)));
 
 				AGridBaseNode* PossibleNode4 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
 
