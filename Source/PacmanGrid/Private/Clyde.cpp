@@ -13,8 +13,9 @@ void AClyde::BeginPlay()
 {
 	Super::BeginPlay();
 	ClydeLimit = 60;
+	this->AlternateScatterChase();
 	this->bIsLeaving = false;
-	this->IsIdleState();
+	this->bIsHome = true;
 }
 
 AGridBaseNode* AClyde::GetPlayerRelativeTarget()
@@ -26,8 +27,9 @@ void AClyde::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 	this->ClearTimer();
-	this->SetIdleState();
+	this->AlternateScatterChase();
 	this->bIsLeaving = false;
+	this->bIsHome = true;
 }
 
 void AClyde::GoHome() {

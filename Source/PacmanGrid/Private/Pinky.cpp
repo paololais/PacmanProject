@@ -15,8 +15,9 @@ void APinky::BeginPlay()
 {
 	Super::BeginPlay();
 	PinkyLimit = 0;
-	this->SetIdleState();
+	this->AlternateScatterChase();
 	this->bIsLeaving = false;
+	this->bIsHome = true;
 }
 
 AGridBaseNode* APinky::GetPlayerRelativeTarget()
@@ -100,8 +101,9 @@ void APinky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
 	this->ClearTimer();
-	this->SetIdleState();
+	this->AlternateScatterChase();
 	this->bIsLeaving = false;
+	this->bIsHome = true;
 }
 
 void APinky::GoHome() {

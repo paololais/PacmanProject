@@ -15,8 +15,9 @@ void AInky::BeginPlay()
 {
 	Super::BeginPlay();
 	InkyLimit = 30;
+	this->AlternateScatterChase();
 	this->bIsLeaving = false;
-	this->IsIdleState();
+	this->bIsHome = true;
 }
 
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
@@ -100,9 +101,9 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 void AInky::RespawnGhostStartingPosition()
 {
 	Super::RespawnGhostStartingPosition();
-	this->ClearTimer();
-	this->SetIdleState();
+	this->AlternateScatterChase();
 	this->bIsLeaving = false;
+	this->bIsHome = true;
 }
 
 void AInky::GoHome() {

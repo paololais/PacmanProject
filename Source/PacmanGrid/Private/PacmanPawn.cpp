@@ -362,19 +362,19 @@ void APacmanPawn::PowerModeOff()
 	//set ghosts in Chase mode
 	if (IsValid(Blinky) && (Blinky->IsFrightenedState()))
 	{
-		Blinky->AlternateScatterChase(0);
+		Blinky->AlternateScatterChase();
 	}
 	if (IsValid(Inky) && (Inky->IsFrightenedState()))
 	{
-		Inky->AlternateScatterChase(2);
+		Inky->AlternateScatterChase();
 	}
 	if (IsValid(Pinky) && (Pinky->IsFrightenedState()))
 	{
-		Pinky->AlternateScatterChase(1);
+		Pinky->AlternateScatterChase();
 	}
 	if (IsValid(Clyde) && (Clyde->IsFrightenedState()))
 	{
-		Clyde->AlternateScatterChase(3);
+		Clyde->AlternateScatterChase();
 	}
 
 	this->SetNumberOfGhostsKilled(0);

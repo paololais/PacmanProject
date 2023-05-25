@@ -17,7 +17,6 @@ enum EEnemyState{
 	Chase, //ghost chases pacman
 	Scatter, //ghost walks a default path
 	Frightened, //ghost can be eat by pacman
-	Idle, //ghost in his house
 	Dead, //ghost eaten by player when in frightened state
 };
 
@@ -46,8 +45,7 @@ private:
 	//Indexes overridden: 0 - Blinky, 1 - Pinky, 2 - Inky, 3 - Clyde
 	int GhostIndex = 0;
 
-	//tracks sequence point of AlternateScatterChase() 
-	int sequencePoints[4] = { 1,1,1,1 };
+	int SequencePoint = 1;
 
 	//Starting positions
 	FVector2D HomePosition[4] = {FVector2D(14,14), FVector2D(14,13), FVector2D(14,11), FVector2D(14,16)};
@@ -96,7 +94,6 @@ public:
 
 	//called when ghost changes state
 	void ReverseDirection();
-	//FTimerHandle DelayReverse;
 
 	//function called when ghost is in scattered mode
 	//every ghost as an assigned corner to go
@@ -106,24 +103,22 @@ public:
 	
 	void ClearTimer();
 
-	void AlternateScatterChase(int Index);
+	void AlternateScatterChase();
 
 	//StateManager
 	UPROPERTY(EditAnywhere, Category = "Ghost State", meta = (DisplayName = "Ghost State"))
-		TEnumAsByte<EEnemyState> EEnemyState = Idle;
+		TEnumAsByte<EEnemyState> EEnemyState = Chase;
 
 	void FlashSkin();
 
 	void SetChaseState();
 	void SetScatterState();
 	void SetFrightenedState();
-	void SetIdleState();
 	void SetDeadState();
 
 	bool IsChaseState();
 	bool IsScatterState();
 	bool IsFrightenedState();
-	bool IsIdleState();
 	bool IsDeadState();
 
 	void UpAndDown();
@@ -133,6 +128,11 @@ public:
 	//keeps tracks if ghost is exiting the ghost area (necessary for ghost exit logic)
 	UPROPERTY(VisibleAnywhere, Category = "Ghost State")
 		bool bIsLeaving = false;
+
+	UPROPERTY(VisibleAnywhere, Category = "Ghost State")
+		bool bIsHome = false;
+
+	void SetSequencePoint(int a);
 
 	//counter
 	int PointCounter = 0;

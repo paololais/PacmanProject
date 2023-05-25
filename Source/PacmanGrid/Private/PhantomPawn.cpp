@@ -58,26 +58,6 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 			GlobalCounter = 0;
 			Pacman->OnPacmanDead();
-			/*
-			if ((GameInstance->GetLives()) > 0) {
-				//play pacman dead sound
-				UGameplayStatics::PlaySound2D(this, PacmanDeadSound);
-
-				//GameMode->StopMovement(1.0f);
-				//respawn starting postion of pawns
-				GlobalCounter = 0;
-				
-				GameMode->RespawnPositions();
-			}
-
-			//se player non ha più vite->game over
-			else
-			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
-				//GameMode->StopMovement(1.0f);
-				GameMode->GameOver();
-			}
-			*/
 		}
 	}
 
@@ -162,6 +142,7 @@ void APhantomPawn::OnNodeReached()
 		if ((IsChaseState() || IsScatterState()) && bIsLeaving)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("exit granted")));
+			this->bIsHome = false;
 		}
 		// Blocca il transito
 		else
@@ -265,7 +246,7 @@ AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 void APhantomPawn::SetGhostTarget()
 {
 	//chase state allora insegue player
-	if (this->IsChaseState() && !bIsLeaving)
+	if (this->IsChaseState() && !bIsLeaving && !bIsHome)
 	{
 		const AGridBaseNode* Target = GetPlayerRelativeTarget();
 		if (!Target)
@@ -275,26 +256,25 @@ void APhantomPawn::SetGhostTarget()
 
 		AGridBaseNode* PossibleNode = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target->GetGridPosition(), -(this->GetLastValidDirection()));
 
-		//const FVector Dimensions(60, 60, 20);
-		//DrawDebugBox(GetWorld(), PossibleNode->GetTileCoordinates(), Dimensions, FColor::Red);
-
 		if (PossibleNode)
 		{
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode->GetGridPosition() - this->GetLastNodeCoords()), true);
 		}
 	}
+	//se morto va a casa
 	else if (this->IsDeadState())
 	{
 		//override della casella home per ciascun ghost
 		this->GoHome();
 	}
 
-	else if (this->IsIdleState())
+	//se è a casa e non sta uscendo continua ad andare su e giù per la casa
+	else if (bIsHome && !bIsLeaving)
 	{
 		this->UpAndDown();
 	}
 
-	else if (this->IsScatterState() && !bIsLeaving) {
+	else if (this->IsScatterState() && !bIsLeaving && !bIsHome) {
 		this->GoToHisCorner();
 	}
 
@@ -341,7 +321,6 @@ void APhantomPawn::RespawnGhostStartingPosition()
 	this->SetActorHiddenInGame(false);
 }
 
-//in override in ciascun ghost
 void APhantomPawn::GoHome()
 {
 	this->SetDeadState();
@@ -357,7 +336,7 @@ void APhantomPawn::GoHome()
 
 	if (CurrentGridCoords == HomePosition[MyIndex()])
 	{
-		this->AlternateScatterChase(MyIndex());
+		this->AlternateScatterChase();
 		this->bIsLeaving = true;
 	}
 }
@@ -397,11 +376,6 @@ void APhantomPawn::ReverseDirection() {
 	FVector OppositeDirection = -GetLastValidDirection();
 
 	SetNextNodeByDir(OppositeDirection, true);
-	/*
-	GetWorld()->GetTimerManager().SetTimer(DelayReverse, [this, OppositeDirection]() {
-		SetNextNodeByDir(OppositeDirection, true);
-	}, Delay, false);
-	*/
 }
 
 void APhantomPawn::GoToHisCorner()
@@ -414,59 +388,57 @@ void APhantomPawn::ClearTimer()
 	GetWorld()->GetTimerManager().ClearTimer(GhostLeaveTimer);
 }
 
-void APhantomPawn::AlternateScatterChase(int Index)
+void APhantomPawn::SetSequencePoint(int a)
 {
-	int& sequencePoint = sequencePoints[Index];  // Ottiene il punto della sequenza per il fantasma chiamante
+	SequencePoint = a;
+}
 
-	switch (sequencePoint)
+void APhantomPawn::AlternateScatterChase() {
+	switch (SequencePoint)
 	{
 	case 1:
 		SetScatterState();
-		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex());}, 7.0f, false);
+		SetSequencePoint(2);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle,this, &APhantomPawn::AlternateScatterChase, 7.0f, false);
 		break;
 
 	case 2:
 		SetChaseState();
-		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 20.0f, false);
+		SetSequencePoint(3);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APhantomPawn::AlternateScatterChase, 20.0f, false);
 		break;
 
 	case 3:
 		SetScatterState();
-		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 7.0f, false);
+		SetSequencePoint(4);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APhantomPawn::AlternateScatterChase, 7.0f, false);
 		break;
 
 	case 4:
 		SetChaseState();
-		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 20.0f, false);
+		SetSequencePoint(5);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APhantomPawn::AlternateScatterChase, 20.0f, false);
 		break;
 
 	case 5:
 		SetScatterState();
-		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 5.0f, false);
+		SetSequencePoint(6);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APhantomPawn::AlternateScatterChase, 5.0f, false);
 		break;
 
 	case 6:
 		SetChaseState();
-		sequencePoint++;		
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 20.0f, false);
+		SetSequencePoint(7);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APhantomPawn::AlternateScatterChase, 20.0f, false);
 		break;
 
 	case 7:
 		SetScatterState();
-		sequencePoint++;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this, Index]() {AlternateScatterChase(MyIndex()); }, 5.0f, false);
+		SetSequencePoint(8);
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &APhantomPawn::AlternateScatterChase, 5.0f, false);
 		break;
 
-	case 8:
-		SetChaseState();
-		// Rimani nello stato di chase per sempre
-		break;
-
+		//stato di chase per sempre
 	default:
 		SetChaseState();
 		break;
@@ -533,19 +505,6 @@ bool APhantomPawn::IsFrightenedState()
 	else return false;
 }
 
-void APhantomPawn::SetIdleState()
-{
-	StaticMesh->SetMaterial(2, DefaultSkin);
-	this->EEnemyState = Idle;
-}
-
-bool APhantomPawn::IsIdleState()
-{
-	if (this->EEnemyState == Idle) return true;
-
-	else return false;
-}
-
 void APhantomPawn::SetDeadState()
 {
 	StaticMesh->SetMaterial(2, DeadSkin);
@@ -608,10 +567,6 @@ void APhantomPawn::CanExitHouse()
 		if (this->PointGhostCounter() >= this->PointGhostLimit())
 		{
 			this->bIsLeaving = true;
-			if (!(this->IsFrightenedState() && this->IsDeadState()))
-			{
-				this->AlternateScatterChase(this->MyIndex());
-			}
 			GetWorld()->GetTimerManager().ClearTimer(this->GhostLeaveTimer);
 			this->ResetPointCounter();
 			Player->SetNextPreferredGhost();
@@ -630,10 +585,6 @@ void APhantomPawn::CanExitHouse()
 		if (counter >= limit)
 		{
 			this->bIsLeaving = true;
-			if (!(this->IsFrightenedState() && this->IsDeadState()))
-			{
-				this->AlternateScatterChase(this->MyIndex());
-			}
 			GetWorld()->GetTimerManager().ClearTimer(this->GhostLeaveTimer);
 			Player->SetNextPreferredGhost();
 		}
@@ -645,10 +596,7 @@ void APhantomPawn::ExitOnTimer()
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Exit on timer")));
 	GetWorld()->GetTimerManager().ClearTimer(this->GhostLeaveTimer);
 	this->bIsLeaving = true;
-	if (!(this->IsFrightenedState() && this->IsDeadState()))
-	{
-		this->AlternateScatterChase(this->MyIndex());
-	}
+
 	Player->SetNextPreferredGhost();
 	if(IsValid((Player->CurrentPreferredGhost)))  {
 		GetWorld()->GetTimerManager().SetTimer(Player->CurrentPreferredGhost->GhostLeaveTimer, [this]() {

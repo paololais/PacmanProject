@@ -15,18 +15,4 @@ class PACMANGRID_API AGhostAreaNode : public AGridBaseNode
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this actor's properties
-	AGhostAreaNode();
-
-	bool CanEnter();
-	
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<APhantomPawn> GhostClass;
-	UPROPERTY(VisibleAnywhere)
-		APhantomPawn* Ghost;
-
-protected:
-	virtual void BeginPlay() override;
-
 };
