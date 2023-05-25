@@ -18,11 +18,11 @@ void APinky::BeginPlay()
 	this->AlternateScatterChase();
 	this->bIsLeaving = false;
 	this->bIsHome = true;
+	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 }
 
 AGridBaseNode* APinky::GetPlayerRelativeTarget()
 {
-	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 	if (IsValid(Player)) {
 
 		FVector PlayerDirection = Player->GetLastValidDirection();

@@ -15,6 +15,13 @@ class PACMANGRID_API AInky : public APhantomPawn
 	GENERATED_BODY()
 protected:
 	virtual void BeginPlay() override;
+	
+	class ABlinky* Blinky;
+
+	UPROPERTY(VisibleAnywhere)
+		AGridBaseNode* Target;
+	UPROPERTY(VisibleAnywhere)
+		FVector2D TargetCoords;
 
 private:
 	const int GhostIndex = 2;

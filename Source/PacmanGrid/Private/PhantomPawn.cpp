@@ -362,6 +362,7 @@ void APhantomPawn::ExitGhostArea()
 		if (PossibleNode2)
 		{
 			this->SetNextNodeByDir(TheGridGen->GetThreeDOfTwoDVector(PossibleNode2->GetGridPosition() - this->GetLastNodeCoords()), true);
+			this->bIsHome = false;
 		}
 	}
 }

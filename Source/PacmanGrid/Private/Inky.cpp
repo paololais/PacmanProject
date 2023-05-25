@@ -3,6 +3,7 @@
 
 #include "Inky.h"
 #include "PacmanPawn.h"
+#include "Blinky.h"
 #include <Kismet/GameplayStatics.h>
 
 AInky::AInky()
@@ -18,11 +19,13 @@ void AInky::BeginPlay()
 	this->AlternateScatterChase();
 	this->bIsLeaving = false;
 	this->bIsHome = true;
-}
 
+	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
+	Blinky = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
+}
+/*
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
 {
-	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 	if (IsValid(Player)) {
 
 		FVector PlayerDirection = Player->GetLastValidDirection();
@@ -123,7 +126,82 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 	}
 	return Super::GetPlayerRelativeTarget();
 }
+*/
 
+AGridBaseNode* AInky::GetPlayerRelativeTarget()
+{	
+	if (IsValid(Player) && IsValid(Blinky)) {
+
+		FVector PlayerDirection = Player->GetLastValidDirection();
+		FVector2D PlayerCoords = Player->GetCurrentGridCoords();
+		
+		FVector BlinkyDirection = Blinky->GetLastValidDirection();
+		FVector2D BlinkyCoords = Blinky->GetCurrentGridCoords();
+
+		TargetCoords = Player->GetCurrentGridCoords();
+
+		Target = nullptr;
+
+		//direzione verso l'alto
+		if (PlayerDirection == FVector(1, 0, 0))
+		{
+			TargetCoords += FVector2D(2, -2);
+			TargetCoords += 2 * (BlinkyCoords - TargetCoords).GetAbs();
+		}
+		//verso il basso
+		else if (PlayerDirection == FVector(-1, 0, 0))
+		{
+			TargetCoords.X -= 2; //posizione offset tile
+			TargetCoords -= 2 * (BlinkyCoords - TargetCoords).GetAbs();
+		}
+		//verso dx
+		else if (PlayerDirection == FVector(0, 1, 0))
+		{
+			TargetCoords.Y += 2;
+			TargetCoords += 2 * (BlinkyCoords - TargetCoords).GetAbs();
+		}
+		//verso sx
+		else if (PlayerDirection == FVector(0, -1, 0))
+		{
+
+			TargetCoords.Y -= 2;
+			TargetCoords -= 2 * (BlinkyCoords - TargetCoords).GetAbs();
+		}
+
+		//gestione offset fuori dal labirinto
+		if (TargetCoords.X > 28)
+		{
+			TargetCoords.X = 28;
+		}
+		else if (TargetCoords.X<1)
+		{
+			TargetCoords.X = 1;
+		}
+
+		if (TargetCoords.Y > 26)
+		{
+			TargetCoords.Y = 26;
+		}
+		else if (TargetCoords.Y < 1)
+		{
+			TargetCoords.Y = 1;
+		}
+
+		//assegno target
+		Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
+		if (Target != nullptr)
+		{
+			return Target;
+		}
+		else
+		{
+			return Super::GetPlayerRelativeTarget();
+		}
+	}
+	return Super::GetPlayerRelativeTarget();
+}
 
 void AInky::RespawnGhostStartingPosition()
 {
