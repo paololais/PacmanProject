@@ -334,23 +334,27 @@ void APacmanPawn::PowerModeOn()
 	if (IsValid(Blinky))
 	{
 		Blinky->SetFrightenedState();
+		
 		//disattivo il timer della funzione alternateScatterChase
-		Blinky->ClearTimer();
+		GetWorld()->GetTimerManager().ClearTimer(Blinky->TimerHandle);
 	}
 	if (IsValid(Inky))
 	{
 		Inky->SetFrightenedState();
-		Inky->ClearTimer();
+
+		GetWorld()->GetTimerManager().ClearTimer(Inky->TimerHandle);
 	}
 	if (IsValid(Pinky))
 	{
 		Pinky->SetFrightenedState();
-		Pinky->ClearTimer();
+
+		GetWorld()->GetTimerManager().ClearTimer(Pinky->TimerHandle);
 	}
 	if (IsValid(Clyde))
 	{
 		Clyde->SetFrightenedState();
-		Clyde->ClearTimer();
+
+		GetWorld()->GetTimerManager().ClearTimer(Clyde->TimerHandle);
 	}
 }
 
@@ -450,7 +454,6 @@ void APacmanPawn::OnPacmanDead() {
 			{
 				Blinky->SetActorHiddenInGame(true);
 			}, 1.0f, false);
-		//Blinky->SetActorHiddenInGame(true);
 	}
 	if (IsValid(Inky))
 	{
@@ -459,7 +462,6 @@ void APacmanPawn::OnPacmanDead() {
 			{
 				Inky->SetActorHiddenInGame(true);
 			}, 1.0f, false);
-		//Inky->SetActorHiddenInGame(true);
 	}
 	if (IsValid(Pinky))
 	{
@@ -468,7 +470,6 @@ void APacmanPawn::OnPacmanDead() {
 			{
 				Pinky->SetActorHiddenInGame(true);
 			}, 1.0f, false);
-		//Pinky->SetActorHiddenInGame(true);
 	}
 	if (IsValid(Clyde))
 	{
@@ -477,7 +478,6 @@ void APacmanPawn::OnPacmanDead() {
 			{
 				Clyde->SetActorHiddenInGame(true);
 			}, 1.0f, false);
-		//Clyde->SetActorHiddenInGame(true);
 	}
 
 	//play pacman dead sound
@@ -486,7 +486,6 @@ void APacmanPawn::OnPacmanDead() {
 	if ((GameInstance->GetLives()) > 0) {
 		float Delay = 2.0f;  // Tempo di attesa in secondi
 		GetWorld()->GetTimerManager().SetTimer(PacmanDeadTimerHandle, GameMode, &ATestGridGameMode::RespawnPositions, Delay, false);
-		//GameMode->RespawnPositions();
 	}
 
 	//se player non ha più vite->game over
@@ -496,6 +495,5 @@ void APacmanPawn::OnPacmanDead() {
 		//GameMode->StopMovement(1.0f);
 		float Delay = 2.0f;
 		GetWorld()->GetTimerManager().SetTimer(PacmanDeadTimerHandle, GameMode, &ATestGridGameMode::GameOver, Delay, false);
-		//GameMode->GameOver();
 	}
 }

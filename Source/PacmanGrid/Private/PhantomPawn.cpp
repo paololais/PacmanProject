@@ -139,7 +139,7 @@ void APhantomPawn::OnNodeReached()
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
 
 		// Permetti il transito
-		if ((IsChaseState() || IsScatterState()) && bIsLeaving)
+		if ((IsChaseState() || IsScatterState()|| IsFrightenedState()) && bIsLeaving)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, FString::Printf(TEXT("exit granted")));
 			this->bIsHome = false;
@@ -278,7 +278,7 @@ void APhantomPawn::SetGhostTarget()
 		this->GoToHisCorner();
 	}
 
-	else if (this->IsFrightenedState())
+	else if (this->IsFrightenedState() && !bIsLeaving)
 	{
 		// Randomly select a target node for the ghost
 		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
@@ -561,9 +561,9 @@ void APhantomPawn::CanExitHouse()
 
 		int counter = this->PointGhostCounter();
 
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
 		int limit = this->PointGhostLimit();
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
 		
 		if (this->PointGhostCounter() >= this->PointGhostLimit())
 		{
@@ -579,9 +579,9 @@ void APhantomPawn::CanExitHouse()
 		this->GlobalCounter++;
 		int counter = this->GlobalCounter;
 
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("global Counter = %d"), counter));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("global Counter = %d"), counter));
 		int limit = this->GlobalLimits[this->MyIndex()];
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("my global limit = %d"), limit));
+		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("my global limit = %d"), limit));
 		
 		if (counter >= limit)
 		{

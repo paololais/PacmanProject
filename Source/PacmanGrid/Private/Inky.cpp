@@ -23,110 +23,6 @@ void AInky::BeginPlay()
 	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 	Blinky = Cast<ABlinky>(UGameplayStatics::GetActorOfClass(GetWorld(), ABlinky::StaticClass()));
 }
-/*
-AGridBaseNode* AInky::GetPlayerRelativeTarget()
-{
-	if (IsValid(Player)) {
-
-		FVector PlayerDirection = Player->GetLastValidDirection();
-
-		FVector2D TargetCoords = Player->GetCurrentGridCoords();
-
-		AGridBaseNode* Target = nullptr;
-
-		//direzione verso l'alto
-		if (PlayerDirection == FVector(1, 0, 0))
-		{
-			//gestione confini labirinto
-			if (TargetCoords.X >= 24)
-			{
-				TargetCoords.X = 28;
-				if (TargetCoords.Y <= 5)
-				{
-					TargetCoords.Y = 1;
-				}
-				else
-				{
-					TargetCoords.Y -= 4;
-				}
-			}
-			else if (TargetCoords.Y <= 5)
-			{
-				TargetCoords.Y = 1;
-				if (TargetCoords.X >= 24)
-				{
-					TargetCoords.X = 28;
-				}
-				else
-				{
-					TargetCoords.X += 4;
-				}
-			}
-			else
-			{
-				TargetCoords += FVector2D(4, -4);
-			}
-
-			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
-
-		}
-		//verso il basso
-		else if (PlayerDirection == FVector(-1, 0, 0))
-		{
-			if (TargetCoords.X <=5)
-			{
-				TargetCoords.X = 1;
-			}
-			else
-			{
-				TargetCoords += FVector2D(-4, 0);
-			}
-			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
-		}
-		//verso dx
-		else if (PlayerDirection == FVector(0, 1, 0))
-		{
-			//gestione offset se la tile è fuori dal labirinto
-			if (TargetCoords.Y >= 22)
-			{
-				TargetCoords.Y = 26;
-			}
-			else
-			{
-				TargetCoords += FVector2D(0, 4);
-			}
-
-			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
-
-		}
-		//verso sx
-		else if (PlayerDirection == FVector(0, -1, 0))
-		{
-			
-			if (TargetCoords.Y <=5)
-			{
-				TargetCoords.Y = 1;
-			}
-			else
-			{
-				TargetCoords += FVector2D(0, -4);
-			}
-			Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
-		}
-
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
-		if (Target != nullptr)
-		{
-			return Target;
-		}
-		else
-		{
-			return Super::GetPlayerRelativeTarget();
-		}
-	}
-	return Super::GetPlayerRelativeTarget();
-}
-*/
 
 AGridBaseNode* AInky::GetPlayerRelativeTarget()
 {	
@@ -190,7 +86,6 @@ AGridBaseNode* AInky::GetPlayerRelativeTarget()
 		//assegno target
 		Target = (*(TheGridGen->TileMap.Find(TargetCoords)));
 
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Target Coordinates: (%f,%f)"), TargetCoords.X, TargetCoords.Y));
 		if (Target != nullptr)
 		{
 			return Target;

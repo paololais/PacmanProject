@@ -2,6 +2,9 @@
 
 
 #include "Clyde.h"
+#include "PacmanPawn.h"
+#include "cmath"
+#include "Kismet/GameplayStatics.h"
 
 AClyde::AClyde()
 {
@@ -16,10 +19,49 @@ void AClyde::BeginPlay()
 	this->AlternateScatterChase();
 	this->bIsLeaving = false;
 	this->bIsHome = true;
+	Player = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
 }
 
 AGridBaseNode* AClyde::GetPlayerRelativeTarget()
 {
+	if (IsValid(Player)) {
+		FVector2D PlayerCoords = Player->GetCurrentGridCoords();
+		double EuclideDistance = sqrt(pow(this->CurrentGridCoords.X - PlayerCoords.X, 2) + pow(this->CurrentGridCoords.Y - PlayerCoords.Y, 2));
+
+		if (EuclideDistance > 7)
+		{
+			return Super::GetPlayerRelativeTarget();
+		}
+		else {
+			AGridBaseNode* Target = nullptr;
+			//va nel suo angolo
+			if (!(this->CurrentGridCoords.X<5 && this->CurrentGridCoords.Y <6))
+			{
+				Target = *(TheGridGen->TileMap.Find(FVector2D(5, 6)));
+			}
+			else if (this->CurrentGridCoords == FVector2D(5, 6))
+			{
+				Target = *(TheGridGen->TileMap.Find(FVector2D(5, 1)));
+			}
+			else if (CurrentGridCoords == FVector2D(5, 1))
+			{
+				Target = *(TheGridGen->TileMap.Find(FVector2D(1, 1)));
+			}
+			else
+			{
+				Target = *(TheGridGen->TileMap.Find(FVector2D(5, 6)));
+			}
+
+			if (Target!= nullptr)
+			{
+				return Target;
+			}
+			else
+			{
+				return Super::GetPlayerRelativeTarget();
+			}
+		}
+	}
 	return Super::GetPlayerRelativeTarget();
 }
 
@@ -38,7 +80,6 @@ void AClyde::GoHome() {
 
 void AClyde::GoToHisCorner()
 {
-	//nodo basso sx
 	const AGridBaseNode* Target1 = *(TheGridGen->TileMap.Find(FVector2D(5, 6)));
 
 	AGridBaseNode* PossibleNode1 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target1->GetGridPosition(), -(this->GetLastValidDirection()));
@@ -50,7 +91,6 @@ void AClyde::GoToHisCorner()
 
 	if (CurrentGridCoords == FVector2D(5, 6))
 	{
-		//nodo alto sx
 		const AGridBaseNode* Target2 = *(TheGridGen->TileMap.Find(FVector2D(5, 1)));
 
 		AGridBaseNode* PossibleNode2 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target2->GetGridPosition(), -(this->GetLastValidDirection()));
@@ -62,7 +102,6 @@ void AClyde::GoToHisCorner()
 
 		if (CurrentGridCoords == FVector2D(5, 1))
 		{
-			//nodo alto dx
 			const AGridBaseNode* Target3 = *(TheGridGen->TileMap.Find(FVector2D(1, 1)));
 
 			AGridBaseNode* PossibleNode3 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));
@@ -74,7 +113,6 @@ void AClyde::GoToHisCorner()
 
 			if (CurrentGridCoords == FVector2D(1, 1))
 			{
-				//nodo basso dx
 				const AGridBaseNode* Target4 = *(TheGridGen->TileMap.Find(FVector2D(1, 6)));
 
 				AGridBaseNode* PossibleNode4 = TheGridGen->GetClosestNodeFromMyCoordsToTargetCoords(this->GetLastNodeCoords(), Target3->GetGridPosition(), -(this->GetLastValidDirection()));

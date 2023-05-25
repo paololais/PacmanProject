@@ -17,6 +17,11 @@ class PACMANGRID_API APinky : public APhantomPawn
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere)
+		AGridBaseNode* Target;
+	UPROPERTY(VisibleAnywhere)
+		FVector2D TargetCoords;
+
 private:
 	const int GhostIndex = 1;
 
