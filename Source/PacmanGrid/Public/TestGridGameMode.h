@@ -108,11 +108,6 @@ public:
 
 	void RespawnPositions();
 
-	//called when pacman dies or when ghosts die
-	FTimerHandle StopTimer;
-	void StopMovement(float StopTime);
-	void ResumeMovement();
-
 	//global counter - used by ghosts to leave their house after pacman loses a life
 	//pinky 7, inky 17
 	//se clyde è nella casa quando globalcounter = 32, 

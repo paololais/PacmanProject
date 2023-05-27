@@ -26,31 +26,34 @@ AGridBaseNode* AClyde::GetPlayerRelativeTarget()
 {
 	if (IsValid(Player)) {
 		FVector2D PlayerCoords = Player->GetCurrentGridCoords();
-		double EuclideDistance = sqrt(pow(this->CurrentGridCoords.X - PlayerCoords.X, 2) + pow(this->CurrentGridCoords.Y - PlayerCoords.Y, 2));
+		EuclideDistance = sqrt(pow(this->CurrentGridCoords.X - PlayerCoords.X, 2) + pow(this->CurrentGridCoords.Y - PlayerCoords.Y, 2));
 
 		if (EuclideDistance > 7)
 		{
+			TargetCoords = PlayerCoords;
 			return Super::GetPlayerRelativeTarget();
 		}
 		else {
 			AGridBaseNode* Target = nullptr;
 			//va nel suo angolo
-			if (!(this->CurrentGridCoords.X<5 && this->CurrentGridCoords.Y <6))
+			if (!(CurrentGridCoords.X<5 && CurrentGridCoords.Y <6))
 			{
-				Target = *(TheGridGen->TileMap.Find(FVector2D(5, 6)));
+				TargetCoords = (FVector2D(5, 6));
 			}
-			else if (this->CurrentGridCoords == FVector2D(5, 6))
+			else if (CurrentGridCoords == FVector2D(5, 6))
 			{
-				Target = *(TheGridGen->TileMap.Find(FVector2D(5, 1)));
+				TargetCoords = (FVector2D(5, 1));
 			}
 			else if (CurrentGridCoords == FVector2D(5, 1))
 			{
-				Target = *(TheGridGen->TileMap.Find(FVector2D(1, 1)));
+				TargetCoords = (FVector2D(1, 1));
 			}
 			else
 			{
-				Target = *(TheGridGen->TileMap.Find(FVector2D(5, 6)));
+				TargetCoords = (FVector2D(5, 6));
 			}
+
+			Target = *(TheGridGen->TileMap.Find(TargetCoords));
 
 			if (Target!= nullptr)
 			{

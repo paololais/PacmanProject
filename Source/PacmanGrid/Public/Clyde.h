@@ -17,6 +17,10 @@ class PACMANGRID_API AClyde : public APhantomPawn
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere)
+		FVector2D TargetCoords;
+	UPROPERTY(VisibleAnywhere)
+		double EuclideDistance;
 private:
 	const int GhostIndex = 3;
 

@@ -492,7 +492,6 @@ void APacmanPawn::OnPacmanDead() {
 	else
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("GAME OVER! YOU ARE DEAD!!!")));
-		//GameMode->StopMovement(1.0f);
 		float Delay = 2.0f;
 		GetWorld()->GetTimerManager().SetTimer(PacmanDeadTimerHandle, GameMode, &ATestGridGameMode::GameOver, Delay, false);
 	}

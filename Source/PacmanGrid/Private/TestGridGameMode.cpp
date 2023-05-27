@@ -70,8 +70,6 @@ void ATestGridGameMode::GameOver()
 {
 	IsGameOver = true;
 
-	GetWorld()->GetTimerManager().ClearTimer(StopTimer);
-
 	if (IsValid(BlinkyPawn))
 	{
 		BlinkyPawn->ClearTimer();
@@ -108,8 +106,6 @@ void ATestGridGameMode::GameOver()
 
 void ATestGridGameMode::GameWin()
 {
-	GetWorld()->GetTimerManager().ClearTimer(StopTimer);
-
 	if (IsValid(BlinkyPawn))
 	{
 		BlinkyPawn->ClearTimer();
@@ -167,57 +163,6 @@ void ATestGridGameMode::RespawnPositions()
 	if (IsValid(Fruit))
 	{
 		Fruit->HideFruit();
-	}
-}
-
-void ATestGridGameMode::StopMovement(float StopTime)
-{
-	if (IsValid(BlinkyPawn))
-	{
-		BlinkyPawn->PrimaryActorTick.bCanEverTick = false;
-	}
-	if (IsValid(InkyPawn)) {
-		InkyPawn->PrimaryActorTick.bCanEverTick = false;
-	}
-	if (IsValid(PinkyPawn)) {
-		PinkyPawn->PrimaryActorTick.bCanEverTick = false;
-	}
-
-	if (IsValid(ClydePawn)) {
-		ClydePawn->PrimaryActorTick.bCanEverTick = false;
-	}
-
-	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
-	if (IsValid(PacmanPawn)) {
-		PacmanPawn->SetPreviousDirection(PacmanPawn->GetLastValidDirection());
-		PacmanPawn->SetLastValidDirection(FVector::ZeroVector);
-		PacmanPawn->SetLastInputDirection(FVector::ZeroVector);
-		PacmanPawn->RespawnStartingPosition();
-	}
-	GetWorld()->GetTimerManager().SetTimer(StopTimer, this, &ATestGridGameMode::ResumeMovement, StopTime, false);
-}
-
-void ATestGridGameMode::ResumeMovement()
-{
-	if (IsValid(BlinkyPawn))
-	{
-		BlinkyPawn->PrimaryActorTick.bCanEverTick = true;
-	}
-	if (IsValid(InkyPawn)) {
-		InkyPawn->PrimaryActorTick.bCanEverTick = true;
-	}
-	if (IsValid(PinkyPawn)) {
-		PinkyPawn->PrimaryActorTick.bCanEverTick = true;
-	}
-
-	if (IsValid(ClydePawn)) {
-		ClydePawn->PrimaryActorTick.bCanEverTick = true;
-	}
-
-	PacmanPawn = Cast<APacmanPawn>(UGameplayStatics::GetActorOfClass(GetWorld(), APacmanPawn::StaticClass()));
-	if (IsValid(PacmanPawn)) {
-		PacmanPawn->SetLastInputDirection(PacmanPawn->GetPreviousDirection());
-		PacmanPawn->RespawnStartingPosition();
 	}
 }
 
