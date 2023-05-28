@@ -47,7 +47,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	const auto Pacman = Cast<APacmanPawn>(OtherActor);
 
 	//chase state
-	if (this->IsChaseState() || this->IsScatterState())
+	if (IsChaseState() || IsScatterState())
 	{
 		if (Pacman && IsValid(GameInstance)) {
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("I Reached you")));
@@ -61,7 +61,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		}
 	}
 
-	else if (this->IsFrightenedState()) {
+	else if (IsFrightenedState()) {
 		if (Pacman) {
 			//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("you killed a ghost")));
 
@@ -81,6 +81,7 @@ void APhantomPawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 				switch (killings)
 				{
 				case 0:
+					new_score += 200;
 					GameInstance->setScore(new_score);
 					break;
 				case 1:
@@ -112,14 +113,9 @@ void APhantomPawn::OnNodeReached()
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to enter")));
 		// Permetti il transito
-		if (this->IsDeadState())
+		if (IsDeadState() || bIsLeaving)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("enter granted")));
-		}
-		//ghost is leaving ghost area
-		else if (this->bIsLeaving)
-		{
-			//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, FString::Printf(TEXT("is leaving")));
 		}
 
 		//Non può entrare, prosegue per la sua direzione
@@ -134,7 +130,6 @@ void APhantomPawn::OnNodeReached()
 
 	//vuole uscire dalla ghost area
 	else if ((CurrentGridCoords == (FVector2D(15, 13)) || CurrentGridCoords == (FVector2D(15, 12)) || CurrentGridCoords == (FVector2D(15, 14))) && (LastInputDirection.X > 0 || LastValidInputDirection.X > 0))
-		//if (CurrentGridCoords == (FVector2D(15, 13)) && (LastInputDirection.X>0 || LastValidInputDirection.X>0))
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, FString::Printf(TEXT("trying to exit")));
 
@@ -173,7 +168,7 @@ void APhantomPawn::OnNodeReached()
 		}
 	}
 
-	else if ((CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (this->bIsLeaving == true)) {
+	else if ((CurrentGridCoords == (FVector2D(17, 12)) || CurrentGridCoords == (FVector2D(17, 14))) && (bIsLeaving == true)) {
 		this->bIsLeaving = false;
 	}
 
@@ -246,7 +241,7 @@ AGridBaseNode* APhantomPawn::GetPlayerRelativeTarget()
 void APhantomPawn::SetGhostTarget()
 {
 	//chase state allora insegue player
-	if (this->IsChaseState() && !bIsLeaving && !bIsHome)
+	if (IsChaseState() && !bIsLeaving && !bIsHome)
 	{
 		const AGridBaseNode* Target = GetPlayerRelativeTarget();
 		if (!Target)
@@ -262,7 +257,7 @@ void APhantomPawn::SetGhostTarget()
 		}
 	}
 	//se morto va a casa
-	else if (this->IsDeadState())
+	else if (IsDeadState())
 	{
 		//override della casella home per ciascun ghost
 		this->GoHome();
@@ -274,11 +269,11 @@ void APhantomPawn::SetGhostTarget()
 		this->UpAndDown();
 	}
 
-	else if (this->IsScatterState() && !bIsLeaving && !bIsHome) {
+	else if (IsScatterState() && !bIsLeaving && !bIsHome) {
 		this->GoToHisCorner();
 	}
 
-	else if (this->IsFrightenedState() && !bIsLeaving)
+	else if (IsFrightenedState() && !bIsLeaving)
 	{
 		// Randomly select a target node for the ghost
 		const TArray<AGridBaseNode*>& AllNodes = TheGridGen->GetTileArray();
@@ -336,6 +331,7 @@ void APhantomPawn::GoHome()
 
 	if (CurrentGridCoords == HomePosition[MyIndex()])
 	{
+		this->bIsHome = true;
 		this->AlternateScatterChase();
 		this->bIsLeaving = true;
 	}
@@ -448,13 +444,13 @@ void APhantomPawn::AlternateScatterChase() {
 
 void APhantomPawn::SetChaseState()
 {
-	if (this->IsScatterState()) {
+	if (IsScatterState()) {
 		//change direction
 		this->ReverseDirection();
 	}
 
 	StaticMesh->SetMaterial(2, DefaultSkin);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Chase mode")));
 	this->EEnemyState = Chase;
 	this->SetSpeed(NormalGhostSpeed);
 }
@@ -473,7 +469,7 @@ void APhantomPawn::SetScatterState()
 		ReverseDirection();
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT("Scatter mode")));
 	StaticMesh->SetMaterial(2, DefaultSkin);
 	this->EEnemyState = Scatter;
 	this->SetSpeed(NormalGhostSpeed);
@@ -558,12 +554,8 @@ void APhantomPawn::CanExitHouse()
 	if ((GameInstance->GetLives()) == 3)
 	{
 		this->IncrementPointCounter();
-
 		int counter = this->PointGhostCounter();
-
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("ghost Counter = %d"), counter));
 		int limit = this->PointGhostLimit();
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("ghost limit = %d"), limit));
 		
 		if (this->PointGhostCounter() >= this->PointGhostLimit())
 		{
@@ -578,10 +570,7 @@ void APhantomPawn::CanExitHouse()
 	{
 		this->GlobalCounter++;
 		int counter = this->GlobalCounter;
-
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("global Counter = %d"), counter));
 		int limit = this->GlobalLimits[this->MyIndex()];
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("my global limit = %d"), limit));
 		
 		if (counter >= limit)
 		{

@@ -71,7 +71,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 		float CurrentMovementSpeed = 600.0f;
 	//speed value = 750.0f
-	//normal speed - pacman = 80%
+	//normal speed - pacman = 80% speed value
 	float NormalMovementSpeed = 600.0f;
 	//power mode on - 90%
 	float PowerSpeed = 700.0f;
